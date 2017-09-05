@@ -2,6 +2,7 @@ package com.example.restaurant;
 
 import java.util.ArrayList;
 
+import com.example.clases.CustomKeyboard;
 import com.example.clases.ListaSimple;
 import com.example.sharedpreferences.SharedPreference;
 
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
@@ -38,11 +40,13 @@ public class EmprezarPedido extends Activity {
     public ArrayList<ListaSimple> misLista , misListaDesocupadas;
     public  int totFilas , totFilasDesocupado;
     public Button botonVincular;
-    public NumberPicker numeroComensales;
-    public ImageButton volver, borrarMesaPadre;
+   
+    public ImageButton volver, borrarMesaPadre, btnAceptar;
     public LinearLayout llPadre;
     public TextView tvMesaPadre;
+    public EditText edCantConmensales;
     public ListaSimple seleccionada;
+    private CustomKeyboard mCustomKeyboard;
     
     
 	@Override
@@ -59,18 +63,22 @@ public class EmprezarPedido extends Activity {
 		lvListadoDesocupadas=(ListView)findViewById(R.id.lv_ep_mesas_desocupadas);
 		botonVincular =(Button)findViewById(R.id.btn_ep_vincular);
 		lvListado=(ListView)findViewById(R.id.lv_total_mesas);
-		numeroComensales= (NumberPicker) findViewById(R.id.numberPicker1);
+		btnAceptar =(ImageButton)findViewById(R.id.imgbtn_ep_aceptar);
 		volver = (ImageButton)findViewById(R.id.imgbtn_ep_salir);
 		borrarMesaPadre = (ImageButton)findViewById(R.id.imgbtn_ep_borrar_padre);
 		llPadre = (LinearLayout)findViewById(R.id.ll_ep_mostrar_padre);
 		tvMesaPadre = (TextView)findViewById(R.id.tv_ep_mesa_padre_seccionada);
-		numeroComensales.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		
 		lvListadoDesocupadas.setVisibility(View.VISIBLE);
 		lvListado.setVisibility(View.GONE);
 		botonVincular.setVisibility(View.GONE);
 		buscarListaDescupados();
+		seleccionada=null;
 		
-		
+		edCantConmensales = (EditText) findViewById(R.id.keyboard_texto_chico);
+		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardviewchico, R.xml.qwerty_chico);
+
+		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico);
 		
 		
 		lvListadoDesocupadas.setOnItemClickListener(new OnItemClickListener() {
@@ -139,6 +147,24 @@ public class EmprezarPedido extends Activity {
 			}
 		});
 		
+		
+		btnAceptar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			
+				if (seleccionada != null){
+					if(!edCantConmensales.getText().equals("")){
+						
+						
+					}
+				}
+				
+				
+				
+			}
+		});
 		
 	}
 

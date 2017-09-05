@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 
                 android:orientation="vertical"
-                android:background="@drawable/borde_desvio"
+                android:background="@drawable/borde_negro"
                 android:paddingBottom="5dp" >
 
                 <TextView

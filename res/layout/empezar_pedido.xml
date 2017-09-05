@@ -116,11 +116,11 @@
 								android:layout_height="wrap_content"
 								android:layout_marginBottom="16dp"
 								android:layout_marginRight="16dp"
-								android:background="@drawable/botones_tarifa_directa"
+								android:background="@drawable/botones_grey"
 								android:contentDescription=""
 								android:text="@string/vincular_mesas"
 								android:textColor="@color/color_texto"
-								android:textSize="25sp"
+								android:textSize="35sp"
 								android:textStyle="bold|italic" />
 
                             <ListView
@@ -151,12 +151,31 @@
                             android:textColor="@color/color_texto"
                             android:textSize="40dp"
                             android:textStyle="bold|italic" />
+                        <EditText
+		                    android:id="@+id/keyboard_texto_chico"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:layout_margin="10dp"
+		                    android:background="@color/white"
+		                    android:lines="1"
+		                    android:maxLength="3"
+		                    android:maxLines="1"
+		                    android:textColor="@color/black"
+		                    android:textSize="40sp"
+		                    android:textStyle="bold" />
 
-                        <NumberPicker
-                            android:id="@+id/numberPicker1"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5" />
+                        <android.inputmethodservice.KeyboardView
+		                    android:id="@+id/keyboardviewchico"
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:background="@color/transparent"
+		                    android:layout_gravity="center"
+		                    android:focusable="true"
+		                    android:focusableInTouchMode="true"
+		                    android:keyBackground="@drawable/keyboard_selected"
+		                    android:keyTextColor="@color/white"
+		                    android:keyTextSize="40sp"
+		                    android:visibility="visible" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
