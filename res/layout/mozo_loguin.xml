@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/black"
+    android:orientation="horizontal"
+    android:weightSum="1" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin_pantalla"
+            android:paddingLeft="@dimen/activity_horizontal_margin_pantalla"
+            android:paddingRight="@dimen/activity_horizontal_margin_pantalla"
+            android:paddingTop="@dimen/activity_vertical_margin_pantalla" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingBottom="30dp" >
+
+                <TextView
+                    android:id="@+id/tv_titulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ingrese_mozo"
+                    android:textColor="@color/color_texto"
+                    android:textSize="50sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+           
+
+            <TextView
+                android:id="@+id/tv_ingresado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin_botones"
+                android:layout_marginRight="@dimen/activity_vertical_margin_botones"
+                android:background="@color/gray"
+                android:ems="10"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                 />
+
+           
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/mozo_btn_volver"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="220dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fab_background"
+            android:contentDescription=""
+            android:src="@drawable/ic_volver" />
+
+        <ImageButton
+            android:id="@+id/mozo_btn_aceptar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="56dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fab_background_ingresar"
+            android:contentDescription=""
+            android:src="@drawable/ic_ingresar" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/main_img_logo"
+                android:layout_width="110dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_logo" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

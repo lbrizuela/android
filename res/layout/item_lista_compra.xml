@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
+        
+        
+		<LinearLayout
+            android:id="@+id/cantidad_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/borrar_item"
+            android:orientation="vertical" >
+
+            <NumberPicker
+                android:id="@+id/numberPicker1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:descendantFocusability="blocksDescendants" />
+
+        </LinearLayout>
+        
+        <ImageButton 
+            android:id="@+id/borrar_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/cantidad_item"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_alignTop="@+id/cantidad_item"
+            android:src="@drawable/ic_delete_black_48dp"
+            android:background="@color/transparent"
+           
+            />
+
+        <TextView
+            android:id="@+id/item_compra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="Item"
+            android:textColor="@color/black"
+            android:textSize="40dp" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

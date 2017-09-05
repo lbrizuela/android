@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="texto">#4b597c</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="fuchsia">#32AC71</color>
+    <color name="red">#ec2e4a</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gray">#808080</color>
+    <color name="olive">#808000</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="lime">#00FF00</color>
+    <color name="teal">#008080</color>
+    <color name="green">#008000</color>
+    <color name="blue">#021555</color>
+    <color name="navy">#000080</color>
+    <color name="black">#000000</color>
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <color name="class_zero_background">#7f040000</color>
+    <color name="transparent">#00000000</color>
+    <color name="pink">#ff40a0</color>
+    <color name="orange">#E07000</color>
+    
+    <color name="colorPrimary">#002db3</color>
+    <color name="colorPrimaryDark">#0000b3</color>
+    <color name="colorAccent">#C40303</color>
+    <color name="colorEnviar">#4CAF50</color>
+    <color name="main_color_fondo">#26304D</color>
+    <color name="colorShader">#44000000</color>
+    <color name="color_fondo_pantalla">#26304D</color>
+    <color name="color_header_cabecera">#324065</color>
+    <color name="color_select_tipo_boleto">#0097A7</color>
+    <color name="color_select_origen_destino">#4B597C</color>
+    <color name="color_btn_menu">#EC2E4A</color>
+    <color name="color_btn_multiplicar">#FFA726</color>
+    <color name="color_btn_ingresar">#4CAF50</color>
+    <color name="color_btn_cencelar">#FFA726</color>
+    <color name="color_busqueda_filtro">#7481A1</color>
+    <color name="color_busqueda_linea">#00BEA4</color>
+    <color name="color_texto">#FFFFFF</color>
+    <color name="color_mensaje_advertencia">#FFAA00</color>
+    <color name="color_mensaje_alerta">#E2001A</color>
+    <color name="color_mensaje_informacion">#0B72B5</color>
+    <color name="color_fondo_pantalla_semi_trasparente">#7726304D</color>
+    <color name="color_fondo_boton_keyboard">#4b597c</color>
+    <color name="color_borde_boton_keyboard">#e6e6e6</color>
+    <color name="color_texto_deshabilitado">#A8AEBE</color>
+    <color name="color_destino">#F3501D</color>
+    <color name="btn">#b1b3b4</color>
+    <color name="color_header_cabecera_traslucido">#BB324065</color>
+
+</resources>
