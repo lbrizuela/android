@@ -65,6 +65,8 @@
         </activity>
        <activity android:name="MozoLogin"></activity>
        <activity android:name="EmprezarPedido"></activity>
+       <activity android:name="CarroCompra"></activity>
+       <activity android:name="LlamarMozo"></activity>
     </application>
 
 </manifest>

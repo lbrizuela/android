@@ -157,6 +157,12 @@ public class EmprezarPedido extends Activity {
 				if (seleccionada != null){
 					if(!edCantConmensales.getText().equals("")){
 						
+						int cantidadComensales= Integer.parseInt(edCantConmensales.getText().toString());
+						instanciaShare.insertarIdPedido(1);
+						instanciaShare.insertarCantidadComensales(cantidadComensales);
+						Intent i= new Intent(mContext, MainActivity.class);
+						startActivity(i);
+						finish();
 						
 					}
 				}

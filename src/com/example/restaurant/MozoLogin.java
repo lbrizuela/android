@@ -106,7 +106,7 @@ public class MozoLogin extends Activity {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-        this.wakelock.acquire();
+
 	}
 	
 

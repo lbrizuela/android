@@ -66,6 +66,10 @@ public class Teclado extends Activity {
 		case Util.SALIR:
 			titulo.setText("Ingrese clave:");	
 			break;
+		
+	    case Util.FINALIZAR_PEDIDO:
+			titulo.setText("Ingrese clave Mozo:");	
+			break;
 		}
 		
 		/*case Util.TECLADO_EMAIL_EMPRESA:
@@ -129,6 +133,33 @@ public class Teclado extends Activity {
 					if (!textoIngresado.equals("")) {
 						 i = getIntent();
 						i.putExtra("clave", Util.SALIR);
+						if (verificarClaveSalir(textoIngresado)) {
+
+							i.putExtra("resultado", true);
+
+						} else {
+
+							i.putExtra("resultado", false);
+						}
+						setResult(RESULT_OK, i);
+						finish();
+					} else {
+
+						Toast.makeText(mContext, "Por favor, una clave ",
+								Toast.LENGTH_LONG).show();
+						/*
+						 * Util.toastCustom( mContext, getResources().getString(
+						 * R.string.numero_mac_invalido),
+						 * Util.TOAST_MENSAJE_ADVERTENCIA);
+						 */
+					}
+
+					break;
+					
+				case Util.FINALIZAR_PEDIDO:
+					if (!textoIngresado.equals("")) {
+						 i = getIntent();
+						i.putExtra("clave", Util.FINALIZAR_PEDIDO);
 						if (verificarClaveSalir(textoIngresado)) {
 
 							i.putExtra("resultado", true);

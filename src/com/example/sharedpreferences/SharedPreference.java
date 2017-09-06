@@ -18,6 +18,7 @@ public class SharedPreference {
 	private static final String PREF_NAME = "RestauratSharedPreferences";
 	private static final String ID_MOZO= "id_mozo";
 	private static final String ID_PEDIDO= "id_pedido";
+	private static final String CANTIDAD_COMENSALES= "cantidad_comensales";
 	//private static final String EMULADOR_ON = "emulador_on";
 	
 	
@@ -62,16 +63,37 @@ public class SharedPreference {
 	}
 
 	////Pedido
-	public void insertarIdPedido(String idMozo) {
+	public void insertarIdPedido(int numeroPedido) {
 		SharedPreferences.Editor editor = getSettings().edit();
-		editor.putString(ID_PEDIDO, idMozo);
+		editor.putInt(ID_PEDIDO, numeroPedido);
 		editor.commit();
 	}
 	
 
-	public String recuperarIdPedido() {
-		return getSettings().getString(ID_PEDIDO,"");
+	public int recuperarIdPedido() {
+		return getSettings().getInt(ID_PEDIDO, 0 );
+	}
+	
+	
+////Pedido
+	public void insertarCantidadComensales(int cantComensales) {
+		SharedPreferences.Editor editor = getSettings().edit();
+		editor.putInt(CANTIDAD_COMENSALES, cantComensales);
+		editor.commit();
+	}
+	
+
+	public int recuperarCantidadComensales() {
+		return getSettings().getInt(CANTIDAD_COMENSALES, 0);
 	}
 
 	
+	
+	public void limpiarFinPedido(){
+		
+        Editor editor = getSettings().edit();
+        editor.clear();
+        editor.commit();
+        
+	}
 }

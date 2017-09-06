@@ -1,5 +1,7 @@
 package com.example.restaurant;
 
+import java.util.Calendar;
+
 import com.example.clases.Util;
 import com.example.sharedpreferences.SharedPreference;
 
@@ -7,11 +9,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -21,7 +27,8 @@ public class MainActivity extends Activity {
 	protected WakeLock wakelock;
 	private Views views;
     boolean vistas = true;
-	
+	public TextView fecha_hora;
+	public ImageButton carroCompra , llamarMozo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,7 @@ public class MainActivity extends Activity {
         	Intent i = new Intent(mContext, MozoLogin.class);
         	startActivity(i);
         	finish();
-        }else{ if(instanciaShare.recuperarIdPedido().equals("")){
+        }else{ if(instanciaShare.recuperarIdPedido() == 0){
         		
         		Intent i = new Intent(mContext, EmprezarPedido.class);
             	startActivity(i);
@@ -45,8 +52,41 @@ public class MainActivity extends Activity {
         		
         	}else {
         	
-        	setContentView(R.layout.pantalla_principal);
+        	setContentView(R.layout.menu_principal);
         	views = Views.getInstance(getApplicationContext());
+        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
+        	carroCompra =(ImageButton)findViewById(R.id.img_carro_compra);
+        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
+        	fechaHora();
+        	
+        	carroCompra.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					
+					Intent i= new Intent(mContext, CarroCompra.class);
+					startActivity(i);
+					
+					
+				}
+			});
+        	
+        	llamarMozo.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent i= new Intent(mContext, LlamarMozo.class);
+					startActivity(i);
+					
+					
+					
+				}
+			});
+        	
+        	
+        	
         	
         	}
         	
@@ -55,6 +95,65 @@ public class MainActivity extends Activity {
     }
     
     
+    
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, intent);
+		int resultado = intent.getIntExtra("clave",0);
+
+		if (resultado==Util.FINALIZAR_PEDIDO) {
+			
+			instanciaShare.limpiarFinPedido();
+			Intent i = new Intent(mContext, MozoLogin.class);
+        	startActivity(i);
+        	finish();
+			
+		}
+		
+		
+	}
+
+
+
+
+	
+
+
+
+
+	public void fechaHora(){
+    	
+    	
+    	new CountDownTimer(1000000000, 1000) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				Calendar c = Calendar.getInstance();
+				fecha_hora.setText(new StringBuilder(String.valueOf(String.format("%02d", new Object[] { Integer.valueOf(c.get(5)) })))
+								.append("/")
+								.append(String.format("%02d", new Object[] { Integer.valueOf(c.get(2) + 1) }))
+								.append("/")
+								.append(c.get(1))
+								.append(" ")
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(11)) }))
+								.append(":")
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(12)) }))
+								.append(":")
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(13)) })).toString());
+
+			}
+			
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+				
+			}
+		}.start();
+    	
+    }
     
     @Override
 	protected void onResume() {
@@ -70,6 +169,9 @@ public class MainActivity extends Activity {
 			// TODO: handle exception
 		}
         this.wakelock.acquire();
+        
+        
+        
 	}
 
 
