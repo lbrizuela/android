@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.example.clases.CustomKeyboard;
 import com.example.clases.ListaSimple;
+import com.example.servidor.ManagerApi;
 import com.example.sharedpreferences.SharedPreference;
 
 import complementos.AdapterListaSimple;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -220,6 +222,9 @@ public class EmprezarPedido extends Activity {
 	
 	public void buscarListaDescupados(){
 		
+		new RestOperation().execute();
+		
+		
 		misListaDesocupadas= new ArrayList<ListaSimple>();
 		ListaSimple object= new ListaSimple(1, "mesa 1");
 		misListaDesocupadas.add(object);
@@ -233,6 +238,21 @@ public class EmprezarPedido extends Activity {
         }
 		
 	}
+	
+	private class RestOperation extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stu
+			ManagerApi.recuperarMesas();
+			
+			
+			return null;
+		}
+		
+		
+	}
+	
 	
 	public void buscarLista(){
 		misLista = new ArrayList<ListaSimple>();

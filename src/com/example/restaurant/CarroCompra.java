@@ -27,10 +27,10 @@ public class CarroCompra extends Activity {
 	 private SharedPreference instanciaShare;
      private Context mContext;
      protected WakeLock wakelock;
- 	 private Views views;
+ 	 
  	 public AdapterListaConIconos adapterItem;
  	public ListView lvListadoItemPedido; 
- 	public ImageButton volver; 
+ 	public Button volver; 
  	public Button aceptarPedido;
 	 
 	@Override
@@ -42,7 +42,7 @@ public class CarroCompra extends Activity {
 		mContext = getApplicationContext();
 		instanciaShare = new SharedPreference(mContext);
 		
-		volver = (ImageButton)findViewById(R.id.imgbtn_cc_salir);
+		volver = (Button)findViewById(R.id.btn_cc_negativo);
 		aceptarPedido = (Button)findViewById(R.id.btn_cc_positivo);
 		lvListadoItemPedido = (ListView) findViewById(R.id.lv_cc_items);
 		buscarItems();
@@ -57,6 +57,24 @@ public class CarroCompra extends Activity {
 			}
 		});
 		
+		volver.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
+		aceptarPedido.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		
 		
 	}
 
@@ -67,12 +85,7 @@ public class CarroCompra extends Activity {
 		
 		fullScreen();
 		
-		try {
-			this.views.agregarViewNavigationBar();
-		    this.views.agregarViewStatusBar();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		
 		
 	    
 	}

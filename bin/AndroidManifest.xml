@@ -65,8 +65,12 @@
         </activity>
        <activity android:name="MozoLogin"></activity>
        <activity android:name="EmprezarPedido"></activity>
-       <activity android:name="CarroCompra"></activity>
-       <activity android:name="LlamarMozo"></activity>
+       <activity android:name="CarroCompra"
+           android:theme="@style/Theme.Transparent">
+           
+       </activity>
+       <activity android:name="LlamarMozo"
+           android:theme="@style/Theme.Transparent"></activity>
     </application>
 
 </manifest>

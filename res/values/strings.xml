@@ -8,6 +8,7 @@
     <string name="mesa_padre">Mesa Seleccionada : </string>
     <string name="configuracion">CONFIGURACION INICIAL</string>
     <string name="vincular_mesas">VINCULAR </string>
+     <string name="realizar_pedido">Pedido </string>
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="identificador_mozo">identificador</string>
     <string name="action_settings">Settings</string>
