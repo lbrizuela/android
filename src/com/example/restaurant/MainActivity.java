@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         instanciaShare= new SharedPreference(mContext);
         
         
-        if(instanciaShare.recuperarIdMozo().equals("")){
+        if(!instanciaShare.recuperarLoginMozo()){
      
         	Intent i = new Intent(mContext, MozoLogin.class);
         	startActivity(i);

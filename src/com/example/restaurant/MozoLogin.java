@@ -1,13 +1,15 @@
 package com.example.restaurant;
 
 import com.example.clases.Util;
-
+import com.example.servidor.ApiMozo;
+import com.example.servidor.ManagerApi;
 import com.example.sharedpreferences.SharedPreference;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.PowerManager;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +32,12 @@ public class MozoLogin extends Activity {
 	private Views views;
     boolean vistas = true;
     public int request_code = 1;
+    public String codigoSeguridad="";
+    private ProgressBar pgDone, pgVolver;
+    
 
 	@Override
-	public void onCreate(Bundle savedInstanceState
-			) {
+	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mozo_loguin);
@@ -40,11 +45,11 @@ public class MozoLogin extends Activity {
 		mContext= getApplicationContext();
 		instanciaShare= new SharedPreference(mContext);
 		views = Views.getInstance(getApplicationContext());
-		
 		idMozo = (TextView) findViewById(R.id.tv_ingresado);
 		botonOk= (ImageButton)findViewById(R.id.mozo_btn_aceptar);
 		botonBlack= (ImageButton) findViewById(R.id.mozo_btn_volver);
-	
+		pgVolver = (ProgressBar) findViewById(R.id.mozo_pg_volver);
+		pgDone = (ProgressBar) findViewById(R.id.mozo_pg_aceptar);
 		
 		idMozo.setOnClickListener(new OnClickListener() {
 			
@@ -76,16 +81,11 @@ public class MozoLogin extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if( idMozo.getText().equals("1234")){
-					
-					instanciaShare.insertarIdMozo(String.valueOf(idMozo.getText()));
-					Intent i= new Intent(mContext, MainActivity.class);
-					startActivity(i);
-					finish();
-					
-					
-				}
+			   if(!codigoSeguridad.equals("")){
+				bloquearPantalla(true);
+				new RestMozo().execute();
 				
+			   }
 			}
 		});
 		 
@@ -123,18 +123,86 @@ public class MozoLogin extends Activity {
 
 		if (resultado==Util.ID_MOZO) {
 			String id = intent.getStringExtra("resultado");
+			codigoSeguridad = id;
 			idMozo.setText(id);
 		} else if (resultado==Util.SALIR) {
 
 			boolean salir = intent.getBooleanExtra("resultado", false);
 			if (salir) {
 
-				finish();
+				    Views views = Views.getInstance(mContext);
+		            views.removerViewStatusBar();
+		            views.removerViewNavegationBar();
+		            
+		            finish();
+		            
 			} else {
 				Toast.makeText(mContext, "CODIGO INCORRECTO", Toast.LENGTH_LONG)
 						.show();
 			}
 
+		}
+
+		
+	}
+	
+	public void bloquearPantalla(boolean bloqueo){
+		
+		if(bloqueo){
+			pgDone.setVisibility(View.VISIBLE);
+			pgVolver.setVisibility(View.VISIBLE);
+			idMozo.setEnabled(false);
+			botonOk.setVisibility(View.GONE);
+			botonBlack.setVisibility(View.GONE);
+		}else {
+			botonBlack.setVisibility(View.VISIBLE);
+			botonOk.setVisibility(View.VISIBLE);
+			idMozo.setEnabled(true);
+			pgVolver.setVisibility(View.GONE);
+			pgDone.setVisibility(View.GONE);
+		}
+		
+		
+	}
+	
+	
+	
+	private class RestMozo extends AsyncTask<Void, Void, Void> {
+
+		
+		public String respuesta=ApiMozo.OK; 
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stu
+			respuesta = ApiMozo.recuperarMozo(mContext,codigoSeguridad);
+			
+			
+			return null;
+		}
+		
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			
+			if(respuesta.equals(ApiMozo.OK)){
+				
+				Intent intent = new Intent(mContext, MainActivity.class);
+				startActivity(intent);
+				finish();
+			}else {
+				Toast.makeText(mContext, "OCURRIO UN ERROR: " + respuesta, Toast.LENGTH_LONG).show();;
+				bloquearPantalla(false);
+			}
 		}
 
 		

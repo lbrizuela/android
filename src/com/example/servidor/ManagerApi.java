@@ -19,6 +19,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
@@ -44,131 +45,92 @@ public class ManagerApi {
 	
 	
 	private static String TAG = "ManagerApi";
-    private static Context context;
-
-    public ManagerApi(Context context) {
-        setContext(context);
-    }
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public static void setContext(Context context) {
-        context = context;
-    }
+    
+    public static String FORMATO_RESPUESTA= "UTF-8";
+    public static String FORMATO_PAGINA= "http://";
+    public static String IP= "192.168.0.11";
+    public static String PUERTO = "8080";
+    public static String BASE = "/RestaurantServer/api";
+    public static String HEADER_POST_ACCEPT = "Accept";
+    public static String HEADER_POST_ACCEPT_VALUE = "application/json";
+    public static String HEADER_POST_TYPE = "Content-type";
+    public static String HEADER_POST_TYPE_VALUE = "application/json";
+    public static String ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;
+    public static String ERROR_RESPUESTA_API= "detailMessage";
 
 	
-    public static void insertarMesas(){
-    	 HttpClient  httpClient = new DefaultHttpClient();
- 		HttpContext contexto= new BasicHttpContext();
- 		String restURL = "http://192.168.223.113:8080/RestaurantServer/api/mesas";
- 		HttpPost post = new HttpPost();
- 		
-		HttpResponse response = null;
+    
+    
+    @SuppressWarnings("deprecation")
+	public static String postApi (String URL , JSONObject object){
+    	String respuestaPost="";
+    	HttpClient  httpClient = new DefaultHttpClient();
+ 		String restURL = ACCESO_API + URL;
+		HttpPost httpPost = new HttpPost(restURL);
+ 		HttpResponse responsePost = null;
 		
-		List<NameValuePair> param = new ArrayList<NameValuePair>();
-		param.add(new BasicNameValuePair("idMesa", "1"));
 		try {
-			post.setEntity(new UrlEncodedFormEntity(param));
-			response = httpClient.execute(post,contexto);
+			
+			String objeteJson = object.toString();
+			StringEntity stringEntity = new StringEntity(objeteJson);
+			httpPost.setEntity(stringEntity);
+			httpPost.setHeader(HEADER_POST_ACCEPT, HEADER_POST_ACCEPT_VALUE);
+			httpPost.setHeader(HEADER_POST_TYPE, HEADER_POST_TYPE_VALUE);
+			responsePost = httpClient.execute(httpPost);
+			HttpEntity httpEnty = responsePost.getEntity();
+			respuestaPost = EntityUtils.toString(httpEnty, FORMATO_RESPUESTA);
+			
+			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "ERROR UnsupportedEncodingException ", e);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "ERROR ClientProtocolException ", e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "ERROR IOException ", e);
 		}
 		
- 		String error ="", data;
- 		String respuesta="";
     	
     	
+    	return respuestaPost;
     }
+   
     
     
     
     
     
 	
-	public static ArrayList<Mesa>  recuperarMesas() {
-		 
-		ArrayList<Mesa> allMesa= new ArrayList<Mesa>();
-		@SuppressWarnings("deprecation")
-		 HttpClient  httpClient = new DefaultHttpClient();
-		HttpContext contexto= new BasicHttpContext();
-		String error ="", data;
-		String respuesta="";
+	@SuppressWarnings("deprecation")
+	public static String getApi(String URL) {
 
-		URL url;
+		
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpContext httpContexto = new BasicHttpContext();
+		String respuesta = "";
+		
 		try {
-			////String restURL = "http://www.androidexample.com/media/webservice/JsonReturn.php";
-			String restURL = "http://192.168.223.113:8080/RestaurantServer/api/mesas";
 			
-			HttpGet get = new HttpGet(restURL);
-			
-			HttpResponse response = httpClient.execute(get,contexto);
-			HttpEntity enty= response.getEntity();
-			 respuesta =		EntityUtils.toString(enty,"UTF-8");
-
-
+			String restURL = ACCESO_API + URL;
+			HttpGet httpGet = new HttpGet(restURL);
+			HttpResponse httpResponse = httpClient.execute(httpGet, httpContexto);
+			HttpEntity httpEnty = httpResponse.getEntity();
+			respuesta = EntityUtils.toString(httpEnty, FORMATO_RESPUESTA);
 
 		} catch (MalformedURLException e) {
-			error = e.getMessage();
+			Log.e(TAG, "ERROR MalformedURLException ", e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			error = e.getMessage();
+			Log.e(TAG, "ERROR IOException ", e);
 			e.printStackTrace();
-		} finally {
-			
-		}
-		
-		
-		if(!error.equals("")) {
-		    	
-		   Log.e(TAG, "Error "+ error);
-		} else {
-			
-			
-			String output = "";
-			JSONObject jsonResponse;
-			
-			try {
-				jsonResponse = new JSONObject(respuesta);
+		} 
 
-				JSONArray jsonArray = jsonResponse.optJSONArray("Android");
-				
-				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject child = jsonArray.getJSONObject(i);
-					
-					String name = child.getString("idMesa");
-					String number = child.getString("nroMesa");
-					String time = child.getString("estadoMesa");
-					
-					output = "Name = " + name + System.getProperty("line.separator") + number + System.getProperty("line.separator") + time;
-					output += System.getProperty("line.separator");
-					
-				}
-				
-				data = output;
-				
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
 		
-		
-		
-		return allMesa;
-		
-		
-    }
+		return respuesta;
+
+	}
 
 
 }

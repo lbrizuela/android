@@ -213,7 +213,7 @@ public class Teclado extends Activity {
 		btnVolver.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				onBackPressed();
+				finish();
 			}
 		});
 

@@ -7,8 +7,11 @@
     android:weightSum="1" >
 
     <FrameLayout
+        android:id="@+id/fl_empeza_perdido"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+        android:visibility="gone"
+       >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -220,5 +223,38 @@
                 android:background="@drawable/ic_logo" />
         </LinearLayout>
     </FrameLayout>
+    
+     <FrameLayout
+        android:id="@+id/fl_cargando"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/tv_textoCargando"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/cargando_espera"
+                android:textColor="@color/white"
+                android:textSize="60dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </FrameLayout>
+    
+    
+    
 
 </LinearLayout>
