@@ -18,6 +18,7 @@ import com.example.clases.ItemPedido;
 import com.example.clases.ListaSimple;
 import com.example.restaurant.R;
 
+
 public class AdapterListaConIconos extends BaseAdapter {
     private static List<ItemPedido> searchArrayList;
     private ArrayList<ItemPedido> arraylist = new ArrayList();

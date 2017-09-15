@@ -1,6 +1,8 @@
 package com.example.restaurant;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.example.clases.CustomKeyboard;
 import com.example.clases.ListaSimple;
@@ -10,6 +12,7 @@ import com.example.servidor.ApiMozo;
 import com.example.servidor.ManagerApi;
 import com.example.sharedpreferences.SharedPreference;
 
+import complementos.AdaptadorObjetoSimple;
 import complementos.AdapterListaSimple;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +21,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,18 +45,20 @@ public class EmprezarPedido extends Activity {
 	private Context mContext;
 	protected WakeLock wakelock;
 	private Views views;
-	boolean vistas = true;
-	public ListView lvListado, lvListadoDesocupadas;
-	public AdapterListaSimple adapter, adapterDesocupado;
-	public ArrayList<ListaSimple> misLista;
-	public int totFilas, totFilasDesocupado;
-	public Button botonVincular;
+	private boolean vistas = true;
+	private ListView  lvListadoDesocupadas;
+///	private RecyclerView lvListado;
+	private AdapterListaSimple adapter, adapterDesocupado;
+	private ArrayList<ListaSimple> misLista;
+	private ArrayList<Mesa> misListaSinSeleccionado;
+	private int totFilas, totFilasDesocupado;
+	private Button botonVincular;
 
-	public ImageButton volver, borrarMesaPadre, btnAceptar;
-	public LinearLayout llPadre;
-	public TextView tvMesaPadre;
-	public EditText edCantConmensales;
-	public Mesa seleccionada;
+	private ImageButton volver, borrarMesaPadre, btnAceptar;
+	private LinearLayout llPadre;
+	private TextView tvMesaPadre;
+	private EditText edCantConmensales;
+	private Mesa seleccionada;
 	private CustomKeyboard mCustomKeyboard;
 	private FrameLayout flCargando, flEmpezarPedido;
 	
@@ -76,7 +84,7 @@ public class EmprezarPedido extends Activity {
 
 		lvListadoDesocupadas = (ListView) findViewById(R.id.lv_ep_mesas_desocupadas);
 		botonVincular = (Button) findViewById(R.id.btn_ep_vincular);
-		lvListado = (ListView) findViewById(R.id.lv_total_mesas);
+		mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
 		btnAceptar = (ImageButton) findViewById(R.id.imgbtn_ep_aceptar);
 		volver = (ImageButton) findViewById(R.id.imgbtn_ep_salir);
 		borrarMesaPadre = (ImageButton) findViewById(R.id.imgbtn_ep_borrar_padre);
@@ -103,7 +111,7 @@ public class EmprezarPedido extends Activity {
 				Log.e("LUISINA", "Posicion " + position);
 				seleccionada = mesasLibres.get(position);
 				lvListadoDesocupadas.setVisibility(View.GONE);
-				lvListado.setVisibility(View.GONE);
+				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.VISIBLE);
 				llPadre.setVisibility(View.VISIBLE);
 				tvMesaPadre.setText(getResources().getString(
@@ -119,10 +127,10 @@ public class EmprezarPedido extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				if (lvListado.getVisibility() == View.GONE) {
+				if (mRecyclerView.getVisibility() == View.GONE) {
 					listarMesasRestantes();
-				} else if (lvListado.getVisibility() == View.VISIBLE) {
-					lvListado.setVisibility(View.GONE);
+				} else if (mRecyclerView.getVisibility() == View.VISIBLE) {
+					mRecyclerView.setVisibility(View.GONE);
 
 				}
 
@@ -137,7 +145,7 @@ public class EmprezarPedido extends Activity {
 
 				seleccionada = null;
 				listarMesas();
-				lvListado.setVisibility(View.GONE);
+				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.GONE);
 				llPadre.setVisibility(View.GONE);
 			}
@@ -229,23 +237,16 @@ public class EmprezarPedido extends Activity {
 
 	public void listarMesasRestantes() {
 
-		misLista = new ArrayList<ListaSimple>();
-		ListaSimple object;
+		misListaSinSeleccionado = new ArrayList<Mesa>();
 		for (int i = 0; i < mesasLibres.size(); i++) {
 			if (!mesasLibres.get(i).equals(seleccionada)) {
-				object = new ListaSimple(mesasLibres.get(i).getIdMesa(),
-						"Numero Mesa: "
-								+ String.valueOf(mesasLibres.get(i)
-										.getNroMesa()));
-				misLista.add(object);
+				
+				misListaSinSeleccionado.add(mesasLibres.get(i));
 			}
 		}
 
-		if (misLista != null && misLista.size() > 0) {
-			adapterDesocupado = new AdapterListaSimple(mContext, misLista);
-			lvListado.setVisibility(View.VISIBLE);
-			lvListado.setAdapter(adapterDesocupado);
-			totFilasDesocupado = misLista.size();
+		if (misListaSinSeleccionado != null && misListaSinSeleccionado.size() > 0) {
+			 setupRecycler();
 		}
 
 	}
@@ -301,7 +302,7 @@ public class EmprezarPedido extends Activity {
 				flEmpezarPedido.setVisibility(View.VISIBLE);
 				flCargando.setVisibility(View.GONE);
 				lvListadoDesocupadas.setVisibility(View.VISIBLE);
-				lvListado.setVisibility(View.GONE);
+				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.GONE);
 				listarMesas();
 				
@@ -317,6 +318,17 @@ public class EmprezarPedido extends Activity {
 		}
 
 	}
+	private RecyclerView mRecyclerView;
+
+	private AdaptadorObjetoSimple mAdapter;
+	
+	private void setupRecycler() {
+		mRecyclerView.setVisibility(View.VISIBLE);
+		mAdapter = new AdaptadorObjetoSimple(mContext, misListaSinSeleccionado);
+		LayoutManager layoutManager = new LinearLayoutManager(this);
+		mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+     }
 
 	private void mantenerPantallaEncendida() {
 		this.wakelock = ((PowerManager) getSystemService("power")).newWakeLock(

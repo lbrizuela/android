@@ -9,9 +9,9 @@
     <FrameLayout
         android:id="@+id/fl_empeza_perdido"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
+        android:layout_height="match_parent"
         android:visibility="gone"
-       >
+        >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -74,9 +74,8 @@
                             android:layout_height="wrap_content"
                             android:drawSelectorOnTop="false"
                             android:paddingLeft="9.0dip"
-                            android:paddingRight="9.0dip" 
-                            
-                            >
+                            android:paddingRight="9.0dip"
+                             >
                         </ListView>
 
                         <LinearLayout
@@ -110,32 +109,29 @@
                                 android:textSize="40sp" />
                         </LinearLayout>
 
-                       
-
-					   
-                            <Button
-                                android:id="@+id/btn_ep_vincular"
-                                android:layout_width="match_parent"
-								android:layout_height="wrap_content"
-								android:layout_marginBottom="16dp"
-								android:layout_marginRight="16dp"
-								android:background="@drawable/botones_grey"
-								android:contentDescription=""
-								android:text="@string/vincular_mesas"
-								android:textColor="@color/color_texto"
-								android:textSize="35sp"
-								android:textStyle="bold|italic" />
-
-                            <ListView
-                                android:id="@+id/lv_total_mesas"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="48dp"
-                                android:drawSelectorOnTop="false"
-                                android:paddingLeft="9.0dip"
-                                android:paddingRight="9.0dip" >
-                            </ListView>
-                       
+                        <Button
+                            android:id="@+id/btn_ep_vincular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@drawable/botones_grey"
+                            android:contentDescription=""
+                            android:text="@string/vincular_mesas"
+                            android:textColor="@color/color_texto"
+                            android:textSize="35sp"
+                            android:textStyle="bold|italic" />
+                        
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/cardList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:width="80dp"
+                            android:paddingLeft="9.0dip"
+                            android:paddingRight="9.0dip"
+                            android:scrollbars="vertical"
+                            />
+                        
                     </LinearLayout>
 
                     <LinearLayout
@@ -154,31 +150,32 @@
                             android:textColor="@color/color_texto"
                             android:textSize="40dp"
                             android:textStyle="bold|italic" />
+
                         <EditText
-		                    android:id="@+id/keyboard_texto_chico"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="wrap_content"
-		                    android:layout_margin="10dp"
-		                    android:background="@color/white"
-		                    android:lines="1"
-		                    android:maxLength="3"
-		                    android:maxLines="1"
-		                    android:textColor="@color/black"
-		                    android:textSize="40sp"
-		                    android:textStyle="bold" />
+                            android:id="@+id/keyboard_texto_chico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:background="@color/white"
+                            android:lines="1"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="40sp"
+                            android:textStyle="bold" />
 
                         <android.inputmethodservice.KeyboardView
-		                    android:id="@+id/keyboardviewchico"
-		                    android:layout_width="match_parent"
-		                    android:layout_height="wrap_content"
-		                    android:background="@color/transparent"
-		                    android:layout_gravity="center"
-		                    android:focusable="true"
-		                    android:focusableInTouchMode="true"
-		                    android:keyBackground="@drawable/keyboard_selected"
-		                    android:keyTextColor="@color/white"
-		                    android:keyTextSize="40sp"
-		                    android:visibility="visible" />
+                            android:id="@+id/keyboardviewchico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:keyBackground="@drawable/keyboard_selected"
+                            android:keyTextColor="@color/white"
+                            android:keyTextSize="40sp"
+                            android:visibility="visible" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -223,11 +220,12 @@
                 android:background="@drawable/ic_logo" />
         </LinearLayout>
     </FrameLayout>
-    
-     <FrameLayout
+
+    <FrameLayout
         android:id="@+id/fl_cargando"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent" 
+          >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -253,8 +251,5 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </FrameLayout>
-    
-    
-    
 
 </LinearLayout>

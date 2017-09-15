@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10.0sp"
+    android:paddingEnd="5dp"
+    android:paddingStart="5dp"
+    android:orientation="vertical" 
+    android:background="@drawable/selector_item">
+
+    <TextView
+        android:id="@+id/txt_item_mesas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="item"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+</LinearLayout>
