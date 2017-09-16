@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 
  
-public class AdaptadorObjetoSimple extends Adapter<AdaptadorObjetoSimple.ViewHolder> {
+public class AdaptadorMesasVincular extends Adapter<AdaptadorMesasVincular.ViewHolder> {
  
     private ArrayList<Mesa> datos;
     private Context context;
@@ -31,7 +31,7 @@ public class AdaptadorObjetoSimple extends Adapter<AdaptadorObjetoSimple.ViewHol
     private boolean modoSeleccion;
     private SparseBooleanArray seleccionados;
  
-    public AdaptadorObjetoSimple(Context context, ArrayList<Mesa> datos) {
+    public AdaptadorMesasVincular(Context context, ArrayList<Mesa> datos) {
         this.context = context;
         this.datos = datos;
         seleccionados = new SparseBooleanArray();
@@ -101,8 +101,8 @@ public class AdaptadorObjetoSimple extends Adapter<AdaptadorObjetoSimple.ViewHol
     }
  
     /**Devuelve aquellos objetos marcados.*/
-    public LinkedList<Mesa> obtenerSeleccionados(){
-        LinkedList<Mesa> marcados = new LinkedList<Mesa>();
+    public ArrayList<Mesa> obtenerSeleccionados(){
+    	ArrayList<Mesa> marcados = new ArrayList<Mesa>();
         for (int i = 0; i < datos.size(); i++) {
             if (seleccionados.get(i)){
                 marcados.add(datos.get(i));

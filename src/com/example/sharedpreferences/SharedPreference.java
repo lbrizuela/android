@@ -11,16 +11,15 @@ public class SharedPreference {
 	private static final int MODE_PRIVATE = 1;
 	private static Context context;
 	private static SharedPreference instance;
+	private static final String PREF_NAME = "RestauratSharedPreferences";
 	private static final String TAG = "SharedPreference";
 	private final static String SHARED_PREFS_FILE = "misDatos";
 	private final static String SHARED_MOZO = "datosMozo";
-////	private final static String SHARED_PREFS_FILE_DATOS_REGISTRO = "datos_registro";
-	///private static final int PRIVATE_MODE = 0;
-	private static final String PREF_NAME = "RestauratSharedPreferences";
+	private final static String SHARED_PEDIDO = "datosPedido";
+
 	
-	private static final String ID_PEDIDO= "id_pedido";
-	private static final String CANTIDAD_COMENSALES= "cantidad_comensales";
-	//private static final String EMULADOR_ON = "emulador_on";
+
+
 	private static final String LOGIN_MOZO= "login_mozo";
 	private static final String CODIGO_MOZO= "codigo_mozo";
 	private static final String PUESTO_MOZO= "puesto_mozo";
@@ -31,6 +30,12 @@ public class SharedPreference {
 	private static final String EMAIL_MOZO= "email_mozo";
 	private static final String ROL_MOZO= "rol_mozo";
 	private static final String ID_ENTIDAD_MOZO= "id_entidad_mozo";
+	//////Pedido
+	private static final String PEDIDO_INICIADO= "pedido_iniciado";
+	private static final String ID_PEDIDO= "id_pedido";
+	private static final String CANTIDAD_COMENSALES= "cantidad_comensales";
+	private static final String ID_MOZO_PEDIDO= "id_mozo_pedido";
+	private static final String ID_MEZA_PADRE_PEDIDO= "id_mesa_padre_pedido";
 	
 	
 	
@@ -56,10 +61,15 @@ public class SharedPreference {
 	private SharedPreferences getSettingsMozo() {
 		return context.getSharedPreferences(SHARED_MOZO, MODE_PRIVATE);
 	}
-
-	private SharedPreferences getSettings() {
-		return context.getSharedPreferences(SHARED_PREFS_FILE, MODE_PRIVATE);
+	
+	private SharedPreferences getSettingsPedido() {
+		return context.getSharedPreferences(SHARED_PEDIDO, MODE_PRIVATE);
 	}
+
+
+//	private SharedPreferences getSettings() {
+//		return context.getSharedPreferences(SHARED_PREFS_FILE, MODE_PRIVATE);
+//	}
 	
 	
 	
@@ -86,6 +96,11 @@ public class SharedPreference {
 		
 	}
 	
+	public String recuperarIdMozo(){
+		return getSettingsMozo().getString(ID_ENTIDAD_MOZO, "");
+		
+	}
+	
 	public void limpiarLoginMozo(){
 		
 		SharedPreferences.Editor editor = getSettingsMozo().edit();
@@ -93,44 +108,33 @@ public class SharedPreference {
 		editor.commit();
 	}
 	
-	
-
 	public boolean recuperarLoginMozo() {
 		return getSettingsMozo().getBoolean(LOGIN_MOZO,false);
 	}
 
 	////Pedido
-	public void insertarIdPedido(int numeroPedido) {
-		SharedPreferences.Editor editor = getSettings().edit();
-		editor.putInt(ID_PEDIDO, numeroPedido);
-		editor.commit();
-	}
-	
-
-	public int recuperarIdPedido() {
-		return getSettings().getInt(ID_PEDIDO, 0 );
-	}
-	
-	
-////Pedido
-	public void insertarCantidadComensales(int cantComensales) {
-		SharedPreferences.Editor editor = getSettings().edit();
-		editor.putInt(CANTIDAD_COMENSALES, cantComensales);
-		editor.commit();
-	}
-	
-
-	public int recuperarCantidadComensales() {
-		return getSettings().getInt(CANTIDAD_COMENSALES, 0);
-	}
-
-	
-	
-	public void limpiarFinPedido(){
+	public void insetarPedido(String idPedido,
+			  String idMozo, String idMezaPadre, int cantidadComensales ){
 		
-        Editor editor = getSettings().edit();
-        editor.clear();
-        editor.commit();
-        
+		SharedPreferences.Editor editor = getSettingsPedido().edit();
+		
+		editor.putString(ID_PEDIDO,idPedido);
+		editor.putInt(CANTIDAD_COMENSALES,cantidadComensales);
+		editor.putString(ID_MOZO_PEDIDO,idMozo);
+		editor.putString(ID_MEZA_PADRE_PEDIDO,idMezaPadre);
+		editor.putBoolean(PEDIDO_INICIADO, true);
+		editor.commit();
+		
+	}
+	
+	public void limpiarPedido(){
+		
+		SharedPreferences.Editor editor = getSettingsPedido().edit();
+		editor.clear();
+		editor.commit();
+	}
+	
+	public boolean recuperarInicioPedido() {
+		return getSettingsMozo().getBoolean(PEDIDO_INICIADO,false);
 	}
 }

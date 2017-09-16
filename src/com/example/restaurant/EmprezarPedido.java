@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.example.api.ApiMesas;
+import com.example.api.ApiMozo;
+import com.example.api.ApiPedido;
+import com.example.api.ManagerApi;
 import com.example.clases.CustomKeyboard;
 import com.example.clases.ListaSimple;
 import com.example.clases.Mesa;
-import com.example.servidor.ApiMesas;
-import com.example.servidor.ApiMozo;
-import com.example.servidor.ManagerApi;
 import com.example.sharedpreferences.SharedPreference;
 
-import complementos.AdaptadorObjetoSimple;
+import complementos.AdaptadorMesasVincular;
 import complementos.AdapterListaSimple;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -36,19 +38,21 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class EmprezarPedido extends Activity {
 
+	private static final String TAG = "EmprezarPedido";
 	private SharedPreference instanciaShare;
 	private Context mContext;
 	protected WakeLock wakelock;
 	private Views views;
 	private boolean vistas = true;
 	private ListView  lvListadoDesocupadas;
-///	private RecyclerView lvListado;
-	private AdapterListaSimple adapter, adapterDesocupado;
+
+	private AdapterListaSimple adapterDesocupado;
 	private ArrayList<ListaSimple> misLista;
 	private ArrayList<Mesa> misListaSinSeleccionado;
 	private int totFilas, totFilasDesocupado;
@@ -61,6 +65,7 @@ public class EmprezarPedido extends Activity {
 	private Mesa seleccionada;
 	private CustomKeyboard mCustomKeyboard;
 	private FrameLayout flCargando, flEmpezarPedido;
+	private ProgressBar progressAceptar;
 	
 
 	public static ArrayList<Mesa> mesasLibres = new ArrayList<Mesa>();
@@ -84,13 +89,13 @@ public class EmprezarPedido extends Activity {
 
 		lvListadoDesocupadas = (ListView) findViewById(R.id.lv_ep_mesas_desocupadas);
 		botonVincular = (Button) findViewById(R.id.btn_ep_vincular);
-		mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
+		mRecyclerView = (RecyclerView) findViewById(R.id.rv_ep_cardList);
 		btnAceptar = (ImageButton) findViewById(R.id.imgbtn_ep_aceptar);
 		volver = (ImageButton) findViewById(R.id.imgbtn_ep_salir);
 		borrarMesaPadre = (ImageButton) findViewById(R.id.imgbtn_ep_borrar_padre);
 		llPadre = (LinearLayout) findViewById(R.id.ll_ep_mostrar_padre);
 		tvMesaPadre = (TextView) findViewById(R.id.tv_ep_mesa_padre_seccionada);
-		
+		progressAceptar =(ProgressBar) findViewById(R.id.progres_ep_aceptar);
 		
 
 		// /buscarListaDescupados();
@@ -174,15 +179,19 @@ public class EmprezarPedido extends Activity {
 				if (seleccionada != null) {
 					if (!edCantConmensales.getText().equals("")) {
 
-						int cantidadComensales = Integer
-								.parseInt(edCantConmensales.getText()
-										.toString());
-						instanciaShare.insertarIdPedido(1);
+						
+						ArrayList<Mesa> marcados = mAdapter.obtenerSeleccionados();
+			            String contenidoMarcados = "Marcados: ";
+			            for (Mesa os : marcados){
+			                    contenidoMarcados += os.getNroMesa() + ", ";
+			            }
+			            Log.e(TAG, contenidoMarcados);   
+						
+						/*instanciaShare.insertarIdPedido(1);
 						instanciaShare
-								.insertarCantidadComensales(cantidadComensales);
-						Intent i = new Intent(mContext, MainActivity.class);
-						startActivity(i);
-						finish();
+								.insertarCantidadComensales(cantidadComensales);*/
+			            new IniciarPedido().execute();
+			           
 
 					}
 				}
@@ -318,13 +327,74 @@ public class EmprezarPedido extends Activity {
 		}
 
 	}
+	
+	private class IniciarPedido extends AsyncTask<Void, Void, Void> {
+
+		String cantidadComensales;
+		String idMesaPadre;
+		String idMozo;
+		String respuesta = "";
+		
+		
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			
+			cantidadComensales =  edCantConmensales.getText().toString();
+			idMesaPadre = String.valueOf(seleccionada.getIdMesa());
+			idMozo = instanciaShare.recuperarIdMozo();
+			flEmpezarPedido.setVisibility(View.GONE);
+			flCargando.setVisibility(View.VISIBLE);
+		}
+
+
+
+		
+
+
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			
+			respuesta = ApiPedido.iniciarPedidoActual(instanciaShare, idMozo, idMesaPadre, cantidadComensales);
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			
+			if (respuesta.equals(ApiPedido.OK)) {
+				
+				Intent i = new Intent(mContext, MainActivity.class);
+				startActivity(i);
+				finish();
+				
+			} else {
+
+				Toast.makeText(mContext, "Error: " + respuesta,
+						Toast.LENGTH_LONG).show();
+				flEmpezarPedido.setVisibility(View.VISIBLE);
+				flCargando.setVisibility(View.GONE);
+			}
+		}
+		
+		
+	}
+	
+	
 	private RecyclerView mRecyclerView;
 
-	private AdaptadorObjetoSimple mAdapter;
+	private AdaptadorMesasVincular mAdapter;
 	
 	private void setupRecycler() {
 		mRecyclerView.setVisibility(View.VISIBLE);
-		mAdapter = new AdaptadorObjetoSimple(mContext, misListaSinSeleccionado);
+		mAdapter = new AdaptadorMesasVincular(mContext, misListaSinSeleccionado);
 		LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);

@@ -30,12 +30,14 @@
                 android:layout_height="425dp"
                 android:orientation="vertical" >
 
-                <ListView
-                    android:id="@+id/lv_cc_items"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_cc_cardList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white" >
-                </ListView>
+                    android:paddingLeft="9.0dip"
+                    android:paddingRight="9.0dip"
+                    android:scrollbars="vertical"
+                    android:width="80dp" />
             </LinearLayout>
 
             <LinearLayout

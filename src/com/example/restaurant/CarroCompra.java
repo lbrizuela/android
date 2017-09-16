@@ -2,16 +2,25 @@ package com.example.restaurant;
 
 import java.util.ArrayList;
 
+import com.example.api.ApiMesas;
+import com.example.api.ApiPedido;
 import com.example.clases.ItemPedido;
 import com.example.clases.ListaSimple;
 import com.example.sharedpreferences.SharedPreference;
 
-import complementos.AdapterListaConIconos;
+import complementos.AdaptadorItemPedido;
+import complementos.AdaptadorMesasVincular;
+
 import complementos.AdapterListaSimple;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager.WakeLock;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,19 +28,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class CarroCompra extends Activity {
 
 	
-	 public ArrayList<ItemPedido> misListaItemPedido;
+	 public static ArrayList<ItemPedido> misListaItemPedido;
 	 private SharedPreference instanciaShare;
      private Context mContext;
      protected WakeLock wakelock;
+     private AdaptadorItemPedido  mAdapter;
  	 
- 	 public AdapterListaConIconos adapterItem;
- 	public ListView lvListadoItemPedido; 
- 	public Button volver; 
- 	public Button aceptarPedido;
+
+ 	private Button volver; 
+ 	private Button aceptarPedido;
+ 	private RecyclerView mRecyclerView;
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +55,11 @@ public class CarroCompra extends Activity {
 		
 		volver = (Button)findViewById(R.id.btn_cc_negativo);
 		aceptarPedido = (Button)findViewById(R.id.btn_cc_positivo);
-		lvListadoItemPedido = (ListView) findViewById(R.id.lv_cc_items);
-		buscarItems();
-		lvListadoItemPedido.setOnItemClickListener(new OnItemClickListener() {
+		mRecyclerView = (RecyclerView) findViewById(R.id.rv_cc_cardList);
+	
+		
+		
+	/*	lvListadoItemPedido.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -56,7 +69,7 @@ public class CarroCompra extends Activity {
 				
 			}
 		});
-		
+		*/
 		volver.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -93,24 +106,7 @@ public class CarroCompra extends Activity {
 	
      
 	
-	public void buscarItems(){
-		
-		misListaItemPedido= new ArrayList<ItemPedido>();
-		ItemPedido object= new ItemPedido(1, "Item 1" , 2);
-		misListaItemPedido.add(object);
-		object= new ItemPedido(2, "Item 2" , 1);
-		misListaItemPedido.add(object);
-		object= new ItemPedido(3, "Item 3" , 6);
-		misListaItemPedido.add(object);		
-		
-		if (misListaItemPedido != null && misListaItemPedido.size() > 0) {
-            adapterItem = new AdapterListaConIconos(mContext, misListaItemPedido);
-            lvListadoItemPedido.setVisibility(View.VISIBLE);
-            lvListadoItemPedido.setAdapter(adapterItem);
-           /// totFilasDesocupado = misListaItemPedido.size();
-        }
-		
-	}
+	
 	
 	
 	
@@ -140,6 +136,58 @@ public class CarroCompra extends Activity {
 			}
 		}
 	
+	 
+	 private class BuscarItemPedido extends AsyncTask<Void, Void, Void> {
+
+			String respuesta = "";
+			String idPedido;
+			String idMozo;
+
+			@Override
+			protected void onPreExecute() {
+				// TODO Auto-generated method stub
+				super.onPreExecute();
+				
+			
+			}
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				// TODO Auto-generated method stu
+
+				respuesta = ApiPedido.buscarItemsPedido(idPedido, idMozo);
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				// TODO Auto-generated method stub
+				super.onPostExecute(result);
+
+				if (respuesta.equals(ApiPedido.OK)) {
+					
+					setupRecycler();
+					
+				} else {
+
+					Toast.makeText(mContext, "Error: " + respuesta,
+							Toast.LENGTH_LONG).show();
+					
+					
+				}
+			}
+
+		}
+	 
+	 
+	 private void setupRecycler() {
+			
+			mAdapter = new AdaptadorItemPedido(mContext, misListaItemPedido);
+			LayoutManager layoutManager = new LinearLayoutManager(this);
+			mRecyclerView.setLayoutManager(layoutManager);
+	        mRecyclerView.setAdapter(mAdapter);
+	     }
 	
 	
 }

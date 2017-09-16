@@ -2,31 +2,38 @@ package com.example.clases;
 
 public class ItemPedido {
 	
-	private int codigo;
-	private String descripcionItem;
-	private int cantidadItem;
+	private String idEntidad;
+	private Articulo articulo;
+	private float precioUnitario;
+	private int cantidad;
+	
+	public String getIdEntidad() {
+		return idEntidad;
+	}
+	public void setIdEntidad(String idEntidad) {
+		this.idEntidad = idEntidad;
+	}
+	public Articulo getArticulo() {
+		return articulo;
+	}
+	public void setArticulo(Articulo articulo) {
+		this.articulo = articulo;
+	}
+	public float getPrecioUnitario() {
+		return precioUnitario;
+	}
+	public void setPrecioUnitario(float precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+	public int getCantidad() {
+		return cantidad;
+	}
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
 	
 
-	public ItemPedido (int cod , String desc , int cant){
-		 codigo=  cod;
-		 descripcionItem = desc;
-		 cantidadItem =  cant;
-		
-		
-	}
 	
-	
-	public int getCodigo() {
-		return codigo;
-	}
-	public String getDescripcionItem() {
-		return descripcionItem;
-	}
-
-	
-	public int getCantidadItem() {
-		return cantidadItem;
-	}
 	
 	
 	

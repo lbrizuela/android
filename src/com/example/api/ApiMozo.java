@@ -1,4 +1,4 @@
-package com.example.servidor;
+package com.example.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,15 +38,14 @@ public class ApiMozo {
 	
 	
 	
-	public static SharedPreference instanciaShare;
 	
 	
 	 @SuppressWarnings("deprecation")
-	public static String recuperarMozo(Context ctx,String codigoSeguridad) {
+	public static String recuperarMozo(SharedPreference instanciaShare ,String codigoSeguridad) {
 
 		String respuesta = OK;
 		String respuestaApi = "";
-		instanciaShare = new SharedPreference(ctx);
+		
 
 		try {
 

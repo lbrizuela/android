@@ -8,7 +8,9 @@
     <string name="mesa_padre">Mesa Seleccionada : </string>
     <string name="configuracion">CONFIGURACION INICIAL</string>
     <string name="vincular_mesas">VINCULAR </string>
-     <string name="realizar_pedido">Pedido </string>
+    <string name="realizar_pedido">Pedido </string>
+    <string name="cantidad_item">Cantidad: </string>
+    <string name="precio_item">Precio: </string> 
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cargando_espera">Cargando...</string>
     <string name="identificador_mozo">identificador</string>

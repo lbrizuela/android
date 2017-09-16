@@ -123,7 +123,7 @@
                             android:textStyle="bold|italic" />
                         
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/cardList"
+                            android:id="@+id/rv_ep_cardList"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:width="80dp"
@@ -203,6 +203,16 @@
             android:background="@drawable/fab_background_ingresar"
             android:contentDescription=""
             android:src="@drawable/ic_ingresar" />
+        
+         <ProgressBar
+            android:id="@+id/progres_ep_aceptar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="56dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/fab_background_ingresar"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"

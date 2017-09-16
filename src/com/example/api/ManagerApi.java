@@ -1,4 +1,4 @@
-package com.example.servidor;
+package com.example.api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -130,6 +130,11 @@ public class ManagerApi {
 		
 		return respuesta;
 
+	}
+	
+	public static String getParametros(String parametro){
+		
+		return "?"+parametro+"=";
 	}
 
 

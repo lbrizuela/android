@@ -1,8 +1,8 @@
 package com.example.restaurant;
 
+import com.example.api.ApiMozo;
+import com.example.api.ManagerApi;
 import com.example.clases.Util;
-import com.example.servidor.ApiMozo;
-import com.example.servidor.ManagerApi;
 import com.example.sharedpreferences.SharedPreference;
 
 import android.annotation.SuppressLint;
@@ -182,7 +182,7 @@ public class MozoLogin extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stu
-			respuesta = ApiMozo.recuperarMozo(mContext,codigoSeguridad);
+			respuesta = ApiMozo.recuperarMozo(instanciaShare,codigoSeguridad);
 			
 			
 			return null;

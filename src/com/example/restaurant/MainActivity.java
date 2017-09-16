@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         	Intent i = new Intent(mContext, MozoLogin.class);
         	startActivity(i);
         	finish();
-        }else{ if(instanciaShare.recuperarIdPedido() == 0){
+        }else{ if(!instanciaShare.recuperarInicioPedido()){
         		
         		Intent i = new Intent(mContext, EmprezarPedido.class);
             	startActivity(i);
@@ -105,7 +105,8 @@ public class MainActivity extends Activity {
 
 		if (resultado==Util.FINALIZAR_PEDIDO) {
 			
-			instanciaShare.limpiarFinPedido();
+			instanciaShare.limpiarLoginMozo();
+			instanciaShare.limpiarPedido();
 			Intent i = new Intent(mContext, MozoLogin.class);
         	startActivity(i);
         	finish();
