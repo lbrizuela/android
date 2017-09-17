@@ -11,6 +11,8 @@
     <string name="realizar_pedido">Pedido </string>
     <string name="cantidad_item">Cantidad: </string>
     <string name="precio_item">Precio: </string> 
+    <string name="salir">&#8592; Salir </string> 
+    <string name="pedir">&#10003; Perdir</string> 
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cargando_espera">Cargando...</string>
     <string name="identificador_mozo">identificador</string>

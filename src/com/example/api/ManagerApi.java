@@ -46,17 +46,19 @@ public class ManagerApi {
 	
 	private static String TAG = "ManagerApi";
     
-    public static String FORMATO_RESPUESTA= "UTF-8";
-    public static String FORMATO_PAGINA= "http://";
-    public static String IP= "192.168.0.11";
-    public static String PUERTO = "8080";
-    public static String BASE = "/RestaurantServer/api";
-    public static String HEADER_POST_ACCEPT = "Accept";
-    public static String HEADER_POST_ACCEPT_VALUE = "application/json";
-    public static String HEADER_POST_TYPE = "Content-type";
-    public static String HEADER_POST_TYPE_VALUE = "application/json";
-    public static String ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;
-    public static String ERROR_RESPUESTA_API= "detailMessage";
+    public static final String FORMATO_RESPUESTA= "UTF-8";
+    public static final String FORMATO_PAGINA= "http://";
+    public static final String IP= "192.168.0.11";
+    public static final String PUERTO = "8080";
+    public static final String BASE = "/RestaurantServer/api";
+    public static final String HEADER_POST_ACCEPT = "Accept";
+    public static final String HEADER_POST_ACCEPT_VALUE = "application/json";
+    public static final String HEADER_POST_TYPE = "Content-type";
+    public static final String HEADER_POST_TYPE_VALUE = "application/json";
+    public static final String ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;
+    public static final String ERROR_RESPUESTA_API= "detailMessage";
+    public static final String UNIR_PARAMETROS ="&"; 
+    public static final String GET_PARAMETROS ="?"; 
 
 	
     
@@ -134,7 +136,7 @@ public class ManagerApi {
 	
 	public static String getParametros(String parametro){
 		
-		return "?"+parametro+"=";
+		return parametro+"=";
 	}
 
 

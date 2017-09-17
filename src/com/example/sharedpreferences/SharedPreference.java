@@ -127,6 +127,16 @@ public class SharedPreference {
 		
 	}
 	
+	public String recuperarIdPedido(){
+		return getSettingsPedido().getString(ID_PEDIDO, "0");
+		
+	}
+	
+	public String recuperarIdMozoPedido(){
+		return getSettingsPedido().getString(ID_MOZO_PEDIDO, "0");
+		
+	}
+	
 	public void limpiarPedido(){
 		
 		SharedPreferences.Editor editor = getSettingsPedido().edit();
@@ -135,6 +145,6 @@ public class SharedPreference {
 	}
 	
 	public boolean recuperarInicioPedido() {
-		return getSettingsMozo().getBoolean(PEDIDO_INICIADO,false);
+		return getSettingsPedido().getBoolean(PEDIDO_INICIADO,false);
 	}
 }

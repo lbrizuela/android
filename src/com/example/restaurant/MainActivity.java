@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     boolean vistas = true;
 	public TextView fecha_hora;
 	public ImageButton carroCompra , llamarMozo;
+	public int request_code = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class MainActivity extends Activity {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					Intent i= new Intent(mContext, LlamarMozo.class);
-					startActivity(i);
+					startActivityForResult(i, request_code);
 					
 					
 					
@@ -133,17 +134,17 @@ public class MainActivity extends Activity {
 			public void onTick(long millisUntilFinished) {
 				// TODO Auto-generated method stub
 				Calendar c = Calendar.getInstance();
-				fecha_hora.setText(new StringBuilder(String.valueOf(String.format("%02d", new Object[] { Integer.valueOf(c.get(5)) })))
+				fecha_hora.setText(new StringBuilder(String.valueOf(String.format("%02d", new Object[] { Integer.valueOf(c.get(Calendar.DAY_OF_MONTH)) })))
 								.append("/")
-								.append(String.format("%02d", new Object[] { Integer.valueOf(c.get(2) + 1) }))
+								.append(String.format("%02d", new Object[] { Integer.valueOf(c.get(Calendar.MONTH) + 1) }))
 								.append("/")
-								.append(c.get(1))
+								.append(c.get(Calendar.YEAR))
 								.append(" ")
-								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(11)) }))
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(Calendar.HOUR_OF_DAY)) }))
 								.append(":")
-								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(12)) }))
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(Calendar.MINUTE)) }))
 								.append(":")
-								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(13)) })).toString());
+								.append(String.format("%02d",new Object[] { Integer.valueOf(c.get(Calendar.SECOND)) })).toString());
 
 			}
 			

@@ -10,7 +10,6 @@ import com.example.sharedpreferences.SharedPreference;
 
 import complementos.AdaptadorItemPedido;
 import complementos.AdaptadorMesasVincular;
-
 import complementos.AdapterListaSimple;
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +17,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager.WakeLock;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class CarroCompra extends Activity {
      private Context mContext;
      protected WakeLock wakelock;
      private AdaptadorItemPedido  mAdapter;
+     private FrameLayout items, cargando;
  	 
 
  	private Button volver; 
@@ -52,24 +54,17 @@ public class CarroCompra extends Activity {
 		fullScreen();
 		mContext = getApplicationContext();
 		instanciaShare = new SharedPreference(mContext);
-		
+		misListaItemPedido= new ArrayList<ItemPedido>();
+		items = (FrameLayout) findViewById(R.id.ll_cc_items);
+		cargando = (FrameLayout) findViewById(R.id.ll_cc_cargando);
 		volver = (Button)findViewById(R.id.btn_cc_negativo);
 		aceptarPedido = (Button)findViewById(R.id.btn_cc_positivo);
 		mRecyclerView = (RecyclerView) findViewById(R.id.rv_cc_cardList);
+		new BuscarItemPedido().execute();
 	
 		
 		
-	/*	lvListadoItemPedido.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				
-				ItemPedido itemSeleccionado = misListaItemPedido.get(position);
-				Log.e("Luisina", "POS " + position);
-				
-			}
-		});
-		*/
+	
 		volver.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -140,14 +135,17 @@ public class CarroCompra extends Activity {
 	 private class BuscarItemPedido extends AsyncTask<Void, Void, Void> {
 
 			String respuesta = "";
-			String idPedido;
-			String idMozo;
+			String idPedido = "2";
+			String idMozo = "1";
 
 			@Override
 			protected void onPreExecute() {
 				// TODO Auto-generated method stub
 				super.onPreExecute();
-				
+				items.setVisibility(View.GONE);
+				cargando.setVisibility(View.VISIBLE);
+			//	idPedido= instanciaShare.recuperarIdPedido();
+			//	idMozo= instanciaShare.recuperarIdMozoPedido();
 			
 			}
 
@@ -167,12 +165,15 @@ public class CarroCompra extends Activity {
 
 				if (respuesta.equals(ApiPedido.OK)) {
 					
+					cargando.setVisibility(View.GONE);
+					items.setVisibility(View.VISIBLE);
 					setupRecycler();
 					
 				} else {
 
 					Toast.makeText(mContext, "Error: " + respuesta,
 							Toast.LENGTH_LONG).show();
+					finish();
 					
 					
 				}
@@ -182,7 +183,7 @@ public class CarroCompra extends Activity {
 	 
 	 
 	 private void setupRecycler() {
-			
+		    mRecyclerView.setVisibility(View.VISIBLE);
 			mAdapter = new AdaptadorItemPedido(mContext, misListaItemPedido);
 			LayoutManager layoutManager = new LinearLayoutManager(this);
 			mRecyclerView.setLayoutManager(layoutManager);

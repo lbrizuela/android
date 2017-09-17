@@ -2,6 +2,7 @@ package com.example.restaurant;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -245,12 +246,12 @@ public class Teclado extends Activity {
 	}
 	
 	public boolean verificarClaveSalir(String textoIngresado){
-		SimpleDateFormat fortmato= new SimpleDateFormat("dd/mm/yyyy");
+		Calendar calendario= Calendar.getInstance();
 		
-		String date = fortmato.format(new Date());
 		
-		String dia= date.split("/")[0];
-		String mes= date.split("/")[0];
+		
+		String dia= String.format("%02d", new Object[] { Integer.valueOf(calendario.get(Calendar.DAY_OF_MONTH) ) });
+		String mes= String.format("%02d", new Object[] { Integer.valueOf(calendario.get(Calendar.MONTH) + 1) });
 		
 		String clave = mes+dia;
 		

@@ -68,7 +68,7 @@ public class EmprezarPedido extends Activity {
 	private ProgressBar progressAceptar;
 	
 
-	public static ArrayList<Mesa> mesasLibres = new ArrayList<Mesa>();
+	public static ArrayList<Mesa> mesasLibres;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class EmprezarPedido extends Activity {
 		mContext = getApplicationContext();
 		instanciaShare = new SharedPreference(mContext);
 		views = Views.getInstance(getApplicationContext());
+		mesasLibres = new ArrayList<Mesa>();
 		
 		flCargando = (FrameLayout) findViewById(R.id.fl_cargando);
 		flEmpezarPedido = (FrameLayout) findViewById(R.id.fl_empeza_perdido);
@@ -190,6 +191,8 @@ public class EmprezarPedido extends Activity {
 						/*instanciaShare.insertarIdPedido(1);
 						instanciaShare
 								.insertarCantidadComensales(cantidadComensales);*/
+			            
+			            
 			            new IniciarPedido().execute();
 			           
 
@@ -347,19 +350,19 @@ public class EmprezarPedido extends Activity {
 			idMozo = instanciaShare.recuperarIdMozo();
 			flEmpezarPedido.setVisibility(View.GONE);
 			flCargando.setVisibility(View.VISIBLE);
+			
+			
 		}
-
-
-
-		
-
 
 
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			
-			respuesta = ApiPedido.iniciarPedidoActual(instanciaShare, idMozo, idMesaPadre, cantidadComensales);
+			//respuesta = ApiPedido.iniciarPedidoActual(instanciaShare, idMozo, idMesaPadre, cantidadComensales);
+			
+			instanciaShare.insetarPedido("2", "1", "7", 7);
+			respuesta= ApiPedido.OK;
 			
 			return null;
 		}

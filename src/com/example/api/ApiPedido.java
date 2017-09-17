@@ -24,10 +24,11 @@ public class ApiPedido {
 	private static final String DIRECCION_API= "/pedidos";
 	private static final String TAG="Pedido";
 	private static final String ID_ENTIDAD="idEntidad";
+	private static final String ID_PEDIDO="idPedido";
 	
 	private static final String ID_USUARIO = "idUsuario";
 	private static final String ID_MESA = "idMesa";
-	private static final String ITEMS = "items";
+	private static final String ITEMS = "itemsPedido";
 	private static final String ITEM_CANTIDAD= "cantidad";
 	private static final String ITEM_ARTICULO= "articulo";
 	
@@ -53,7 +54,7 @@ public class ApiPedido {
 		ArrayList<ItemPedido> itemsPedido = new ArrayList<ItemPedido>();
 		String respuesta=OK;
 	
-		String respuestaApi = ManagerApi.getApi(DIRECCION_API + ManagerApi.getParametros(ID_ENTIDAD) + idPedido + ManagerApi.getParametros(ID_USUARIO) + idMozo);
+		String respuestaApi = ManagerApi.getApi(DIRECCION_API + ManagerApi.GET_PARAMETROS + ManagerApi.getParametros(ID_PEDIDO) + idPedido + ManagerApi.UNIR_PARAMETROS + ManagerApi.getParametros(ID_USUARIO) + idMozo);
 
 		if (!respuestaApi.equals("")) {
 			

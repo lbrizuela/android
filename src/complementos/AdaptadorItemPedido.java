@@ -71,6 +71,8 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
             progress_borrar =(ProgressBar) item.findViewById(R.id.progress_borrar_item);
             
             tv_texto.setText(String.valueOf(os.getArticulo().getNombre()));
+            tv_cantidad.setText(tv_cantidad.getText() +" " + String.valueOf(os.getCantidad()));
+            tv_precio.setText(tv_precio.getText() +" "+ String.valueOf(os.getPrecioUnitario()));
  
             
  
@@ -81,7 +83,7 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
                 public void onClick(View v) {
                 	img_borrar_item.setVisibility(View.GONE);
                 	progress_borrar.setVisibility(View.VISIBLE);
-                	borrarItem();
+                	borrarItem(getAdapterPosition());
                 }
             });
         }
@@ -96,17 +98,12 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
     }
  
     /**Devuelve aquellos objetos marcados.*/
-    public void borrarItem(){
-    	int posicion=0;
-        for (int i = 0; i < datos.size(); i++) {
-            if (datos.get(i).equals("item")){
-            	datos.remove(datos.get(i));
-            	posicion=i;
-            	
-            }
-        }
-        notifyItemRemoved(posicion);
-        notifyItemRangeChanged(posicion, getItemCount() - posicion);
+    public void borrarItem(int posicion){
+    	
+       ItemPedido itemPedidoBorrado = datos.get(posicion);
+       datos.remove(itemPedidoBorrado);
+       notifyItemRemoved(posicion);
+       notifyItemRangeChanged(posicion, getItemCount() - posicion);
     }
 
 	@Override
@@ -123,6 +120,8 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
+	
+	
 	
 	
 	
