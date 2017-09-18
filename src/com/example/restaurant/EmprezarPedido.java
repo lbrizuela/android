@@ -180,17 +180,7 @@ public class EmprezarPedido extends Activity {
 				if (seleccionada != null) {
 					if (!edCantConmensales.getText().equals("")) {
 
-						
-						ArrayList<Mesa> marcados = mAdapter.obtenerSeleccionados();
-			            String contenidoMarcados = "Marcados: ";
-			            for (Mesa os : marcados){
-			                    contenidoMarcados += os.getNroMesa() + ", ";
-			            }
-			            Log.e(TAG, contenidoMarcados);   
-						
-						/*instanciaShare.insertarIdPedido(1);
-						instanciaShare
-								.insertarCantidadComensales(cantidadComensales);*/
+			
 			            
 			            
 			            new IniciarPedido().execute();
@@ -334,7 +324,7 @@ public class EmprezarPedido extends Activity {
 	private class IniciarPedido extends AsyncTask<Void, Void, Void> {
 
 		String cantidadComensales;
-		String idMesaPadre;
+		ArrayList<String> idMesaPadre;
 		String idMozo;
 		String respuesta = "";
 		
@@ -345,13 +335,23 @@ public class EmprezarPedido extends Activity {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			
-			cantidadComensales =  edCantConmensales.getText().toString();
-			idMesaPadre = String.valueOf(seleccionada.getIdMesa());
+			idMesaPadre = new ArrayList<String>();
+			idMesaPadre.add(String.valueOf(seleccionada.getIdMesa()));
+			if (mAdapter != null) {
+				ArrayList<Mesa> marcados = mAdapter.obtenerSeleccionados();
+				if (marcados != null && marcados.size() > 0) {
+					for (int i = 0; i < marcados.size(); i++) {
+						idMesaPadre.add(String.valueOf(marcados.get(i).getIdMesa()));
+					}
+				}
+			}
+
+			cantidadComensales = edCantConmensales.getText().toString();
+
 			idMozo = instanciaShare.recuperarIdMozo();
 			flEmpezarPedido.setVisibility(View.GONE);
 			flCargando.setVisibility(View.VISIBLE);
-			
-			
+
 		}
 
 
@@ -359,10 +359,9 @@ public class EmprezarPedido extends Activity {
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			
-			//respuesta = ApiPedido.iniciarPedidoActual(instanciaShare, idMozo, idMesaPadre, cantidadComensales);
+			respuesta = ApiPedido.iniciarPedidoActual(instanciaShare, idMozo, idMesaPadre, cantidadComensales);
 			
-			instanciaShare.insetarPedido("2", "1", "7", 7);
-			respuesta= ApiPedido.OK;
+			
 			
 			return null;
 		}
@@ -396,11 +395,16 @@ public class EmprezarPedido extends Activity {
 	private AdaptadorMesasVincular mAdapter;
 	
 	private void setupRecycler() {
-		mRecyclerView.setVisibility(View.VISIBLE);
-		mAdapter = new AdaptadorMesasVincular(mContext, misListaSinSeleccionado);
-		LayoutManager layoutManager = new LinearLayoutManager(this);
-		mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+		
+		if(misListaSinSeleccionado!=null && misListaSinSeleccionado.size()>0){
+			mRecyclerView.setVisibility(View.VISIBLE);
+			mAdapter = new AdaptadorMesasVincular(mContext, misListaSinSeleccionado);
+			LayoutManager layoutManager = new LinearLayoutManager(this);
+			mRecyclerView.setLayoutManager(layoutManager);
+	        mRecyclerView.setAdapter(mAdapter);
+		}else {
+			Toast.makeText(mContext, "No hay mesas libres para vincular", Toast.LENGTH_LONG).show();
+		}
      }
 
 	private void mantenerPantallaEncendida() {

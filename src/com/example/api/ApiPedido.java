@@ -28,6 +28,7 @@ public class ApiPedido {
 	
 	private static final String ID_USUARIO = "idUsuario";
 	private static final String ID_MESA = "idMesa";
+	private static final String IDS_MESAS = "idsMesas";
 	private static final String ITEMS = "itemsPedido";
 	private static final String ITEM_CANTIDAD= "cantidad";
 	private static final String ITEM_ARTICULO= "articulo";
@@ -43,7 +44,7 @@ public class ApiPedido {
 	public static String NO_OK= "ocurrio un error";
 	public static String NO_HAY_ITEM= "no hay items";
 	
-	public static String iniciarPedidoActual(SharedPreference instanciaShare, String idMozo , String idMesa, String cantComensales){
+	public static String iniciarPedidoActual(SharedPreference instanciaShare, String idMozo , ArrayList<String> idMesa, String cantComensales){
 		
 		return IniciarPedido.iniciarPedido(instanciaShare,idMozo,idMesa,cantComensales);
 		
@@ -133,7 +134,7 @@ public class ApiPedido {
 		
 		
 		
-		public static String iniciarPedido(SharedPreference instanciaShare, String idMozo , String idMesa, String cantComensales){
+		public static String iniciarPedido(SharedPreference instanciaShare, String idMozo , ArrayList<String> idMesa, String cantComensales){
 			
 
 
@@ -145,8 +146,15 @@ public class ApiPedido {
 
 				JSONObject objetoJson = new JSONObject();
 				objetoJson.accumulate(ID_USUARIO, idMozo);
-				objetoJson.accumulate(ID_MESA, idMesa);
 				objetoJson.accumulate(CANTIDAD_COMENSALES, cantComensales);
+				JSONArray jsonMesas = new JSONArray();
+				for (int i = 0; i < idMesa.size(); i++) {
+					jsonMesas.put(i, idMesa.get(i));
+					
+				}
+				
+				objetoJson.accumulate(IDS_MESAS, jsonMesas);
+				
 				respuestaApi = ManagerApi.postApi(DIRECCION_API, objetoJson);
 
 			} catch (JSONException e) {
