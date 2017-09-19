@@ -214,6 +214,8 @@ public class Teclado extends Activity {
 		btnVolver.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Intent i= new Intent();
+				setResult(Teclado.RESULT_CANCELED, i);
 				finish();
 			}
 		});

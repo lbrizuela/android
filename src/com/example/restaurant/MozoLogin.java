@@ -119,28 +119,30 @@ public class MozoLogin extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
 		int resultado = 0;
-		resultado = intent.getIntExtra("clave",0);
+		if (resultCode == RESULT_OK) {
+			resultado = intent.getIntExtra("clave", 0);
 
-		if (resultado==Util.ID_MOZO) {
-			String id = intent.getStringExtra("resultado");
-			codigoSeguridad = id;
-			idMozo.setText(id);
-		} else if (resultado==Util.SALIR) {
+			if (resultado == Util.ID_MOZO) {
+				String id = intent.getStringExtra("resultado");
+				codigoSeguridad = id;
+				idMozo.setText(id);
+			} else if (resultado == Util.SALIR) {
 
-			boolean salir = intent.getBooleanExtra("resultado", false);
-			if (salir) {
+				boolean salir = intent.getBooleanExtra("resultado", false);
+				if (salir) {
 
-				    Views views = Views.getInstance(mContext);
-		            views.removerViewStatusBar();
-		            views.removerViewNavegationBar();
-		            
-		            finish();
-		            
-			} else {
-				Toast.makeText(mContext, "CODIGO INCORRECTO", Toast.LENGTH_LONG)
-						.show();
+					Views views = Views.getInstance(mContext);
+					views.removerViewStatusBar();
+					views.removerViewNavegationBar();
+
+					finish();
+
+				} else {
+					Toast.makeText(mContext, "CODIGO INCORRECTO",
+							Toast.LENGTH_LONG).show();
+				}
+
 			}
-
 		}
 
 		

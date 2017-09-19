@@ -48,8 +48,10 @@ public class LlamarMozo extends Activity {
 				// TODO Auto-generated method stub
 				
 				
-				finish();
+				Intent i = new Intent();
 				
+				setResult(LlamarMozo.RESULT_CANCELED, i);
+				finish();
 				
 			}
 		});
@@ -59,8 +61,11 @@ public class LlamarMozo extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				finish();
 				
+				Intent i = new Intent();
+				
+				setResult(LlamarMozo.RESULT_CANCELED, i);
+				finish();
 				
 			}
 		});
@@ -88,26 +93,26 @@ public class LlamarMozo extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
-		
-		int resultado = intent.getIntExtra("clave",0);
-
-		if (resultado==Util.FINALIZAR_PEDIDO) {
-			
-			boolean salir = intent.getBooleanExtra("resultado", false);
-			if (salir) {
-
-				Intent i = new Intent();
-				i.putExtra("clave", Util.FINALIZAR_PEDIDO);
-				setResult(LlamarMozo.RESULT_OK, i);
-				finish();
-			} else {
-				Toast.makeText(mContext, "CODIGO INCORRECTO", Toast.LENGTH_LONG)
-						.show();
+		if (resultCode == RESULT_OK) {
+			int resultado = intent.getIntExtra("clave",0);
+	
+			if (resultado==Util.FINALIZAR_PEDIDO) {
+				
+				boolean salir = intent.getBooleanExtra("resultado", false);
+				if (salir) {
+	
+					Intent i = new Intent();
+					i.putExtra("clave", Util.FINALIZAR_PEDIDO);
+					setResult(LlamarMozo.RESULT_OK, i);
+					finish();
+				} else {
+					Toast.makeText(mContext, "CODIGO INCORRECTO", Toast.LENGTH_LONG)
+							.show();
+				}
+				
+				
 			}
-			
-			
 		}
-		
 		
 	}
 

@@ -34,7 +34,7 @@ public class SharedPreference {
 	private static final String PEDIDO_INICIADO= "pedido_iniciado";
 	private static final String ID_PEDIDO= "id_pedido";
 	private static final String CANTIDAD_COMENSALES= "cantidad_comensales";
-	private static final String ID_MOZO_PEDIDO= "id_mozo_pedido";
+	////private static final String ID_MOZO_PEDIDO= "id_mozo_pedido";
 	private static final String ID_MEZA_PADRE_PEDIDO= "id_mesa_padre_pedido";
 	
 	
@@ -114,13 +114,13 @@ public class SharedPreference {
 
 	////Pedido
 	public void insetarPedido(String idPedido,
-			  String idMozo, String idMezaPadre, int cantidadComensales ){
+			  String idMezaPadre, int cantidadComensales ){
 		
 		SharedPreferences.Editor editor = getSettingsPedido().edit();
 		
 		editor.putString(ID_PEDIDO,idPedido);
 		editor.putInt(CANTIDAD_COMENSALES,cantidadComensales);
-		editor.putString(ID_MOZO_PEDIDO,idMozo);
+		////editor.putString(ID_MOZO_PEDIDO,idMozo);
 		editor.putString(ID_MEZA_PADRE_PEDIDO,idMezaPadre);
 		editor.putBoolean(PEDIDO_INICIADO, true);
 		editor.commit();
@@ -132,10 +132,7 @@ public class SharedPreference {
 		
 	}
 	
-	public String recuperarIdMozoPedido(){
-		return getSettingsPedido().getString(ID_MOZO_PEDIDO, "0");
-		
-	}
+
 	
 	public void limpiarPedido(){
 		

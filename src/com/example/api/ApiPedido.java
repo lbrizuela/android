@@ -29,7 +29,9 @@ public class ApiPedido {
 	private static final String ID_USUARIO = "idUsuario";
 	private static final String ID_MESA = "idMesa";
 	private static final String IDS_MESAS = "idsMesas";
-	private static final String ITEMS = "itemsPedido";
+	private static final String ID_MESA_PADRE="mesa";
+	private static final String ITEMS_ARTICULO = "itemsArticulo";
+	private static final String ITEMS_ARTICULO_OFERTA = "itemsArticuloOferta";
 	private static final String ITEM_CANTIDAD= "cantidad";
 	private static final String ITEM_ARTICULO= "articulo";
 	
@@ -70,7 +72,7 @@ public class ApiPedido {
 					
 				} else {
 					
-					JSONArray jsonArray = new JSONArray(jsonResponse.getString(ITEMS));
+					JSONArray jsonArray = new JSONArray(jsonResponse.getString(ITEMS_ARTICULO));
 
 					if (jsonArray != null && jsonArray.length() > 0) {
 						ItemPedido itemPedido;
@@ -176,10 +178,10 @@ public class ApiPedido {
 					} else {
 						
 						String idEntidad = jsonResponse.getString(ID_ENTIDAD);
-						String id_Usuario = jsonResponse.getString(ID_USUARIO);
-						String id_Mesa = jsonResponse.getString(ID_MESA);
+						JSONObject mesaPadre = new JSONObject(jsonResponse.getString(ID_MESA_PADRE));
+						String id_Mesa = mesaPadre.getString(ID_ENTIDAD);
 						String cantidadComensales = jsonResponse.getString(CANTIDAD_COMENSALES);
-						instanciaShare.insetarPedido(idEntidad,id_Usuario,id_Mesa,Integer.parseInt(cantidadComensales));
+						instanciaShare.insetarPedido(idEntidad,id_Mesa,Integer.parseInt(cantidadComensales));
 
 					}
 				} catch (JSONException e) {

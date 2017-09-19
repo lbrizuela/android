@@ -102,18 +102,20 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
-		int resultado = intent.getIntExtra("clave",0);
-
-		if (resultado==Util.FINALIZAR_PEDIDO) {
-			
-			instanciaShare.limpiarLoginMozo();
-			instanciaShare.limpiarPedido();
-			Intent i = new Intent(mContext, MozoLogin.class);
-        	startActivity(i);
-        	finish();
-			
-		}
 		
+		if(resultCode== RESULT_OK){
+			int resultado = intent.getIntExtra("clave",0);
+
+			if (resultado==Util.FINALIZAR_PEDIDO) {
+				
+				instanciaShare.limpiarLoginMozo();
+				instanciaShare.limpiarPedido();
+				Intent i = new Intent(mContext, MozoLogin.class);
+	        	startActivity(i);
+	        	finish();
+				
+			}
+		}
 		
 	}
 
