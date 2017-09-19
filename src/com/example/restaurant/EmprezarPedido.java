@@ -11,6 +11,7 @@ import com.example.api.ManagerApi;
 import com.example.clases.CustomKeyboard;
 import com.example.clases.ListaSimple;
 import com.example.clases.Mesa;
+import com.example.clases.Util;
 import com.example.sharedpreferences.SharedPreference;
 
 import complementos.AdaptadorMesasVincular;
@@ -61,11 +62,18 @@ public class EmprezarPedido extends Activity {
 	private ImageButton volver, borrarMesaPadre, btnAceptar;
 	private LinearLayout llPadre;
 	private TextView tvMesaPadre;
-	private EditText edCantConmensales;
+	//private EditText edCantConmensales;
 	private Mesa seleccionada;
-	private CustomKeyboard mCustomKeyboard;
+	//private CustomKeyboard mCustomKeyboard;
 	private FrameLayout flCargando, flEmpezarPedido;
 	private ProgressBar progressAceptar;
+	
+	private RecyclerView mRecyclerView;
+
+	private AdaptadorMesasVincular mAdapter;
+	
+	private String cantidadComensales ;
+	public int request_code = 1;
 	
 
 	public static ArrayList<Mesa> mesasLibres;
@@ -102,11 +110,7 @@ public class EmprezarPedido extends Activity {
 		// /buscarListaDescupados();
 		seleccionada = null;
 
-		edCantConmensales = (EditText) findViewById(R.id.keyboard_texto_chico);
-		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardviewchico, R.xml.qwerty_chico);
-
-		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico);
-
+		
 		lvListadoDesocupadas.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -178,15 +182,13 @@ public class EmprezarPedido extends Activity {
 				// TODO Auto-generated method stub
 
 				if (seleccionada != null) {
-					if (!edCantConmensales.getText().equals("")) {
-
-			
-			            
-			            
-			            new IniciarPedido().execute();
-			           
-
-					}
+					
+					Intent i= new Intent(mContext, TecladoChico.class);
+					i.putExtra("enviar", Util.CANTIDAD_COMENSALES);
+					startActivityForResult(i, request_code);
+				}else {
+					
+					Toast.makeText(mContext, "Por favor seleccione una mesa", Toast.LENGTH_LONG).show();
 				}
 
 			}
@@ -212,6 +214,9 @@ public class EmprezarPedido extends Activity {
 
 	}
 
+	
+	
+	
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -323,7 +328,7 @@ public class EmprezarPedido extends Activity {
 	
 	private class IniciarPedido extends AsyncTask<Void, Void, Void> {
 
-		String cantidadComensales;
+	
 		ArrayList<String> idMesaPadre;
 		String idMozo;
 		String respuesta = "";
@@ -346,7 +351,7 @@ public class EmprezarPedido extends Activity {
 				}
 			}
 
-			cantidadComensales = edCantConmensales.getText().toString();
+			
 
 			idMozo = instanciaShare.recuperarIdMozo();
 			flEmpezarPedido.setVisibility(View.GONE);
@@ -390,9 +395,26 @@ public class EmprezarPedido extends Activity {
 	}
 	
 	
-	private RecyclerView mRecyclerView;
+    
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, intent);
+		
+		if(resultCode== RESULT_OK){
+			int resultado = intent.getIntExtra("clave",0);
 
-	private AdaptadorMesasVincular mAdapter;
+			if (resultado==Util.CANTIDAD_COMENSALES) {
+				
+				cantidadComensales = intent.getStringExtra("resultado");			
+				new IniciarPedido().execute();
+			}
+		}
+		
+	}
+	
+	
+	
 	
 	private void setupRecycler() {
 		

@@ -59,8 +59,7 @@ public class ManagerApi {
     public static final String ERROR_RESPUESTA_API= "detailMessage";
     public static final String UNIR_PARAMETROS ="&"; 
     public static final String GET_PARAMETROS ="?"; 
-
-	
+    
     
     
     @SuppressWarnings("deprecation")
