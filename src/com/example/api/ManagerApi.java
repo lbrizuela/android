@@ -48,18 +48,24 @@ public class ManagerApi {
     
     public static final String FORMATO_RESPUESTA= "UTF-8";
     public static final String FORMATO_PAGINA= "http://";
-    public static final String IP= "192.168.0.11";
+    public static String IP= "";
+   // public static final String IP= "192.168.0.11";
     public static final String PUERTO = "8080";
     public static final String BASE = "/RestaurantServer/api";
     public static final String HEADER_POST_ACCEPT = "Accept";
     public static final String HEADER_POST_ACCEPT_VALUE = "application/json";
     public static final String HEADER_POST_TYPE = "Content-type";
     public static final String HEADER_POST_TYPE_VALUE = "application/json";
-    public static final String ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;
+    public static  String  ACCESO_API;
     public static final String ERROR_RESPUESTA_API= "detailMessage";
     public static final String UNIR_PARAMETROS ="&"; 
     public static final String GET_PARAMETROS ="?"; 
     
+    
+    public static void setIP(String ipv6){
+    	IP = ipv6;
+    	ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;ACCESO_API = FORMATO_PAGINA + IP +":"+ PUERTO + BASE;
+    }
     
     
     @SuppressWarnings("deprecation")

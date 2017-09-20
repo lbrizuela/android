@@ -71,6 +71,10 @@ public class Teclado extends Activity {
 	    case Util.FINALIZAR_PEDIDO:
 			titulo.setText("Ingrese clave Mozo:");	
 			break;
+			
+	    case Util.IPv4:
+			titulo.setText("Ingresar");	
+			break;
 		}
 		
 		/*case Util.TECLADO_EMAIL_EMPRESA:
@@ -180,6 +184,23 @@ public class Teclado extends Activity {
 						 * R.string.numero_mac_invalido),
 						 * Util.TOAST_MENSAJE_ADVERTENCIA);
 						 */
+					}
+
+					break;
+					
+					
+				case Util.IPv4:
+					if (!textoIngresado.equals("")) {
+
+						i = new Intent();
+						i.putExtra("clave", Util.IPv4);
+						i.putExtra("resultado", textoIngresado);
+						setResult(Teclado.RESULT_OK, i);
+						finish();
+						
+					} else {
+
+						Toast.makeText(mContext, "Por favor, Ingese un IPv4", Toast.LENGTH_LONG).show();
 					}
 
 					break;

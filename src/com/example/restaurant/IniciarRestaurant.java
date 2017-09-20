@@ -22,18 +22,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MozoLogin extends Activity {
+public class IniciarRestaurant extends Activity {
 	
-	TextView idMozo;
-	Context mContext;
-	ImageButton botonOk, botonBlack;
-	SharedPreference instanciaShare;
+	private TextView idIPv4 , titulo;
+	private Context mContext;
+	private ImageButton botonOk, botonBlack;
+	private SharedPreference instanciaShare;
 	protected WakeLock wakelock;
 	private Views views;
-    boolean vistas = true;
-    public int request_code = 1;
-    public String codigoSeguridad="";
-    private ProgressBar pgDone, pgVolver;
+	private boolean vistas = true;
+	private  int request_code = 1;
+	private String codigoSeguridad;
+	
+   
+
     
 
 	@Override
@@ -45,20 +47,20 @@ public class MozoLogin extends Activity {
 		mContext= getApplicationContext();
 		instanciaShare= new SharedPreference(mContext);
 		views = Views.getInstance(getApplicationContext());
-		idMozo = (TextView) findViewById(R.id.tv_ingresado);
+		titulo= (TextView)findViewById(R.id.tv_titulo);
+		idIPv4 = (TextView) findViewById(R.id.tv_ingresado);
 		botonOk= (ImageButton)findViewById(R.id.mozo_btn_aceptar);
 		botonBlack= (ImageButton) findViewById(R.id.mozo_btn_volver);
-		pgVolver = (ProgressBar) findViewById(R.id.mozo_pg_volver);
-		pgDone = (ProgressBar) findViewById(R.id.mozo_pg_aceptar);
+		titulo.setText("Ingresar IPv4");
 		
-		idMozo.setOnClickListener(new OnClickListener() {
+		idIPv4.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 			
 				Intent i = new Intent(mContext, Teclado.class);
-				i.putExtra("enviar", Util.ID_MOZO);
+				i.putExtra("enviar", Util.IPv4);
 				startActivityForResult(i,request_code);
 				
 			}
@@ -82,11 +84,10 @@ public class MozoLogin extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-			   if(!codigoSeguridad.equals("")){
-				bloquearPantalla(true);
-				new RestMozo().execute();
-				
-			   }
+			   instanciaShare.ingresarIPv4(codigoSeguridad);
+			   Intent intent = new Intent(mContext, MainActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		});
 		 
@@ -123,17 +124,16 @@ public class MozoLogin extends Activity {
 		if (resultCode == RESULT_OK) {
 			resultado = intent.getIntExtra("clave", 0);
 
-			if (resultado == Util.ID_MOZO) {
+			if (resultado == Util.IPv4) {
 				String id = intent.getStringExtra("resultado");
 				codigoSeguridad = id;
-				idMozo.setText(id);
+				idIPv4.setText(id);
 			} else if (resultado == Util.SALIR) {
 
 				boolean salir = intent.getBooleanExtra("resultado", false);
 				if (salir) {
 					
-					instanciaShare.limpiarIPv6();
-
+					
 					Views views = Views.getInstance(mContext);
 					views.removerViewStatusBar();
 					views.removerViewNavegationBar();
@@ -151,67 +151,9 @@ public class MozoLogin extends Activity {
 		
 	}
 	
-	public void bloquearPantalla(boolean bloqueo){
-		
-		if(bloqueo){
-			pgDone.setVisibility(View.VISIBLE);
-			pgVolver.setVisibility(View.VISIBLE);
-			idMozo.setEnabled(false);
-			botonOk.setVisibility(View.GONE);
-			botonBlack.setVisibility(View.GONE);
-		}else {
-			botonBlack.setVisibility(View.VISIBLE);
-			botonOk.setVisibility(View.VISIBLE);
-			idMozo.setEnabled(true);
-			pgVolver.setVisibility(View.GONE);
-			pgDone.setVisibility(View.GONE);
-		}
-		
-		
-	}
 	
 	
-	
-	private class RestMozo extends AsyncTask<Void, Void, Void> {
 
-		
-		public String respuesta=ApiMozo.OK; 
-		
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-		}
-
-		
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stu
-			respuesta = ApiMozo.recuperarMozo(instanciaShare,codigoSeguridad);
-			
-			
-			return null;
-		}
-		
-		
-		@Override
-		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-			if(respuesta.equals(ApiMozo.OK)){
-				
-				Intent intent = new Intent(mContext, MainActivity.class);
-				startActivity(intent);
-				finish();
-			}else {
-				Toast.makeText(mContext, "OCURRIO UN ERROR: " + respuesta, Toast.LENGTH_LONG).show();;
-				bloquearPantalla(false);
-			}
-		}
-
-		
-	}
 
 
 
@@ -219,7 +161,7 @@ public class MozoLogin extends Activity {
 	private void fullScreen() {
 		try {
 			// HIDE STATUS BAR Y BOTONES VIRTUALES
-			MozoLogin.this
+			IniciarRestaurant.this
 					.getWindow()
 					.getDecorView()
 					.setSystemUiVisibility(

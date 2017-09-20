@@ -71,12 +71,15 @@ public class TecladoChico extends Activity {
 				
 				String cantidad = edCantConmensales.getText().toString();
 				if(!cantidad.equals("")){
-					
-					Intent i = new Intent();
-					i.putExtra("clave", Util.CANTIDAD_COMENSALES);
-					i.putExtra("resultado", cantidad);
-					setResult(Teclado.RESULT_OK, i);
-					finish();
+					if(!cantidad.substring(0,1).equals("0")){
+						Intent i = new Intent();
+						i.putExtra("clave", Util.CANTIDAD_COMENSALES);
+						i.putExtra("resultado", cantidad);
+						setResult(Teclado.RESULT_OK, i);
+						finish();
+					}else {
+						Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+					}
 				}else {
 					Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
 				}

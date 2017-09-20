@@ -37,7 +37,7 @@ public class SharedPreference {
 	////private static final String ID_MOZO_PEDIDO= "id_mozo_pedido";
 	private static final String ID_MEZA_PADRE_PEDIDO= "id_mesa_padre_pedido";
 	
-	
+	private static final String IPv4= "ipv6";
 	
 	
 	
@@ -67,11 +67,33 @@ public class SharedPreference {
 	}
 
 
-//	private SharedPreferences getSettings() {
-//		return context.getSharedPreferences(SHARED_PREFS_FILE, MODE_PRIVATE);
-//	}
+    private SharedPreferences getSettings() {
+		return context.getSharedPreferences(SHARED_PREFS_FILE, MODE_PRIVATE);
+	}
 	
 	
+    
+    
+    ///IPV4
+    public void ingresarIPv4(String ipv4){
+    	
+    	SharedPreferences.Editor editor = getSettings().edit();
+    	editor.putString(IPv4, ipv4);
+    	editor.commit();
+    }
+    
+    
+ public String recuperarIPv4(){
+    	
+    	return getSettings().getString(IPv4, "");
+    }
+    
+    public void limpiarIPv6(){
+    	
+    	SharedPreferences.Editor editor = getSettings().edit();
+    	editor.clear();
+    	editor.commit();
+    }
 	
 
 	////Mozo

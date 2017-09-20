@@ -2,6 +2,7 @@ package com.example.restaurant;
 
 import java.util.Calendar;
 
+import com.example.api.ManagerApi;
 import com.example.clases.Util;
 import com.example.sharedpreferences.SharedPreference;
 
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,68 +32,80 @@ public class MainActivity extends Activity {
 	public TextView fecha_hora;
 	public ImageButton carroCompra , llamarMozo;
 	public int request_code = 1;
+	
+	private TabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
     
+        
         mContext= getApplicationContext();
         instanciaShare= new SharedPreference(mContext);
         
+        ManagerApi.setIP(instanciaShare.recuperarIPv4());
         
-        if(!instanciaShare.recuperarLoginMozo()){
-     
-        	Intent i = new Intent(mContext, MozoLogin.class);
+        if (instanciaShare.recuperarIPv4().equals("")) {
+        	
+        	Intent i = new Intent(mContext, IniciarRestaurant.class);
         	startActivity(i);
         	finish();
-        }else{ if(!instanciaShare.recuperarInicioPedido()){
-        		
-        		Intent i = new Intent(mContext, EmprezarPedido.class);
-            	startActivity(i);
-            	finish();
-        		
-        	}else {
-        	
-        	setContentView(R.layout.menu_principal);
-        	views = Views.getInstance(getApplicationContext());
-        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
-        	carroCompra =(ImageButton)findViewById(R.id.img_carro_compra);
-        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
-        	fechaHora();
-        	
-        	carroCompra.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					
-					Intent i= new Intent(mContext, CarroCompra.class);
-					startActivity(i);
-					
-					
-				}
-			});
-        	
-        	llamarMozo.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					Intent i= new Intent(mContext, LlamarMozo.class);
-					startActivityForResult(i, request_code);
-					
-					
-					
-				}
-			});
-        	
-        	
-        	
-        	
-        	}
-        	
-        }
+			
+		}else if(!instanciaShare.recuperarLoginMozo()){
+	     
+	        	Intent i = new Intent(mContext, MozoLogin.class);
+	        	startActivity(i);
+	        	finish();
+			   
+	            }else{ if(!instanciaShare.recuperarInicioPedido()){
+	        		
+	        		Intent i = new Intent(mContext, EmprezarPedido.class);
+	            	startActivity(i);
+	            	finish();
+	        		
+			         }else {
+			        	
+			        	setContentView(R.layout.menu_principal);
+			        	views = Views.getInstance(getApplicationContext());
+			        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
+			        	carroCompra =(ImageButton)findViewById(R.id.img_carro_compra);
+			        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
+			        	fechaHora();
+			        	
+			        	carroCompra.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								
+								Intent i= new Intent(mContext, CarroCompra.class);
+								startActivity(i);
+								
+								
+							}
+						});
+			        	
+			        	llamarMozo.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								Intent i= new Intent(mContext, LlamarMozo.class);
+								startActivityForResult(i, request_code);
+								
+								
+								
+							}
+						});
+			        	
+			        	
+			        	
+			        	
+			      }
+	        }
+	        	
+	      
         
     }
     
