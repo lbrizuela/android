@@ -30,7 +30,7 @@ public class AdapterListaSimple extends BaseAdapter {
 
     public AdapterListaSimple(Context context, List<ListaSimple> results) {
         searchArrayList = results;
-        this.mInflater = LayoutInflater.from(context);
+        ///this.mInflater = LayoutInflater.from(context);
         this.arraylist.addAll(results);
     }
 

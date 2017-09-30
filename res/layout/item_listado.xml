@@ -12,3 +12,5 @@
     android:textSize="25dp"
     android:text="item"
     android:textStyle="bold" />
+
+<!-- aca puedo hacer la cadview -->

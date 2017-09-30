@@ -45,6 +45,10 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
     
+     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FF4081</item>
+    </style>
+    
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
@@ -54,5 +58,7 @@
     	<item name="android:windowFullscreen">true</item>
     	<item name="android:windowIsFloating">false</item>
 	</style>
+	
+    
 
 </resources>

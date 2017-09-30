@@ -4,19 +4,18 @@
     android:layout_height="fill_parent"
     android:background="@color/black"
     android:orientation="horizontal"
-    android:weightSum="1" >
+    android:weightSum="1" xmlns:app="http://schemas.android.com/apk/res/com.example.restaurant">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-       
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
 
-           <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -39,26 +38,23 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
+                    android:background="@color/transparent"
                     android:paddingRight="@dimen/activity_vertical_margin_botones"
-                    android:src="@drawable/ic_bell_ring_black_48dp" 
-                    android:background="@color/transparent"/>
+                    android:src="@drawable/ic_bell_ring_black_48dp" />
 
                 <ImageButton
                     android:id="@+id/img_carro_compra"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/img_llamar_mozo"
+                    android:background="@color/transparent"
                     android:paddingRight="@dimen/activity_vertical_margin_botones"
-                    android:src="@drawable/ic_basket_black_48dp" 
-                    android:background="@color/transparent"/>
-
+                    android:src="@drawable/ic_basket_black_48dp" />
             </RelativeLayout>
-            
-            
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -70,69 +66,24 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.50"
                     android:orientation="vertical" >
-
-                    <TabHost
-                        android:id="@android:id/tabhost"
+                    
+                    
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/simpleTabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="wrap_content"
+                        app:tabMode="fixed"
+                        app:tabTextColor="#ffffff"
+                        app:tabSelectedTextColor="#ffff00"
+                        style="@style/MyCustomTabLayout"
+                         />
+                    
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                         />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical" >
-
-                            <TabWidget
-                                android:id="@android:id/tabs"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                            <FrameLayout
-                                android:id="@android:id/tabcontent"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" >
-
-                                <LinearLayout
-                                    android:id="@+id/tab1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical" >
-
-                                    <TextView
-                                        android:id="@+id/textView1"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Contenido Tab 1" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/tab2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical" >
-
-                                    <TextView
-                                        android:id="@+id/textView2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Contenido Tab 2" />
-                                </LinearLayout>
-                                
-                                <LinearLayout
-                                    android:id="@+id/tab3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical" >
-
-                                    <TextView
-                                        android:id="@+id/textView3"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Contenido Tab 3" />
-                                </LinearLayout>
-                                
-                            </FrameLayout>
-                        </LinearLayout>
-                    </TabHost>
                 </LinearLayout>
 
                 <LinearLayout
@@ -141,7 +92,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.50"
                     android:orientation="vertical" >
-                    
+
                     <ImageView
                         android:id="@+id/imagen_plato"
                         android:layout_width="match_parent"
@@ -152,31 +103,32 @@
                         android:layout_marginRight="30dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/borde_blanco" />
-                    
-                    <LinearLayout 
-                         android:layout_width="wrap_content"
-                         android:layout_height= "wrap_content"
-                         android:orientation="horizontal"
-                         android:layout_marginTop="15dp"
-                         android:layout_marginEnd="15dp">
-                        <TextView 
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
                             android:layout_width="wrap_content"
-                        	android:layout_height= "wrap_content"
-                        	android:layout_marginLeft="15dp"
-                        	android:text="Ingredientes: "
-                        	android:textColor="@color/white"
-                        	android:textSize="30dp"/>
-                        <TextView 
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text="Ingredientes: "
+                            android:textColor="@color/white"
+                            android:textSize="30dp" />
+
+                        <TextView
                             android:id="@+id/ingredientes"
                             android:layout_width="wrap_content"
-                        	android:layout_height= "wrap_content"
-                        	android:layout_marginLeft="15dp"
-                        	android:text=" oliva, tomates, harinas. "
-                        	android:textColor="@color/white"
-                        	android:textSize="30dp"/>
-                        
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:text=" oliva, tomates, harinas. "
+                            android:textColor="@color/white"
+                            android:textSize="30dp" />
                     </LinearLayout>
-                    
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -189,7 +141,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="15dp"
-                            
                             android:text="LIKES  "
                             android:textColor="@color/white"
                             android:textSize="30dp" />
@@ -199,31 +150,23 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
-                    
-                    <Button 
+
+                    <Button
                         android:id="@+id/agregar_al_carro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="15dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:layout_marginTop="15dp"
-                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/botones_grey"
                         android:gravity="center"
                         android:text="Agregar al Carro"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
-                        
-                        android:background="@drawable/botones_grey"
-                        />
-                    
-                    
-
+                        android:textSize="30dp" />
                 </LinearLayout>
             </LinearLayout>
-            
         </LinearLayout>
-
-        
 
         <LinearLayout
             android:layout_width="match_parent"

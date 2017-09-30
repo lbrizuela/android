@@ -79,6 +79,7 @@
             android:windowSoftInputMode="stateHidden" 
             ></activity>
        <activity android:name="IniciarRestaurant"></activity>
+       <activity android:name="ListaArticulos"></activity>
     </application>
 
 </manifest>
