@@ -7,6 +7,7 @@
     android:weightSum="1" xmlns:app="http://schemas.android.com/apk/res/com.example.restaurant">
 
     <FrameLayout
+        android:id="@+id/ll_mp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -62,11 +63,10 @@
 
                 <LinearLayout
                     android:id="@+id/ll_lista_platos"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.50"
+                    android:layout_width="540dp"
+                    android:layout_height="627dp"
+                    android:paddingBottom="135dp"
                     android:orientation="vertical" >
-                    
                     
                     <android.support.design.widget.TabLayout
                         android:id="@+id/simpleTabLayout"
@@ -81,8 +81,8 @@
                     <android.support.v4.view.ViewPager
                         android:id="@+id/pager"
                         android:layout_width="match_parent"
-                        android:layout_height="fill_parent"
-                         />
+                        android:layout_height="match_parent"
+                       />
 
                 </LinearLayout>
 
@@ -102,7 +102,39 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
                         android:layout_marginTop="15dp"
-                        android:background="@drawable/borde_blanco" />
+                        android:background="@drawable/borde_blanco" 
+                        android:visibility="gone"/>
+                    
+                      <RelativeLayout
+                        android:id="@+id/rl_mp_imagen"  
+                      	android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="15dp" 
+                        android:background="@drawable/borde_blanco" >
+
+                        <ProgressBar
+                            android:id="@+id/pb_mp_imagen"
+                            style="?android:attr/progressBarStyleLarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentTop="true" />
+
+                        <TextView
+                            android:id="@+id/tv_mp_imagen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/cargando_espera"
+                            android:textColor="@color/white"
+                            android:textSize="30dp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -117,7 +149,8 @@
                             android:layout_marginLeft="15dp"
                             android:text="Ingredientes: "
                             android:textColor="@color/white"
-                            android:textSize="30dp" />
+                            android:textSize="30dp" 
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/ingredientes"
@@ -126,7 +159,7 @@
                             android:layout_marginLeft="15dp"
                             android:text=" oliva, tomates, harinas. "
                             android:textColor="@color/white"
-                            android:textSize="30dp" />
+                            android:textSize="15dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,7 +185,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/agregar_al_carro"
+                        android:id="@+id/btn_mp_agregar_al_carro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
@@ -168,7 +201,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="bottom"
@@ -182,7 +215,39 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_logo" />
-        </LinearLayout>
+        </LinearLayout> 
+    </FrameLayout>
+    
+    
+    <FrameLayout
+        android:id="@+id/ll_mp_cargando"
+        android:layout_width="550dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ProgressBar
+                android:id="@+id/pb_mp_cargando_principal"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/tv_mp_textoCargando"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/cargando_espera"
+                android:textColor="@color/white"
+                android:textSize="60dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </FrameLayout>
 
 </LinearLayout>
