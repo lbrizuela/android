@@ -99,15 +99,15 @@ public class SharedPreference {
 	////Mozo
 	
 	public void insetarLoginMozo(String codigoMozo,
-			String puesto, String username, String password , String nombre,
+			String puesto, String nombre,
 			String apellido , String email, String rol, String idEntidad){
 		
 		SharedPreferences.Editor editor = getSettingsMozo().edit();
 		
 		editor.putString(CODIGO_MOZO, codigoMozo);
 		editor.putString(PUESTO_MOZO,puesto);
-		editor.putString(USUARIO_MOZO,username);
-		editor.putString(CONTRASEÑA_MOZO,password);
+		///editor.putString(USUARIO_MOZO,username);
+		////.putString(CONTRASEÑA_MOZO,password);
 		editor.putString(NOMBRE_MOZO,nombre);
 		editor.putString(APELLIDO_MOZO,apellido);
 		editor.putString(EMAIL_MOZO,email);

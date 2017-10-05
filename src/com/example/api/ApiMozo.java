@@ -71,16 +71,16 @@ public class ApiMozo {
 					////Toast.makeText(ctx, "ERROR " + error , Toast.LENGTH_LONG).show();
 				} else {
 					
-					codigoSeguridad = jsonResponse.getString(CODIGO_SEGURIDAD);
+					////codigoSeguridad = jsonResponse.getString(CODIGO_SEGURIDAD);
 					String puesto = jsonResponse.getString(PUESTO);
-					String usuario = jsonResponse.getString(USUARIO);
-					String contraseña = jsonResponse.getString(CONTRASEÑA);
+				///	String usuario = jsonResponse.getString(USUARIO);
+			////		String contraseña = jsonResponse.getString(CONTRASEÑA);
 					String nombre = jsonResponse.getString(NOMBRE);
 					String apellido = jsonResponse.getString(APELLIDO);
 					String email = jsonResponse.getString(EMAIL);
 					String rol = jsonResponse.getString(ROL);
 					String idEntidad = jsonResponse.getString(ID_ENTIDAD);
-					instanciaShare.insetarLoginMozo(codigoSeguridad, puesto, usuario, contraseña, nombre, apellido, email, rol, idEntidad);
+					instanciaShare.insetarLoginMozo(codigoSeguridad, puesto, nombre, apellido, email, rol, idEntidad);
 
 				}
 			} catch (JSONException e) {

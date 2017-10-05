@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.example.api.ApiMenus;
 import com.example.api.ManagerApi;
+import com.example.clases.Articulo;
 import com.example.clases.ListaSimple;
+import com.example.clases.Menu;
 import com.example.clases.Util;
+import com.example.clases.ViewUtilities;
 import com.example.sharedpreferences.SharedPreference;
 
 import complementos.ItemRecyclerViewAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.support.design.widget.TabLayout;
@@ -28,7 +34,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -50,13 +55,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	public int request_code = 1;
 	///TabHost.TabSpec spec; // Reusable TabSpec for each tab
     ////Intent intentHost; // Reusable Intent for each tab
-    FrameLayout simpleFrameLayout;
-    TabLayout tabLayout;
-    ViewPager viewPager ;
-    FragmentManager manager;
-    FragmentActivity activity;
-    PagerAdapter adapter;
+	private FrameLayout simpleFrameLayout;
+    private FrameLayout ll_contenido , ll_cargando;
+    private TabLayout tabLayout;
+    private ViewPager viewPager ;
+    private FragmentManager manager;
+    private FragmentActivity activity;
+    private  PagerAdapter adapter;
+    
     private android.app.ActionBar actionBar;
+    public static Menu menuActivo ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,41 +97,43 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	        		
 			         }else {
 			        	
+			        	
+			        	 
 			        	setContentView(R.layout.menu_principal);
-			        	views = Views.getInstance(getApplicationContext());
+			        	views = Views.getInstance(mContext);
+			        	manager = getSupportFragmentManager();
+			        	menuActivo = new Menu();
 			        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
 			        	carroCompra =(ImageButton)findViewById(R.id.img_carro_compra);
 			        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
+			        	ll_contenido = (FrameLayout) findViewById(R.id.ll_mp_main);
+			        	ll_cargando = (FrameLayout) findViewById(R.id.ll_mp_cargando);
+			        	tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
+			        	////tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+			            viewPager = (ViewPager) findViewById(R.id.pager);
+			        	
 			        	fechaHora();
 			        	
 			        	
 			        	///simpleFrameLayout = (FrameLayout) findViewById(R.id.simpleFrameLayout);
-			        	tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
-			            crearTab();
-			            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+			        	
+			           
 
 			            // define ViewPager
-			            final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 			        	///Agrego la informacion y la mando
-			        	DummyModel[] listModel0 = createDummyListModel("tab 0");
-			            DummyModel[] listModel1 = createDummyListModel("tab 1");
-			            DummyModel[] listModel2 = createDummyListModel("tab 2");
+//			        	DummyModel[] listModel0 = createDummyListModel("tab 0");
+//			            DummyModel[] listModel1 = createDummyListModel("tab 1");
+//			            DummyModel[] listModel2 = createDummyListModel("tab 2");
 
 			           ///// activity = new FragmentActivity(mContext);
-			            manager = getSupportFragmentManager();
+			           
 			            //  ViewPager need a PagerAdapter
 			            
-			            adapter  = new PagerAdapter(manager, tabLayout.getTabCount(), listModel0, listModel1, listModel2 );
+			            			            
+			            new RecuperarMenu().execute();
 
 			           
-
-			            // Listeners
-			           /// viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-			           
-			            viewPager.setAdapter(adapter);
-			            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-			           
-			       	
 
 			        	 tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
 							
@@ -132,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								
 								// TODO Auto-generated method stub
 								
-								viewPager.setCurrentItem(tab.getPosition());
+								
 				               
 								/*
 								Fragment fragment = null;
@@ -145,15 +155,15 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 							}
 							
 							@Override
-							public void onTabSelected(TabLayout.Tab arg0) {
+							public void onTabSelected(TabLayout.Tab tab) {
 								// TODO Auto-generated method stub
-								
+								viewPager.setCurrentItem(tab.getPosition() );
 							}
 							
 							@Override
-							public void onTabReselected(TabLayout.Tab arg0) {
+							public void onTabReselected(TabLayout.Tab tab) {
 								// TODO Auto-generated method stub
-								
+								///viewPager.setCurrentItem(tab.getPosition() );
 							}
 						});
 			        	
@@ -195,41 +205,98 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
     
     
+    private class RecuperarMenu extends AsyncTask<Void, Void, Void> {
+
+    	String respuesta="";
+    	
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			ll_cargando.setVisibility(View.VISIBLE);
+			ll_contenido.setVisibility(View.GONE);
+		}
+
+	
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			respuesta = ApiMenus.getMenu();
+			return null;
+		}
+    	
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(respuesta.equals(ApiMenus.OK)){
+				
+				ll_cargando.setVisibility(View.GONE);
+				ll_contenido.setVisibility(View.VISIBLE);
+				crearTab();
+				agregarDatos();
+				
+				
+			}else{
+				
+				Toast.makeText(mContext, respuesta, Toast.LENGTH_LONG).show();
+				instanciaShare.limpiarLoginMozo();
+				instanciaShare.limpiarPedido();
+				Intent i = new Intent(mContext, MozoLogin.class);
+	        	startActivity(i);
+	        	finish();
+			}
+		}
+    	
+    }
     
-    
-    
+    public void agregarDatos(){
+    	
+    	adapter  = new PagerAdapter(manager, tabLayout.getTabCount(), menuActivo.getSecciones());
+    	viewPager.setAdapter(adapter);
+    	viewPager.setCurrentItem(0);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        
+        ViewUtilities.waitForLayout(viewPager, new Runnable() {
+            @Override
+            public void run() {
+            	viewPager.setCurrentItem(0 , false);
+            }
+        });
+      
+
+    }
     
     @Override
-    public void onListFragmentInteraction(DummyModel model) {
+    public void onListFragmentInteraction(Articulo model) {
         // the user clicked on this item over the list
-        Toast.makeText(mContext, DummyModel.class.getSimpleName() + ":" + model.getId() + " - "  +model.getTitle(), Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, Articulo.class.getSimpleName() + ":" + model.getNombre(), Toast.LENGTH_LONG).show();
     }
 
     
-    // model for test purpose
-    private DummyModel[] createDummyListModel(String msj) {
-        List<DummyModel> l = new ArrayList<>();
-        for(int i = 0; i < 10; i++  ) {
-            l.add(new DummyModel(String.valueOf(i), "Title " + i , "Description " + i + " -" + msj));
-        }
-        return l.toArray(new DummyModel[l.size()]);
-    }
+
 
     
     
     public void crearTab(){
     	
-    	TabLayout.Tab firstTab = tabLayout.newTab();
-    	firstTab.setText("First"); // set the Text for the first Tab
-    	firstTab.setIcon(R.drawable.ic_loguin); // set an icon for the
-    	// first tab
-    	tabLayout.addTab(firstTab); // add  the tab at in the TabLayout
-        
-    	TabLayout.Tab secondTab = tabLayout.newTab();
-    	secondTab.setText("Second"); // set the Text for the second Tab
-    	secondTab.setIcon(R.drawable.ic_mail_white_48dp); // set an icon for the second tab
-    	tabLayout.addTab(secondTab); 
-        
+    	TabLayout.Tab tab;
+    	
+    	for (int i = 0 ; i < menuActivo.getSecciones().size() ; i++) {
+    		tab  = tabLayout.newTab();
+    		tab.setText(menuActivo.getSecciones().get(i).getNombre());
+    		///firstTab.setIcon(R.drawable.ic_loguin); 
+    		tabLayout.addTab(tab , i);
+		}
+    	tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    	
     }
     
     

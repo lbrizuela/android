@@ -1,5 +1,8 @@
 package complementos;
 
+import java.util.ArrayList;
+
+import com.example.clases.Articulo;
 import com.example.restaurant.DummyModel;
 import com.example.restaurant.ItemFragment;
 import com.example.restaurant.R;
@@ -15,12 +18,12 @@ import android.widget.TextView;
 
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
 
-    private final DummyModel[] dummyModels;
+    private final ArrayList<Articulo> articulos;
     private final ItemFragment.OnListFragmentInteractionListener interactionListener;
     
 
-    public ItemRecyclerViewAdapter(DummyModel[] items, ItemFragment.OnListFragmentInteractionListener listener) {
-        dummyModels = items;
+    public ItemRecyclerViewAdapter(ArrayList<Articulo> articulos, ItemFragment.OnListFragmentInteractionListener listener) {
+        this.articulos = articulos;
         interactionListener = listener;
       
     
@@ -28,16 +31,15 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_listado, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listado, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position ) {
-        DummyModel dm = dummyModels[position];
+        Articulo dm = articulos.get(position);
         holder.dummyModelItem = dm;
-        holder.titleView.setText(dm.getTitle());
+        holder.titleView.setText(dm.getNombre());
         
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +65,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     @Override
     public int getItemCount() {
-        return dummyModels.length;
+        return articulos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,7 +73,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
         
         public final TextView titleView;
         
-        public DummyModel dummyModelItem;
+        public Articulo dummyModelItem;
 
         public ViewHolder(View view) {
             super(view);

@@ -1,5 +1,7 @@
 package com.example.clases;
 
+import java.util.ArrayList;
+
 public class Articulo {
 
 	private String nombre;
@@ -9,7 +11,14 @@ public class Articulo {
 	private float calorias;
 	private int tiempoPreparacion;
 	private int cantVecesPedido;
+	private String urlImagen ;
 	private String idEntidad;
+	private ArrayList<Calificacion> calificaciones;
+	
+	public Articulo(){
+		
+		calificaciones= new ArrayList<Calificacion>();
+	}
 	
 	public String getNombre() {
 		return nombre;
@@ -53,12 +62,26 @@ public class Articulo {
 	public void setCantVecesPedido(int cantVecesPedido) {
 		this.cantVecesPedido = cantVecesPedido;
 	}
+	public String getUrlImagen() {
+		return urlImagen;
+	}
+	public void setUrlImagen(String urlImagen) {
+		this.urlImagen = urlImagen;
+	}
 	public String getIdEntidad() {
 		return idEntidad;
 	}
 	public void setIdEntidad(String idEntidad) {
 		this.idEntidad = idEntidad;
 	}
+	public ArrayList<Calificacion> getCalificaciones() {
+		return calificaciones;
+	}
+	public void setCalificaciones(ArrayList<Calificacion> calificaciones) {
+		this.calificaciones.addAll(calificaciones);
+	}
+	
+	
 	
 
   

@@ -54,7 +54,7 @@ public class EmprezarPedido extends Activity {
 	private ListView  lvListadoDesocupadas;
 
 	private AdapterListaSimple adapterDesocupado;
-	private ArrayList<ListaSimple> misLista;
+	private List<ListaSimple> misLista;
 	private ArrayList<Mesa> misListaSinSeleccionado;
 	private int totFilas, totFilasDesocupado;
 	private Button botonVincular;

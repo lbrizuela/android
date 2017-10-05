@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -16,10 +18,11 @@ import com.example.clases.ListaSimple;
 import com.example.restaurant.R;
 
 
+
 public class AdapterListaSimple extends BaseAdapter {
     private static List<ListaSimple> searchArrayList;
-    private ArrayList<ListaSimple> arraylist = new ArrayList();
-    private LayoutInflater mInflater;
+    private  ArrayList<ListaSimple> arraylist;
+    private  LayoutInflater mInflater;
 
     static class ViewHolder {
         TextView txtTitulo;
@@ -29,8 +32,9 @@ public class AdapterListaSimple extends BaseAdapter {
     }
 
     public AdapterListaSimple(Context context, List<ListaSimple> results) {
-        searchArrayList = results;
-        ///this.mInflater = LayoutInflater.from(context);
+    	searchArrayList = results;
+        this.mInflater = LayoutInflater.from(context);
+        this.arraylist   = new ArrayList<ListaSimple>();
         this.arraylist.addAll(results);
     }
 
@@ -42,16 +46,14 @@ public class AdapterListaSimple extends BaseAdapter {
         return (ListaSimple) searchArrayList.get(position);
     }
 
-    public long getItemId(int position) {
-        return (long) position;
-    }
+   
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = this.mInflater.inflate(R.layout.item_listado, null);
+            convertView = this.mInflater.inflate(R.layout.item_mesas_desocupadas, null );
             holder = new ViewHolder();
-            holder.txtTitulo = (TextView) convertView.findViewById(R.id.txt_item);
+            holder.txtTitulo = (TextView) convertView.findViewById(R.id.tv_item);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -76,5 +78,11 @@ public class AdapterListaSimple extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 

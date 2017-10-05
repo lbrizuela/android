@@ -1,5 +1,10 @@
 package com.example.restaurant;
 
+import java.util.ArrayList;
+
+import com.example.clases.Articulo;
+import com.example.clases.Seccion;
+
 import complementos.ItemRecyclerViewAdapter;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -19,8 +24,10 @@ public class ItemFragment extends Fragment {
 
 
     private static final String KEY_MODEL = "KEY_MODEL";
+    private static Seccion seccion;
+    private ArrayList<Articulo> articulos;
 
-    private DummyModel[] dummyModels;
+///    private DummyModel[] dummyModels;
     private OnListFragmentInteractionListener interactionListener;
 
     public ItemFragment() {
@@ -29,21 +36,22 @@ public class ItemFragment extends Fragment {
     /**
      * Receive the model list
      */
-    public static ItemFragment newInstance(DummyModel[] dummyModels) {
+    public static ItemFragment newInstance(Seccion seccionLlegada) {
         ItemFragment fragment = new ItemFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArray(KEY_MODEL, dummyModels);
-        fragment.setArguments(args);
+        seccion = seccionLlegada;
+       
+        /*Bundle args = new Bundle();
+        args.p;
+        fragment.setArguments(args);*/
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() == null) {
-            throw new RuntimeException("You must to send a dummyModels ");
-        }
-        dummyModels = (DummyModel[]) getArguments().getParcelableArray(KEY_MODEL);
+        
+        ////seccion = (DummyModel[]) getArguments().getParcelableArray(KEY_MODEL);
+        articulos = seccion.getArticulos();
 
     }
 
@@ -56,7 +64,7 @@ public class ItemFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_la_cardList);
         recyclerView.setHasFixedSize(true);
         
-        recyclerView.setAdapter(new ItemRecyclerViewAdapter(dummyModels, interactionListener));
+        recyclerView.setAdapter(new ItemRecyclerViewAdapter(articulos, interactionListener));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
@@ -79,7 +87,7 @@ public class ItemFragment extends Fragment {
 
 
 	public interface OnListFragmentInteractionListener {
-	       void onListFragmentInteraction(DummyModel item);
+	       void onListFragmentInteraction(Articulo item);
 	   }
 		
 
@@ -88,41 +96,15 @@ public class ItemFragment extends Fragment {
 
 
 
-    
 
-   /* @Override
-	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
-		
-		Context context  = activity.getApplicationContext();
-		super.onAttach(activity);
-        // activity must implement OnListFragmentInteractionListener
-        if ( context instanceof OnListFragmentInteractionListener) {
-            interactionListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    
-		
-	}*/
-
-/*	@Override
+   @Override
     public void onDetach() {
         super.onDetach();
         interactionListener = null;
-    }*/
+    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * <p/>
-     */
     
     
     
-   /* public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(DummyModel item);
-    }*/
-	
+ 
 }
