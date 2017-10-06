@@ -57,11 +57,11 @@ public class EmprezarPedido extends Activity {
 	private List<ListaSimple> misLista;
 	private ArrayList<Mesa> misListaSinSeleccionado;
 	private int totFilas, totFilasDesocupado;
-	private Button botonVincular;
+	private ImageButton botonVincular;
 
 	private ImageButton volver, borrarMesaPadre, btnAceptar;
 	private LinearLayout llPadre;
-	private TextView tvMesaPadre;
+	private TextView tvMesaPadre , vincular_mesas;
 	//private EditText edCantConmensales;
 	private Mesa seleccionada;
 	//private CustomKeyboard mCustomKeyboard;
@@ -97,7 +97,7 @@ public class EmprezarPedido extends Activity {
 		new RestMesas().execute();
 
 		lvListadoDesocupadas = (ListView) findViewById(R.id.lv_ep_mesas_desocupadas);
-		botonVincular = (Button) findViewById(R.id.btn_ep_vincular);
+		botonVincular = (ImageButton) findViewById(R.id.btn_ep_vincular);
 		mRecyclerView = (RecyclerView) findViewById(R.id.rv_ep_cardList);
 		btnAceptar = (ImageButton) findViewById(R.id.imgbtn_ep_aceptar);
 		volver = (ImageButton) findViewById(R.id.imgbtn_ep_salir);
@@ -105,8 +105,8 @@ public class EmprezarPedido extends Activity {
 		llPadre = (LinearLayout) findViewById(R.id.ll_ep_mostrar_padre);
 		tvMesaPadre = (TextView) findViewById(R.id.tv_ep_mesa_padre_seccionada);
 		progressAceptar =(ProgressBar) findViewById(R.id.progres_ep_aceptar);
+		vincular_mesas = (TextView) findViewById(R.id.tv_vincular_mesas);
 		
-
 		// /buscarListaDescupados();
 		seleccionada = null;
 
@@ -138,9 +138,12 @@ public class EmprezarPedido extends Activity {
 				// TODO Auto-generated method stub
 
 				if (mRecyclerView.getVisibility() == View.GONE) {
+					vincular_mesas.setTextColor(getResources().getColor(R.color.color_fondo_text));
 					listarMesasRestantes();
 				} else if (mRecyclerView.getVisibility() == View.VISIBLE) {
 					mRecyclerView.setVisibility(View.GONE);
+					vincular_mesas.setTextColor(getResources().getColor(R.color.black));
+					
 
 				}
 

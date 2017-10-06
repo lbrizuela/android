@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +55,7 @@ public class TecladoChico extends Activity {
 		edCantConmensales = (EditText) findViewById(R.id.keyboard_texto_chico);
 		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardviewchico, R.xml.qwerty_chico);
 
-		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico);
+		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico , InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 		
 		switch (modo) {
 		case Util.CANTIDAD_COMENSALES:

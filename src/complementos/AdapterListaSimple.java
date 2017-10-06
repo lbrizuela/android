@@ -51,9 +51,9 @@ public class AdapterListaSimple extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = this.mInflater.inflate(R.layout.item_mesas_desocupadas, null );
+            convertView = this.mInflater.inflate(R.layout.item_listado_mesas, null );
             holder = new ViewHolder();
-            holder.txtTitulo = (TextView) convertView.findViewById(R.id.tv_item);
+            holder.txtTitulo = (TextView) convertView.findViewById(R.id.txt_item_mesas);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

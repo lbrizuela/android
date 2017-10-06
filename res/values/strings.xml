@@ -5,6 +5,7 @@
     <string name="app_name">Restaurant</string>
     <string name="ingrese_mozo">Ingresar Mozo</string>
     <string name="mesas_desocupadas">Mesas Desocupadas</string>
+    <string name="empezar_pedido">Empezar Pedido</string>
     <string name="mesa_padre">Mesa Seleccionada : </string>
     <string name="configuracion">CONFIGURACION INICIAL</string>
     <string name="vincular_mesas">VINCULAR </string>

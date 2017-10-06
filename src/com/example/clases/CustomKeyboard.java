@@ -159,9 +159,15 @@ public class CustomKeyboard {
 
 	/** Make the CustomKeyboard invisible. */
 	public void hideCustomKeyboard() {
+		
 		mKeyboardView.setVisibility(View.GONE);
 		mKeyboardView.setEnabled(false);
 	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Register <var>EditText<var> with resource id <var>resid</var> (on the
@@ -171,7 +177,7 @@ public class CustomKeyboard {
 	 *            The resource id of the EditText that registers to the custom
 	 *            keyboard.
 	 */
-	public void registerEditText(int resid) {
+	public void registerEditText(int resid , int type) {
 		// Find the EditText 'resid'
 		EditText edittext = (EditText) mHostActivity.findViewById(resid);
 		// Make the custom keyboard appear
@@ -187,6 +193,7 @@ public class CustomKeyboard {
 					hideCustomKeyboard();
 			}
 		});
+		
 		edittext.setOnClickListener(new OnClickListener() {
 			// NOTE By setting the on click listener, we can show the custom
 			// keyboard again, by tapping on an edit box that already had focus
@@ -254,6 +261,7 @@ public class CustomKeyboard {
 		});
 		// Disable spell check (hex strings look like words to Android)
 		edittext.setInputType(edittext.getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+		///edittext.setInputType(type);
 	}
 
 }

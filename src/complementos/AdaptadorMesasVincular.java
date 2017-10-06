@@ -76,12 +76,12 @@ public class AdaptadorMesasVincular extends Adapter<AdaptadorMesasVincular.ViewH
                 @Override
                 public void onClick(View v) {
                  //   if (modoSeleccion) {
-                        if (!v.isSelected()) {
-                        	v.setSelected(true);
+                        if (!item.isSelected()) {
+                        	item.setSelected(true);
                             seleccionados.put(getAdapterPosition(), true);
                             
                         } else {
-                        	v.setSelected(false);
+                        	item.setSelected(false);
                             seleccionados.put(getAdapterPosition(), false);
                           //  if (!haySeleccionados())
                                /// modoSeleccion = false;

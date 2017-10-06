@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -109,7 +110,7 @@ public class Teclado extends Activity {
 
 		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardview, R.xml.qwerty);
 
-		mCustomKeyboard.registerEditText(R.id.keyboard_texto);
+		mCustomKeyboard.registerEditText(R.id.keyboard_texto , InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
 		btnAceptar.setOnClickListener(new View.OnClickListener() {
 			@Override

@@ -63,14 +63,24 @@
             android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-       <activity android:name="MozoLogin"></activity>
-       <activity android:name="EmprezarPedido"></activity>
+       <activity android:name="MozoLogin"
+           android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateHidden"
+           
+           ></activity>
+       <activity android:name="EmprezarPedido"
+           
+            ></activity>
        <activity android:name="CarroCompra"
            android:theme="@style/Theme.Transparent">
            
        </activity>
        <activity android:name="LlamarMozo"
-           android:theme="@style/Theme.Transparent"></activity>
+           android:theme="@style/Theme.Transparent"
+           
+           ></activity>
        <activity android:name="TecladoChico"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:label="@string/app_name"
@@ -78,7 +88,12 @@
             android:screenOrientation="sensorLandscape"
             android:windowSoftInputMode="stateHidden" 
             ></activity>
-       <activity android:name="IniciarRestaurant"></activity>
+       <activity android:name="IniciarRestaurant"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateHidden"
+           ></activity>
        <activity android:name="ListaArticulos"></activity>
     </application>
 
