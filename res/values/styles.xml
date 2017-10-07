@@ -17,6 +17,11 @@
 
         -->
     </style>
+    
+    <style name="RatingBar" parent="Theme.AppCompat">
+      <item name="colorControlActivated">@color/duskYellow</item>
+      <item name="colorControlNormal">@color/lightGrey</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -35,14 +40,17 @@
         <item name="android:textSize">40sp</item>
     </style>
 
-    <style name="Theme.Transparent" parent="AppBaseTheme">
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="Transparent" parent="AppBaseTheme">
+        <item name="android:background">@color/transparent_fondo</item>
+        <item name="android:windowNoTitle">true</item> 
         <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        
+        <item name="android:windowIsTranslucent">true</item>
+        
         <item name="android:windowAnimationStyle">@null</item>
+        
+    
+        
     </style>
     
      <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">

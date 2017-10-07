@@ -3,17 +3,38 @@
 
     
     <string name="app_name">Restaurant</string>
+    <string name="bienvenido">BIENVENIDO</string>
     <string name="ingrese_mozo">Ingresar Mozo</string>
-    <string name="mesas_desocupadas">Mesas Desocupadas</string>
+    <string name="mesas_desocupadas">Mesas Disponibles</string>
     <string name="empezar_pedido">Empezar Pedido</string>
     <string name="mesa_padre">Mesa Seleccionada : </string>
     <string name="configuracion">CONFIGURACION INICIAL</string>
     <string name="vincular_mesas">VINCULAR </string>
+    <string name="mesas_vincular">Mesas Disponibles para vincular </string>
     <string name="realizar_pedido">Pedido </string>
     <string name="cantidad_item">Cantidad: </string>
     <string name="precio_item">Precio: </string> 
-    <string name="salir">&#8592; Salir </string> 
+    <string name="pregunta_alerta">Alerta</string> 
+    <string name="pregunta_comensales">Esta seguro? \n La cantidad de comensales:  </string>
+    <string name="pregunta_finalizar_pedido">Desea finalizar el pedido &#63;  </string>
+    <string name="pregunta_pedir_actuales">Desea Realizar Pedido Actuales &#63;  </string>
+    <string name="salir">&#8592; </string> 
     <string name="pedir">&#10003; Perdir</string> 
+    <string name="pedido">Pedido</string>
+    <string name="muchas_gracias">Muchas Gracias &#33; &#33;</string> 
+    <string name="muchas_gracias_final">Muchas Gracias Por Elegirnos &#33; &#33; \n Aguarde que venga un mozo</string>
+    <string name="calificacion">Nos interesa su opinión</string> 
+    <string name="pedido_realizado">Pedido Realizado</string>
+    <string name="calificacion_atencion">Calificación Atención</string>
+    <string name="calificacion_pedido">Calificación Pedido</string>
+    <string name="subtotal_realizado">SUBTotal Realiado: &#36;</string>
+    <string name="pedido_actual">Pedido Actual</string>
+    <string name="subtotal_actual">SUBTotal Actual: &#36;</string>
+    <string name="total_pedido">Total: &#36; </string>
+    <string name="llamar_mozo">Desea llamar al mozo?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    
     <string name="aceptar">&#10003; </string>
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cargando_espera">Cargando...</string>

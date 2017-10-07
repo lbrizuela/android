@@ -22,7 +22,7 @@
     <color name="holo_blue_bright">#ff00ddff</color>
     <color name="class_zero_background">#7f040000</color>
     <color name="transparent">#00000000</color>
-    <color name="transparent_fondo">#ffffffff</color>
+    <color name="transparent_fondo">#4DFFCCBC</color>
     <color name="pink">#ff40a0</color>
     <color name="orange">#E07000</color>
     
@@ -33,7 +33,7 @@
     <color name="main_color_fondo">#F5F5F5</color>
     <color name="colorShader">#44000000</color>
     
-    
+    <color name="color_selector">#FFCCBC</color>
     <color name="color_fondo_boton">#FFCCBD</color>
     <color name="color_fondo_pantalla">#26304D</color>
     <color name="color_header_cabecera">#FF5722</color>
@@ -42,8 +42,11 @@
     <color name="color_fondo_boton_keyboard">#F7F5F5</color>
     <color name="color_borde_boton_keyboard">#BDBDBD</color>
     <color name="color_busqueda_linea">#616161</color>
-    
-    
+    <color name="color_alerta">#EEFF41</color>
+    <color name="color_verde_boton">#A5D6A7</color>
+    <color name="color_rojo_boton">#EF9A9A</color>
+    <color name="duskYellow">#FFEA00</color>
+    <color name="lightGrey">#DBDBDB</color>
     
     
     
@@ -64,7 +67,7 @@
     <color name="color_texto_deshabilitado">#A8AEBE</color>
     <color name="color_destino">#F3501D</color>
     <color name="btn">#b1b3b4</color>
-    <color name="color_header_cabecera_traslucido">#BB324065</color>
+    <color name="color_header_cabecera_traslucido">#FF00004D</color>
     
    
 
