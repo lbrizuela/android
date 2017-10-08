@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    >
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -20,9 +21,10 @@
                 android:id="@+id/txt_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                
                 android:gravity="left"
                 android:padding="10.0sp"
+                android:background="@drawable/selector_item"
                 android:paddingEnd="?android:listPreferredItemPaddingEnd"
                 android:paddingStart="?android:listPreferredItemPaddingStart"
                 android:text="item"

@@ -11,6 +11,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,12 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
 
     private final ArrayList<Articulo> articulos;
     private final ItemFragment.OnListFragmentInteractionListener interactionListener;
-    
+    private SparseBooleanArray seleccionados;
 
     public ItemRecyclerViewAdapter(ArrayList<Articulo> articulos, ItemFragment.OnListFragmentInteractionListener listener) {
         this.articulos = articulos;
         interactionListener = listener;
-      
+        seleccionados = new SparseBooleanArray();
     
     }
 
@@ -40,13 +41,22 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerVi
         Articulo dm = articulos.get(position);
         holder.dummyModelItem = dm;
         holder.titleView.setText(dm.getNombre());
-        
+              
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != interactionListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+                	 if (!holder.titleView.isSelected()) {
+                		 holder.titleView.setSelected(true);
+                         
+                     } else {
+                    	 holder.titleView.setSelected(false);
+                       
+                       
+                     }
+                	
                     interactionListener.onListFragmentInteraction(holder.dummyModelItem);
                 }
             }

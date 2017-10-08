@@ -62,15 +62,19 @@ public class Teclado extends Activity {
 		
 		switch (modo) {
 		case Util.ID_MOZO:
-			titulo.setText("Ingrese Id Mozo:");			
+			titulo.setText("Ingrese Id Mozo:");	
+			
 			break;
 			
 		case Util.SALIR:
-			titulo.setText("Ingrese clave:");	
+			titulo.setText("Ingrese clave:");
+			
 			break;
 		
-	    case Util.FINALIZAR_PEDIDO:
-			titulo.setText("Ingrese clave Mozo:");	
+	    case Util.FINALIZAR:
+			titulo.setText("Ingrese clave Finalizar Pedido:");
+			
+			
 			break;
 			
 	    case Util.IPv4:
@@ -110,7 +114,7 @@ public class Teclado extends Activity {
 
 		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardview, R.xml.qwerty);
 
-		mCustomKeyboard.registerEditText(R.id.keyboard_texto , InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+		mCustomKeyboard.registerEditText(R.id.keyboard_texto);
 
 		btnAceptar.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -162,10 +166,10 @@ public class Teclado extends Activity {
 
 					break;
 					
-				case Util.FINALIZAR_PEDIDO:
+				case Util.FINALIZAR:
 					if (!textoIngresado.equals("")) {
 						 i = getIntent();
-						i.putExtra("clave", Util.FINALIZAR_PEDIDO);
+						i.putExtra("clave", Util.FINALIZAR);
 						if (verificarClaveSalir(textoIngresado)) {
 
 							i.putExtra("resultado", true);

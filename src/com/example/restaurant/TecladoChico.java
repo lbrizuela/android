@@ -31,7 +31,9 @@ public class TecladoChico extends Activity {
 	private CustomKeyboard mCustomKeyboard;
 	private TextView titulo;
 	private Button aceptar, volver;
-	
+	private String cantidad;
+	public int request_code = 1;
+	public int modo =0;
 	
 	
 	@Override
@@ -49,18 +51,22 @@ public class TecladoChico extends Activity {
 		volver = (Button) findViewById(R.id.btn_tc_salir);
 		
 		Bundle extras = getIntent().getExtras();
-		int modo = extras.getInt("enviar");	
+		modo = extras.getInt("enviar");	
 		
 		
 		edCantConmensales = (EditText) findViewById(R.id.keyboard_texto_chico);
 		mCustomKeyboard = new CustomKeyboard(this, R.id.keyboardviewchico, R.xml.qwerty_chico);
 
-		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico , InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+		mCustomKeyboard.registerEditText(R.id.keyboard_texto_chico );
 		
 		switch (modo) {
 		case Util.CANTIDAD_COMENSALES:
 			titulo.setText(getResources().getString(R.string.cantidad_comensales));			
 			break;
+		case Util.CANTIDAD_ARTICULO:
+			titulo.setText(getResources().getString(R.string.cantidad));			
+			break;
+			
 		}
 		
 		
@@ -70,20 +76,61 @@ public class TecladoChico extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				String cantidad = edCantConmensales.getText().toString();
-				if(!cantidad.equals("")){
-					if(!cantidad.substring(0,1).equals("0")){
-						Intent i = new Intent();
-						i.putExtra("clave", Util.CANTIDAD_COMENSALES);
-						i.putExtra("resultado", cantidad);
-						setResult(Teclado.RESULT_OK, i);
-						finish();
+				
+				switch (modo) {
+				case Util.CANTIDAD_COMENSALES:
+					cantidad = edCantConmensales.getText().toString();
+					if(!cantidad.equals("")){
+						if(Integer.parseInt(cantidad) < 30){
+							if(!cantidad.substring(0,1).equals("0")){
+								Intent i = new Intent();
+								i.putExtra("clave", Util.CANTIDAD_COMENSALES);
+								i.putExtra("resultado", cantidad);
+								setResult(Teclado.RESULT_OK, i);
+								finish();
+							}else {
+								Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+							} 
+						}else {
+							Intent i = new Intent(mContext, PopUp.class);
+							i.putExtra("envia", Util.CANTIDAD_COMENSALES);
+							i.putExtra("comensales", Integer.parseInt(cantidad));
+							startActivityForResult(i, Util.CANTIDAD_COMENSALES);
+							
+						}
 					}else {
-						Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+						Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
 					}
-				}else {
-					Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
+					break;
+				case Util.CANTIDAD_ARTICULO:
+					
+					cantidad = edCantConmensales.getText().toString();
+					if(!cantidad.equals("")){
+						if(Integer.parseInt(cantidad) < 10){
+							if(!cantidad.substring(0,1).equals("0")){
+								Intent i = new Intent();
+								i.putExtra("clave", Util.CANTIDAD_ARTICULO);
+								i.putExtra("resultado", cantidad);
+								setResult(Teclado.RESULT_OK, i);
+								finish();
+							}else {
+								Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+							} 
+						}else {
+							Intent i = new Intent(mContext, PopUp.class);
+							i.putExtra("envia", Util.CANTIDAD_ARTICULO);
+							i.putExtra("comensales", Integer.parseInt(cantidad));
+							startActivityForResult(i, Util.CANTIDAD_ARTICULO);
+							
+						}
+					}else {
+						Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
+					}		
+					break;
+					
 				}
+				
+				
 				
 			}
 		});
@@ -100,6 +147,24 @@ public class TecladoChico extends Activity {
 		});
 		
 		
+	}
+
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		
+
+		if(resultCode== RESULT_OK){
+			
+			Intent i = new Intent();
+			i.putExtra("resultado", cantidad);
+			setResult(Teclado.RESULT_OK, i);
+			finish();
+			
+		}
 	}
 
 

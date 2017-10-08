@@ -1,5 +1,8 @@
 package com.example.restaurant;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -7,6 +10,7 @@ import java.util.List;
 import com.example.api.ApiMenus;
 import com.example.api.ManagerApi;
 import com.example.clases.Articulo;
+import com.example.clases.ItemPedido;
 import com.example.clases.ListaSimple;
 import com.example.clases.Menu;
 import com.example.clases.Util;
@@ -17,6 +21,9 @@ import complementos.ItemRecyclerViewAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -36,8 +43,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,9 +62,13 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	protected WakeLock wakelock;
 	private Views views;
     boolean vistas = true;
-	public TextView fecha_hora;
-	public ImageButton carroCompra , llamarMozo;
-	public int request_code = 1;
+    private TextView fecha_hora , nombre_menu , tiempo , ingredientes , precio , calorias, nombre_plato;
+	private ImageView imagen_plato;
+	private RatingBar calificacion_plato;
+	private Button agregar_carro;
+	private ImageButton carroCompra , llamarMozo;
+	private int request_code = 1;
+	private RelativeLayout progresoImagen;
 	///TabHost.TabSpec spec; // Reusable TabSpec for each tab
     ////Intent intentHost; // Reusable Intent for each tab
 	private FrameLayout simpleFrameLayout;
@@ -61,7 +77,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     private ViewPager viewPager ;
     private FragmentManager manager;
     private FragmentActivity activity;
-    private  PagerAdapter adapter;
+    private PagerAdapter adapter;
+    private LinearLayout ll_detalle_articulo;
+    private Articulo articuloPedido;
+    
+    public static  ArrayList<ItemPedido> misListaItemPedidoActuales;
+    public static ArrayList<ItemPedido> misListaItemPedidoRealizados;
     
     private android.app.ActionBar actionBar;
     public static Menu menuActivo ;
@@ -104,15 +125,28 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			        	manager = getSupportFragmentManager();
 			        	menuActivo = new Menu();
 			        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
+			        	nombre_menu = (TextView) findViewById(R.id.main_tv_nombre_menu);
+			        	
 			        	carroCompra =(ImageButton)findViewById(R.id.img_carro_compra);
 			        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
 			        	ll_contenido = (FrameLayout) findViewById(R.id.ll_mp_main);
+			        	ll_detalle_articulo = (LinearLayout) findViewById(R.id.ll_descripcion_articulo);
 			        	ll_cargando = (FrameLayout) findViewById(R.id.ll_mp_cargando);
 			        	tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
+			        	nombre_plato = (TextView) findViewById(R.id.nombre_articulo);
+			        	ingredientes = (TextView) findViewById(R.id.ingredientes);
+			        	tiempo = (TextView) findViewById(R.id.tiempo);
+			        	precio = (TextView) findViewById(R.id.precio);
+			        	calorias = (TextView) findViewById(R.id.calorias);
+			        	calificacion_plato = (RatingBar) findViewById(R.id.estrellas_plato);
+			        	imagen_plato = (ImageView) findViewById(R.id.imagen_plato);
+			        	progresoImagen = (RelativeLayout) findViewById(R.id.rl_mp_imagen);
+			        	agregar_carro =(Button) findViewById(R.id.btn_mp_agregar_al_carro);
 			        	////tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 			            viewPager = (ViewPager) findViewById(R.id.pager);
-			        	
+			            misListaItemPedidoActuales= new ArrayList<ItemPedido>();
+			            misListaItemPedidoRealizados= new ArrayList<ItemPedido>();
 			        	fechaHora();
 			        	
 			        	
@@ -176,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								
 								Intent i= new Intent(mContext, CarroCompra.class);
 								startActivity(i);
+								ll_detalle_articulo.setVisibility(View.GONE);
 								
 								
 							}
@@ -186,11 +221,24 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 							@Override
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								Intent i= new Intent(mContext, LlamarMozo.class);
-								startActivityForResult(i, request_code);
+								Intent i= new Intent(mContext, PopUp.class);
+								i.putExtra("envia", Util.LLAMAR_MOZO);
+								startActivityForResult(i, Util.LLAMAR_MOZO);
+								ll_detalle_articulo.setVisibility(View.GONE);
 								
 								
-								
+							}
+						});
+			        	
+			        	agregar_carro.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+
+								Intent i = new Intent(MainActivity.this, TecladoChico.class);
+								i.putExtra("enviar", Util.CANTIDAD_ARTICULO);
+								startActivityForResult(i,  Util.CANTIDAD_ARTICULO);
 							}
 						});
 			        	
@@ -240,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 				
 				ll_cargando.setVisibility(View.GONE);
 				ll_contenido.setVisibility(View.VISIBLE);
+				nombre_menu.setText(menuActivo.getNombre().toString());
 				crearTab();
 				agregarDatos();
 				
@@ -277,22 +326,63 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     @Override
     public void onListFragmentInteraction(Articulo model) {
         // the user clicked on this item over the list
+    	articuloPedido = model;
+    	progresoImagen.setVisibility(View.VISIBLE);
+        imagen_plato.setVisibility(View.GONE);
         Toast.makeText(mContext, Articulo.class.getSimpleName() + ":" + model.getNombre(), Toast.LENGTH_LONG).show();
+        ll_detalle_articulo.setVisibility(View.VISIBLE);
+        nombre_plato.setText(model.getNombre().toString());
+        tiempo.setText(String.valueOf(model.getTiempoPreparacion()));
+        calorias.setText(getResources().getString(R.string.calorias)+" "+String.valueOf(model.getCalorias()));
+        ingredientes.setText(model.getDescripcion().toString());
+        precio.setText(getResources().getString(R.string.precio)+" "+String.valueOf(model.getPrecio()));
+        calificacion_plato.setEnabled(false);
+        Float rating = Float.valueOf(3);
+        calificacion_plato.setRating(rating);
+        downloadFile(model.getUrlImagen());
     }
 
+    private Bitmap loadedImage;
     
+    void downloadFile(String imageHttpAddress) {
+        URL imageUrl = null;
+        try {
+            imageUrl = new URL(imageHttpAddress);
+            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+            conn.connect();
+            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
+            
+            if(loadedImage!=null){
+            	progresoImagen.setVisibility(View.GONE);
+            	imagen_plato.setImageBitmap(loadedImage);
+            	imagen_plato.setVisibility(View.VISIBLE);
+            }else{
+            	progresoImagen.setVisibility(View.GONE);
+            	imagen_plato.setVisibility(View.VISIBLE);
+            	 Toast.makeText(getApplicationContext(), "Error imagen null ", Toast.LENGTH_LONG).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "Error cargando la imagen: "+e.getMessage(), Toast.LENGTH_LONG).show();
+            progresoImagen.setVisibility(View.GONE);
+        	imagen_plato.setVisibility(View.VISIBLE);
+            e.printStackTrace();
+        }
+    }
+
 
 
     
     
     public void crearTab(){
     	
+    	
+    	
     	TabLayout.Tab tab;
     	
     	for (int i = 0 ; i < menuActivo.getSecciones().size() ; i++) {
     		tab  = tabLayout.newTab();
     		tab.setText(menuActivo.getSecciones().get(i).getNombre());
-    		///firstTab.setIcon(R.drawable.ic_loguin); 
+    		tab.setIcon(setTabImagen(menuActivo.getSecciones().get(i).getNombre())); 
     		tabLayout.addTab(tab , i);
 		}
     	tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -306,18 +396,17 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
 		
-		if(resultCode== RESULT_OK){
-			int resultado = intent.getIntExtra("clave",0);
+		if (resultCode == RESULT_OK) {
+			
 
-			if (resultado==Util.FINALIZAR_PEDIDO) {
-				
-				instanciaShare.limpiarLoginMozo();
-				instanciaShare.limpiarPedido();
-				Intent i = new Intent(mContext, MozoLogin.class);
-	        	startActivity(i);
-	        	finish();
-				
-			}
+			ll_detalle_articulo.setVisibility(View.GONE);
+			int cantidad = intent.getIntExtra("resultado", 0);
+			ItemPedido item = new ItemPedido();
+			item.setArticulo(articuloPedido);
+			item.setCantidad(cantidad);
+			item.setPrecioUnitario(articuloPedido.getPrecio());
+			misListaItemPedidoActuales.add(item);
+
 		}
 		
 	}
@@ -325,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 
 
-	
+
 
 
 
@@ -381,6 +470,49 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
         
 	}
+    
+    
+    public Drawable setTabImagen(String nombre){
+    	
+    	Drawable drawable = getResources().getDrawable(R.drawable.ic_food_black_48dp);
+    	
+    	if(nombre.equals("Minuta")){
+    		drawable= getResources().getDrawable(R.drawable.ic_food_black_48dp);
+    	}else if(nombre.equals("Gaseosas")){
+    		drawable= getResources().getDrawable(R.drawable.icono_gaseosa);
+    	}else if(nombre.equals("Bebidas alcohólicas")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_botellas);
+    	}else if(nombre.contains("VINO")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_vino);
+    	}else if(nombre.equals("Oferta")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_oferta);
+    	}else if(nombre.equals("Nuevo")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_nuevo);
+    	}else if(nombre.contains("CERVEZA")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_cerbeza);
+    	}else if(nombre.contains("POSTRE")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_postres);
+    	}else if(nombre.contains("ENSALADAS")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_ensaladas);
+    	}else if(nombre.contains("DESAYUNO")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.ic_food_croissant_black_24dp);
+    	}else if(nombre.contains("INFUSI")){
+    		
+    		drawable= getResources().getDrawable(R.drawable.icono_cafes);
+    	}
+    	return drawable;
+    	
+    	
+    	
+    }
 
 
 

@@ -2,108 +2,345 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/main_color_fondo"
     android:layout_gravity="center"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:id="@+id/ll_cc_items"
+    <LinearLayout
         android:layout_width="550dp"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="550dp"
+            android:id="@+id/ll_cc_items"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/main_color_fondo"
+            android:gravity="center"
             android:orientation="vertical" >
 
-           
             <LinearLayout
-                android:id="@+id/ll_cc_botones"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal" >
+                android:id="@+id/arriba"
+                android:layout_width="550dp"
                 
-                  <Button
-                    android:id="@+id/btn_cc_negativo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/color_btn_menu"
-                    android:gravity="center"
-                    android:text="@string/salir"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:background="@color/main_color_fondo"
+                android:orientation="vertical" >
 
-              
-                
-                <TextView
-                   android:id="@+id/ll_cc_popupconfirm"
-                   android:layout_width="300dp"
-                   android:layout_height="match_parent"
-                 
-                   android:background="@color/black"
-                   android:gravity="center"
-                   android:text="@string/realizar_pedido"
-                   android:textColor="@color/white"
-                   android:textSize="40dp" />
-                
-                 <Button
-                    android:id="@+id/btn_cc_positivo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                  
-                    android:background="@color/colorEnviar"
-                    android:gravity="center"
-                    android:text="@string/pedir"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:orientation="vertical" >
 
-                
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:background="@color/color_header_cabecera"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <ImageButton
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="5dp"
+                            android:background="@color/color_header_cabecera"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/iconos_carro_compra_blanco" />
+
+                        <TextView
+                            android:id="@+id/tv_cc_titulo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@color/transparent"
+                            android:gravity="center"
+                            android:text="@string/pedido"
+                            android:textColor="@color/color_texto"
+                            android:textSize="40sp"
+                            android:textStyle="bold|italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:background="@color/color_header_cabecera2"
+                        android:orientation="horizontal" >
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <ImageButton
+                                android:id="@+id/btn_cc_negativo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginLeft="5dp"
+                                android:background="@color/transparent"
+                                android:src="@drawable/icono_black_back" />
+                            
+                            
+                            <ProgressBar
+                                android:id="@+id/progres_cc_volver"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="left"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/color_header_cabecera2"
+                                android:visibility="gone" />
+
+                            <ImageButton
+                                android:id="@+id/btn_cc_positivo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="5dp"
+                                android:background="@color/transparent"
+                                android:src="@drawable/icono_verde_oscuro_ok" />
+
+                            <ProgressBar
+                                android:id="@+id/progres_cc_aceptar"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="16dp"
+                                android:background="@color/color_header_cabecera2"
+                                android:visibility="gone" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-       
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_cc_cardList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:scrollbars="vertical"
-                 />
-      
-            
-        </LinearLayout>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/ll_cc_cargando"
-        android:layout_width="550dp"
-        android:layout_height="match_parent"
-        android:visibility="gone" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ProgressBar
-                android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleLarge"
+            <LinearLayout
+                android:id="@+id/centro"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" />
-
-            <TextView
-                android:id="@+id/tv_textoCargando"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="@string/cargando_espera"
-                android:textColor="@color/white"
-                android:textSize="60dp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </FrameLayout>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
+                android:background="@color/main_color_fondo"
+                android:orientation="vertical" >
+                
+
+                    <LinearLayout
+                        android:id="@+id/ll_cc_cardListRealizados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="10dp"
+                        android:background="@color/main_color_fondo"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp" >
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main_color_fondo" >
+
+                            <TextView
+                                android:id="@+id/tv_cc_cardListRealizados"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:background="@color/main_color_fondo"
+                                android:gravity="center"
+                                android:text="@string/pedido_realizado"
+                                android:textColor="@color/black"
+                                android:textSize="25sp"
+                                android:textStyle="bold|italic" />
+
+                            <TextView
+                                android:id="@+id/tv_cc_subTotalcardListRealizados"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|bottom"
+                                android:paddingRight="10dp"
+                                android:gravity="center"
+                                android:background="@color/main_color_fondo"
+                                android:text="@string/subtotal_realizado"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:textStyle="bold|italic" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:background="@color/color_header_cabecera"
+                            android:orientation="horizontal"
+                            android:paddingTop="5dp" >
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:orientation="vertical"
+                            android:background="@color/main_color_fondo"
+                            android:paddingTop="10dp" >
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_cc_cardListRealizados"
+                                android:layout_width="wrap_content"
+                                android:background="@color/main_color_fondo"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="200dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="right"
+                            android:background="@color/color_header_cabecera"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:paddingTop="5dp" >
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_cc_cardListActuales"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="10dp"
+                        android:background="@color/main_color_fondo"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp" >
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                             android:background="@color/main_color_fondo" >
+
+                            <TextView
+                                android:id="@+id/tv_cc_cardListActuales"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:gravity="center"
+                                android:text="@string/pedido_actual"
+                                android:textColor="@color/black"
+                                android:background="@color/main_color_fondo"
+                                android:textSize="25sp"
+                                android:textStyle="bold|italic" />
+
+                            <TextView
+                                android:id="@+id/tv_cc_subTotalcardListActuales"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/main_color_fondo"
+                                android:layout_gravity="right|bottom"
+                                android:gravity="center"
+                                android:paddingRight="10dp"
+                                android:text="@string/subtotal_actual"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                android:textStyle="bold|italic" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:background="@color/color_header_cabecera"
+                            android:orientation="horizontal"
+                            android:paddingTop="5dp" >
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:background="@color/main_color_fondo"
+                            android:orientation="vertical"
+                            android:paddingTop="10dp" >
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_cc_cardListActuales"
+                                android:background="@color/main_color_fondo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="200dp"
+                            android:layout_height="5dp"
+                            android:layout_gravity="right"
+                            android:background="@color/color_header_cabecera"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:paddingTop="5dp" >
+                        </LinearLayout>
+                    </LinearLayout>
+              
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/abajo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:orientation="vertical"
+                android:background="@color/main_color_fondo"
+                android:padding="10dp" >
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="5dp"
+                    android:layout_gravity="right"
+                    android:background="@color/color_header_cabecera"
+                    android:orientation="horizontal"
+                    android:padding="5dp" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_cc_totalpedido"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center"
+                    android:text="@string/total_pedido"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:background="@color/main_color_fondo"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/ll_cc_cargando"
+            android:layout_width="550dp"
+            android:layout_height="match_parent"
+            android:visibility="gone" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" />
+
+                <TextView
+                    android:id="@+id/tv_textoCargando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/cargando_espera"
+                    android:textColor="@color/white"
+                    android:textSize="60dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

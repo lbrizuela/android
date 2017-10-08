@@ -16,6 +16,7 @@ import com.example.clases.ItemPedido;
 import com.example.clases.Mesa;
 import com.example.restaurant.CarroCompra;
 import com.example.restaurant.EmprezarPedido;
+import com.example.restaurant.MainActivity;
 import com.example.sharedpreferences.SharedPreference;
 
 public class ApiPedido {
@@ -98,7 +99,7 @@ public class ApiPedido {
 							itemsPedido.add(itemPedido);
 						}
 						
-						CarroCompra.misListaItemPedido.addAll(itemsPedido);
+						MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 					}else {
 						respuesta= NO_HAY_ITEM;
 					}

@@ -177,7 +177,7 @@ public class CustomKeyboard {
 	 *            The resource id of the EditText that registers to the custom
 	 *            keyboard.
 	 */
-	public void registerEditText(int resid , int type) {
+	public void registerEditText(int resid ) {
 		// Find the EditText 'resid'
 		EditText edittext = (EditText) mHostActivity.findViewById(resid);
 		// Make the custom keyboard appear

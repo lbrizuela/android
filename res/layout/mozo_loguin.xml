@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/black"
+    android:background="@color/main_color_fondo"
     android:orientation="horizontal"
     android:weightSum="1" >
 
@@ -13,53 +13,140 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.9"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin_pantalla"
-            android:paddingLeft="@dimen/activity_horizontal_margin_pantalla"
-            android:paddingRight="@dimen/activity_horizontal_margin_pantalla"
-            android:paddingTop="@dimen/activity_vertical_margin_pantalla" >
+            android:layout_gravity="top"
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:paddingBottom="30dp" >
+                android:layout_height="55dp"
+                android:background="@color/color_header_cabecera"
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/tv_titulo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="@string/ingrese_mozo"
                     android:textColor="@color/color_texto"
-                    android:textSize="50sp"
+                    android:textSize="40sp"
                     android:textStyle="bold|italic" />
             </LinearLayout>
 
-           
-
-            <TextView
-                android:id="@+id/tv_ingresado"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/activity_vertical_margin_botones"
-                android:layout_marginRight="@dimen/activity_vertical_margin_botones"
-                android:background="@color/gray"
-                android:ems="10"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="40sp"
-                 />
+                android:layout_height="60dp"
+                android:background="@color/color_header_cabecera2"
+                android:orientation="horizontal" >
 
-           
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ImageButton
+                        android:id="@+id/mozo_btn_volver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="5dp"
+                         android:background="@color/color_header_cabecera2"
+                        android:src="@drawable/icono_black_back" />
+
+                    <ProgressBar
+                        android:id="@+id/mozo_pg_volver"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="left"
+                        android:layout_marginRight="16dp"
+                         android:background="@color/color_header_cabecera2"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/mozo_btn_aceptar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="5dp"
+                         android:background="@color/color_header_cabecera2"
+                        android:src="@drawable/icono_verde_oscuro_ok" />
+
+                    <ProgressBar
+                        android:id="@+id/mozo_pg_aceptar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/color_header_cabecera2"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <ImageButton
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:layout_marginTop="105dp"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:id="@+id/ll_ml_teclado_copleto"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/keyboard_ml_texto"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin_botones"
+                        android:layout_marginRight="@dimen/activity_vertical_margin_botones"
+                        android:background="@color/color_fondo_text"
+                        android:ellipsize="start"
+                        android:gravity="center"
+                        android:hint="Codigo Seguridad"
+                        android:inputType="textPassword"
+                        android:maxLength="200"
+                        android:textColor="@color/white"
+                        android:textSize="40sp"
+                        android:textStyle="italic" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_teclado"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical"
+                        android:visibility="gone" >
+
+                        <android.inputmethodservice.KeyboardView
+                            android:id="@+id/keyboardview_ml"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/activity_vertical_margin_botones"
+                            android:layout_marginRight="0dp"
+                            android:layout_weight="0"
+                            android:background="@color/transparent"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:keyBackground="@drawable/keyboard_selected"
+                            android:keyTextColor="@color/white"
+                            android:keyTextSize="40sp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <!--
+             <ImageButton
             android:id="@+id/mozo_btn_volver"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -68,42 +155,10 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/fab_background"
             android:contentDescription=""
-            android:src="@drawable/ic_volver" />`
-            
-        <ProgressBar
-            android:id="@+id/mozo_pg_volver"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="220dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/fab_background"
-            android:contentDescription=""
-            android:visibility="gone" />
+            android:src="@drawable/ic_volver" />
+        -->
+`
 
-        <ImageButton
-            android:id="@+id/mozo_btn_aceptar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="56dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/fab_background_ingresar"
-            android:contentDescription=""
-            android:src="@drawable/ic_ingresar" />
-        
-
-        <ProgressBar
-            android:id="@+id/mozo_pg_aceptar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="56dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/fab_background_ingresar"
-            android:contentDescription=""
-            android:visibility="gone" />
-        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"

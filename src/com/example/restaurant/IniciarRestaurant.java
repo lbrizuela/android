@@ -83,7 +83,7 @@ public class IniciarRestaurant extends Activity {
 				ll_teclado.setVisibility(View.VISIBLE);
 				mCustomKeyboard = new CustomKeyboard(IniciarRestaurant.this, R.id.keyboardview_ml, R.xml.qwert2);
 
-				mCustomKeyboard.registerEditText(R.id.keyboard_ml_texto, InputType.TYPE_TEXT_VARIATION_PASSWORD);
+				mCustomKeyboard.registerEditText(R.id.keyboard_ml_texto);
 
 				
 			}

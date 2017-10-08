@@ -60,7 +60,7 @@ public class EmprezarPedido extends Activity {
 	private ImageButton botonVincular;
 
 	private ImageButton volver, borrarMesaPadre, btnAceptar;
-	private LinearLayout llPadre;
+	private LinearLayout llPadre , ll_rv;
 	private TextView tvMesaPadre , vincular_mesas;
 	//private EditText edCantConmensales;
 	private Mesa seleccionada;
@@ -106,7 +106,7 @@ public class EmprezarPedido extends Activity {
 		tvMesaPadre = (TextView) findViewById(R.id.tv_ep_mesa_padre_seccionada);
 		progressAceptar =(ProgressBar) findViewById(R.id.progres_ep_aceptar);
 		vincular_mesas = (TextView) findViewById(R.id.tv_vincular_mesas);
-		
+		ll_rv =(LinearLayout) findViewById(R.id.ll_rv_ep);
 		// /buscarListaDescupados();
 		seleccionada = null;
 
@@ -121,6 +121,7 @@ public class EmprezarPedido extends Activity {
 				Log.e("LUISINA", "Posicion " + position);
 				seleccionada = mesasLibres.get(position);
 				lvListadoDesocupadas.setVisibility(View.GONE);
+				ll_rv.setVisibility(View.GONE);
 				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.VISIBLE);
 				llPadre.setVisibility(View.VISIBLE);
@@ -137,10 +138,12 @@ public class EmprezarPedido extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				if (mRecyclerView.getVisibility() == View.GONE) {
+				if (ll_rv.getVisibility() == View.GONE) {
+					ll_rv.setVisibility(View.VISIBLE);
 					vincular_mesas.setTextColor(getResources().getColor(R.color.color_fondo_text));
 					listarMesasRestantes();
-				} else if (mRecyclerView.getVisibility() == View.VISIBLE) {
+				} else if (ll_rv.getVisibility() == View.VISIBLE) {
+					ll_rv.setVisibility(View.GONE);
 					mRecyclerView.setVisibility(View.GONE);
 					vincular_mesas.setTextColor(getResources().getColor(R.color.black));
 					
@@ -158,6 +161,7 @@ public class EmprezarPedido extends Activity {
 
 				seleccionada = null;
 				listarMesas();
+				ll_rv.setVisibility(View.GONE);
 				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.GONE);
 				llPadre.setVisibility(View.GONE);
@@ -312,6 +316,7 @@ public class EmprezarPedido extends Activity {
 				flEmpezarPedido.setVisibility(View.VISIBLE);
 				flCargando.setVisibility(View.GONE);
 				lvListadoDesocupadas.setVisibility(View.VISIBLE);
+				ll_rv.setVisibility(View.GONE);
 				mRecyclerView.setVisibility(View.GONE);
 				botonVincular.setVisibility(View.GONE);
 				listarMesas();
@@ -404,14 +409,11 @@ public class EmprezarPedido extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, intent);
 		
-		if(resultCode== RESULT_OK){
-			int resultado = intent.getIntExtra("clave",0);
+		if (resultCode == RESULT_OK) {
 
-			if (resultado==Util.CANTIDAD_COMENSALES) {
-				
-				cantidadComensales = intent.getStringExtra("resultado");			
-				new IniciarPedido().execute();
-			}
+			cantidadComensales = intent.getStringExtra("resultado");
+			new IniciarPedido().execute();
+
 		}
 		
 	}

@@ -47,7 +47,8 @@
                     android:layout_margin="10dp"
                     android:layout_toLeftOf="@+id/layout_derecha"
                     android:background="@color/white"
-                    android:inputType="textMultiLine"
+                    android:inputType="textPassword"
+
                     android:lines="3"
                     android:maxLength="200"
                     android:maxLines="3"

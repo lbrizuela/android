@@ -20,7 +20,7 @@ public class LlamarMozo extends Activity {
      private Context mContext;
      protected WakeLock wakelock;
  	 private Views views;
- 	public ImageButton volver , finalizarPedido; 
+ 	public Button volver , finalizarPedido; 
  	public Button aceptar;
  	public TextView texto ;
  	public int request_code = 1;
@@ -34,12 +34,11 @@ public class LlamarMozo extends Activity {
 		mContext = getApplicationContext();
 		instanciaShare = new SharedPreference(mContext);
 		
-		volver = (ImageButton)findViewById(R.id.imgbtn_pc_salir);
-		finalizarPedido = (ImageButton)findViewById(R.id.imgbtn_pc_finalizarPedido);
-		aceptar = (Button)findViewById(R.id.btn_pc_positivo);
-		texto = (TextView) findViewById(R.id.tv_pc_pregunta);
-		texto.setText("Desea llamar al Mozo? ");
-		aceptar.setText("SI");
+		volver = (Button)findViewById(R.id.mozo_lm_volver);
+		////finalizarPedido = (ImageButton)findViewById(R.id.imgbtn_pc_finalizarPedido);
+		aceptar = (Button)findViewById(R.id.mozo_lm_aceptar);
+		
+		
 		
 		aceptar.setOnClickListener(new View.OnClickListener() {
 			
@@ -69,7 +68,7 @@ public class LlamarMozo extends Activity {
 				
 			}
 		});
-		finalizarPedido.setOnClickListener(new View.OnClickListener() {
+		/*finalizarPedido.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -82,7 +81,7 @@ public class LlamarMozo extends Activity {
 				
 				
 			}
-		});
+		});*/
 		
 	}
 	
