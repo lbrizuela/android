@@ -14,11 +14,13 @@
     <string name="realizar_pedido">Pedido </string>
     <string name="cantidad_item">Cantidad: </string>
     <string name="precio_item">Precio: </string> 
+    
+    <string name="descripcion">Descripcion: </string>
     <string name="pregunta_alerta">Alerta</string> 
     <string name="pregunta_comensales">Esta seguro? \n La cantidad de comensales:  </string>
     <string name="pregunta_contidad">Esta seguro? \n La cantidad ingresada es:  </string>
     <string name="pregunta_finalizar_pedido">Desea finalizar el pedido &#63;  </string>
-    <string name="pregunta_pedir_actuales">Desea Realizar Pedido Actuales &#63;  </string>
+    <string name="pregunta_pedir_actuales">Desea Realizar Pedido Actual &#63;  </string>
     <string name="salir">&#8592; </string> 
     <string name="pedir">&#10003; Perdir</string> 
     <string name="pedido">Pedido</string>
@@ -36,14 +38,17 @@
     <string name="si">Si</string>
     <string name="no">No</string>
     
+    
+    <string name="se_finalizo_pedido_correctamente">"Se ha finalizado pedido correctamente"</string>
     <string name="aceptar">&#10003; </string>
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cantidad">Ingrese Cantidad </string>
     <string name="cargando_espera">Cargando...</string>
-    
+    <string name="tiempo_inicio">Inicial: </string>
+    <string name="tiempo_fin">Fin: </string>
     <string name="precio">Precio: &#36; </string>
     <string name="agregar">Agregar </string>
-    <string name="calorias">Calorias Totales: </string>
+    
     <string name="identificador_mozo">identificador</string>
   
 

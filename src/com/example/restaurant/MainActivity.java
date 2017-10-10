@@ -8,19 +8,25 @@ import java.util.Calendar;
 import java.util.List;
 
 import com.example.api.ApiMenus;
+import com.example.api.ApiOfertas;
 import com.example.api.ManagerApi;
 import com.example.clases.Articulo;
 import com.example.clases.ItemPedido;
 import com.example.clases.ListaSimple;
 import com.example.clases.Menu;
+import com.example.clases.Oferta;
 import com.example.clases.Util;
 import com.example.clases.ViewUtilities;
 import com.example.sharedpreferences.SharedPreference;
 
+import complementos.AdaptadorItemOferta;
+import complementos.AdaptadorItemPedido;
 import complementos.ItemRecyclerViewAdapter;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -40,6 +46,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,17 +64,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, ItemFragmentOferta.OnListFragmentInteractionListenerOferta {
 	
+	private String TAG ="MainActivity";
 	private SharedPreference instanciaShare;
 	private Context mContext;
 	protected WakeLock wakelock;
+    private Bitmap loadedImage;
 	private Views views;
     boolean vistas = true;
-    private TextView fecha_hora , nombre_menu , tiempo , ingredientes , precio , calorias, nombre_plato;
+    private TextView fecha_hora , nombre_menu , tiempo , ingredientes , precio , calorias, nombre_plato , restricciones;
+    private TextView nombre_oferta , tiempo_oferta, descripcion_oferta , precio_oferta , tiempo_inicio , tiempo_fin;
 	private ImageView imagen_plato;
 	private RatingBar calificacion_plato;
-	private Button agregar_carro;
+	private Button agregar_carro , agregar_carro_oferta;
 	private ImageButton carroCompra , llamarMozo;
 	private int request_code = 1;
 	private RelativeLayout progresoImagen;
@@ -78,14 +90,28 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     private FragmentManager manager;
     private FragmentActivity activity;
     private PagerAdapter adapter;
-    private LinearLayout ll_detalle_articulo;
+    private LinearLayout ll_detalle_articulo, ll_detalle_oferta , ll_tiempo_articulo, ll_tiempo_oferta  ,ll_restricion_articulo ;
     private Articulo articuloPedido;
+    private RecyclerView listaOfertas;
+    
     
     public static  ArrayList<ItemPedido> misListaItemPedidoActuales;
     public static ArrayList<ItemPedido> misListaItemPedidoRealizados;
     
     private android.app.ActionBar actionBar;
     public static Menu menuActivo ;
+    
+    public BroadcastReceiver finalizarActivity = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			menuActivo= new Menu();
+			misListaItemPedidoActuales= new ArrayList<ItemPedido>();
+			misListaItemPedidoRealizados= new ArrayList<ItemPedido>();
+			finish();
+		}
+	};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +157,11 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			        	llamarMozo =(ImageButton)findViewById(R.id.img_llamar_mozo);
 			        	ll_contenido = (FrameLayout) findViewById(R.id.ll_mp_main);
 			        	ll_detalle_articulo = (LinearLayout) findViewById(R.id.ll_descripcion_articulo);
+			        	ll_detalle_oferta = (LinearLayout) findViewById(R.id.ll_descripcion_oferta);
+			        	ll_tiempo_articulo = (LinearLayout) findViewById(R.id.ll_tiempo_articulo);
+			        	ll_tiempo_oferta = (LinearLayout) findViewById(R.id.ll_tiempo_espera);
+			        	ll_restricion_articulo = (LinearLayout) findViewById(R.id.restriccion_articulo);
+			        	
 			        	ll_cargando = (FrameLayout) findViewById(R.id.ll_mp_cargando);
 			        	tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
 			        	nombre_plato = (TextView) findViewById(R.id.nombre_articulo);
@@ -142,6 +173,18 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			        	imagen_plato = (ImageView) findViewById(R.id.imagen_plato);
 			        	progresoImagen = (RelativeLayout) findViewById(R.id.rl_mp_imagen);
 			        	agregar_carro =(Button) findViewById(R.id.btn_mp_agregar_al_carro);
+			        	restricciones = (TextView) findViewById(R.id.restricciones);
+			        	
+			        	agregar_carro_oferta =(Button) findViewById(R.id.btn_mp_agregar_al_carro_oferta);
+			        	
+			        	nombre_oferta =(TextView) findViewById(R.id.nombre_oferta);
+			        	tiempo_oferta =(TextView) findViewById(R.id.tiempo_espera_oferta);
+			        	descripcion_oferta =(TextView) findViewById(R.id.descripcion_oferta);
+			        	precio_oferta =(TextView) findViewById(R.id.precio_oferta);
+			        	tiempo_inicio =(TextView) findViewById(R.id.fecha_inicio);
+			        	tiempo_fin =(TextView) findViewById(R.id.fecha_fin);
+			        	listaOfertas = (RecyclerView) findViewById(R.id.rv_mp_cardOferta);
+			        	
 			        	////tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 			            viewPager = (ViewPager) findViewById(R.id.pager);
@@ -253,9 +296,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
     
     
+    public static void limpiarListas(){
+    	
+    	misListaItemPedidoActuales= new ArrayList<ItemPedido>();
+		misListaItemPedidoRealizados= new ArrayList<ItemPedido>();
+    }
+    
     private class RecuperarMenu extends AsyncTask<Void, Void, Void> {
 
     	String respuesta="";
+    	
     	
 		@Override
 		protected void onPreExecute() {
@@ -270,13 +320,18 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
+			
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			respuesta = ApiMenus.getMenu();
+			if(respuesta.equals(ApiMenus.OK)){
+				ApiOfertas.getOferta();
+				
+			}
 			return null;
 		}
     	
@@ -308,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     
     public void agregarDatos(){
     	
-    	adapter  = new PagerAdapter(manager, tabLayout.getTabCount(), menuActivo.getSecciones());
+    	adapter  = new PagerAdapter(manager, tabLayout.getTabCount(),menuActivo.getOfertas() ,menuActivo.getSecciones());
     	viewPager.setAdapter(adapter);
     	viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -326,68 +381,134 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     @Override
     public void onListFragmentInteraction(Articulo model) {
         // the user clicked on this item over the list
+    	ll_detalle_oferta.setVisibility(View.GONE);
     	articuloPedido = model;
     	progresoImagen.setVisibility(View.VISIBLE);
         imagen_plato.setVisibility(View.GONE);
         Toast.makeText(mContext, Articulo.class.getSimpleName() + ":" + model.getNombre(), Toast.LENGTH_LONG).show();
         ll_detalle_articulo.setVisibility(View.VISIBLE);
         nombre_plato.setText(model.getNombre().toString());
-        tiempo.setText(String.valueOf(model.getTiempoPreparacion()));
-        calorias.setText(getResources().getString(R.string.calorias)+" "+String.valueOf(model.getCalorias()));
+        if(model.getTiempoPreparacion()!=0){
+        	ll_tiempo_articulo.setVisibility(View.VISIBLE);
+        	tiempo.setText(String.valueOf(model.getTiempoPreparacion())+" minutos");
+        }else {
+        	ll_tiempo_articulo.setVisibility(View.GONE);
+        }
+        calorias.setText(String.valueOf(model.getCalorias()));
         ingredientes.setText(model.getDescripcion().toString());
         precio.setText(getResources().getString(R.string.precio)+" "+String.valueOf(model.getPrecio()));
         calificacion_plato.setEnabled(false);
         Float rating = Float.valueOf(3);
         calificacion_plato.setRating(rating);
-        downloadFile(model.getUrlImagen());
-    }
-
-    private Bitmap loadedImage;
-    
-    void downloadFile(String imageHttpAddress) {
-        URL imageUrl = null;
-        try {
-            imageUrl = new URL(imageHttpAddress);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-            
-            if(loadedImage!=null){
-            	progresoImagen.setVisibility(View.GONE);
-            	imagen_plato.setImageBitmap(loadedImage);
-            	imagen_plato.setVisibility(View.VISIBLE);
-            }else{
-            	progresoImagen.setVisibility(View.GONE);
-            	imagen_plato.setVisibility(View.VISIBLE);
-            	 Toast.makeText(getApplicationContext(), "Error imagen null ", Toast.LENGTH_LONG).show();
-            }
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "Error cargando la imagen: "+e.getMessage(), Toast.LENGTH_LONG).show();
-            progresoImagen.setVisibility(View.GONE);
-        	imagen_plato.setVisibility(View.VISIBLE);
-            e.printStackTrace();
-        }
-    }
-
-
-
-    
-    
-    public void crearTab(){
-    	
-    	
-    	
-    	TabLayout.Tab tab;
-    	
-    	for (int i = 0 ; i < menuActivo.getSecciones().size() ; i++) {
-    		tab  = tabLayout.newTab();
-    		tab.setText(menuActivo.getSecciones().get(i).getNombre());
-    		tab.setIcon(setTabImagen(menuActivo.getSecciones().get(i).getNombre())); 
-    		tabLayout.addTab(tab , i);
+        String restriccion="";
+        if(model.getRestricciones() !=null && model.getRestricciones().size() > 0) {
+        	ll_restricion_articulo.setVisibility(View.VISIBLE);
+			for (int i = 0; i < model.getRestricciones().size(); i++) {
+				restriccion = restriccion + model.getRestricciones().get(i).getNombre().toString();
+				if((i + 1) < model.getRestricciones().size()){
+					restriccion= restriccion + ", ";
+				}
+			}
+			
+		}else  {
+			ll_restricion_articulo.setVisibility(View.GONE);
 		}
-    	tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-    	
+        restricciones.setText(restriccion);
+        
+        loadedImage = Util.downloadFile(model.getUrlImagen());
+        
+        if(loadedImage!=null){
+        	progresoImagen.setVisibility(View.GONE);
+        	imagen_plato.setImageBitmap(loadedImage);
+        	imagen_plato.setVisibility(View.VISIBLE);
+        }else{
+        	progresoImagen.setVisibility(View.GONE);
+        	imagen_plato.setVisibility(View.VISIBLE);
+        	 
+        }
+        
     }
+    
+    
+    @Override
+    public void OnListFragmentInteractionListenerOferta(Oferta oferta) {
+    	
+    	
+        // the user clicked on this item over the list
+    	ll_detalle_articulo.setVisibility(View.GONE);
+    	ll_detalle_oferta.setVisibility(View.VISIBLE);
+    	nombre_oferta.setText(oferta.getNombre().toString());
+    	descripcion_oferta.setText(oferta.getDescripcion().toString());
+    	precio_oferta.setText(getResources().getString(R.string.precio)+" "+String.valueOf(oferta.getPrecio()));
+    	tiempo_inicio.setText(oferta.getFechaInicio().toString());
+    	tiempo_fin.setText(oferta.getFechaFin().toString());
+		if (oferta.getItem() != null && oferta.getItem().size() > 0) {
+			ll_tiempo_oferta.setVisibility(View.VISIBLE);
+			int tiempo = 0;
+			for (int i = 0; i < oferta.getItem().size(); i++) {
+				tiempo = tiempo
+						+ oferta.getItem().get(i).getArticulo().getTiempoPreparacion();
+
+			}
+			if(tiempo!=0){
+				tiempo_oferta.setText(String.valueOf(tiempo) + " minutos");
+			}else {
+				ll_tiempo_oferta.setVisibility(View.GONE);
+			}
+			setupRecyclerOferta(oferta);
+
+		}else{
+			ll_tiempo_oferta.setVisibility(View.GONE);
+		}
+    }
+    
+    
+    private AdaptadorItemOferta mAdapterOferta;
+
+	private void setupRecyclerOferta(Oferta oferta) {
+
+		listaOfertas.setVisibility(View.VISIBLE);
+		mAdapterOferta = new AdaptadorItemOferta(mContext,
+				oferta.getItem());
+		LayoutManager layoutManager = new LinearLayoutManager(this);
+		listaOfertas.setLayoutManager(layoutManager);
+		listaOfertas.setAdapter(mAdapterOferta);
+	}
+
+   
+    
+
+
+    
+    
+	public void crearTab() {
+
+		TabLayout.Tab tab;
+		int j = 0;
+		if (menuActivo.getOfertas() != null
+				&& menuActivo.getOfertas().size() > 0) {
+			
+			tab = tabLayout.newTab();
+			tab.setText("Oferta");
+			tab.setIcon(setTabImagen("Oferta"));
+			tabLayout.addTab(tab, j);
+			j++;
+
+		}
+		if (menuActivo.getSecciones() != null
+				&& menuActivo.getSecciones().size() > 0) {
+
+			for (int i=j; i < menuActivo.getSecciones().size(); i++) {
+				tab = tabLayout.newTab();
+				tab.setText(menuActivo.getSecciones().get(i).getNombre());
+				tab.setIcon(setTabImagen(menuActivo.getSecciones().get(i)
+						.getNombre()));
+				tabLayout.addTab(tab, i);
+			}
+		}
+		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+	}
     
     
     
@@ -455,20 +576,25 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+
 		fullScreen();
+		try {
+			registerReceiver(finalizarActivity, new IntentFilter(
+					Util.FINALIZAR_MAIN));
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, e.toString());
+		}
 		mantenerPantallaEncendida();
 		try {
 			this.views.agregarViewNavigationBar();
-		    this.views.agregarViewStatusBar();
+			this.views.agregarViewStatusBar();
 		} catch (Exception e) {
 			// TODO: handle exception
+			Log.e(TAG, e.toString());
 		}
-        this.wakelock.acquire();
-        
-        
+		this.wakelock.acquire();
 
-        
 	}
     
     
@@ -476,35 +602,35 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	
     	Drawable drawable = getResources().getDrawable(R.drawable.ic_food_black_48dp);
     	
-    	if(nombre.equals("Minuta")){
+    	if(nombre.equalsIgnoreCase("MINUTA")){
     		drawable= getResources().getDrawable(R.drawable.ic_food_black_48dp);
-    	}else if(nombre.equals("Gaseosas")){
+    	}else if(nombre.equalsIgnoreCase("GASEOSAS")){
     		drawable= getResources().getDrawable(R.drawable.icono_gaseosa);
-    	}else if(nombre.equals("Bebidas alcohólicas")){
+    	}else if(nombre.equalsIgnoreCase("Bebidas alcohólicas")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_botellas);
-    	}else if(nombre.contains("VINO")){
+    	}else if(nombre.equalsIgnoreCase("VINO")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_vino);
-    	}else if(nombre.equals("Oferta")){
+    	}else if(nombre.equalsIgnoreCase("Oferta")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_oferta);
-    	}else if(nombre.equals("Nuevo")){
+    	}else if(nombre.equalsIgnoreCase("Nuevo")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_nuevo);
-    	}else if(nombre.contains("CERVEZA")){
+    	}else if(nombre.equalsIgnoreCase("CERVEZA")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_cerbeza);
-    	}else if(nombre.contains("POSTRE")){
+    	}else if(nombre.equalsIgnoreCase("POSTRE")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_postres);
-    	}else if(nombre.contains("ENSALADAS")){
+    	}else if(nombre.equalsIgnoreCase("ENSALADAS")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_ensaladas);
-    	}else if(nombre.contains("DESAYUNO")){
+    	}else if(nombre.equalsIgnoreCase("DESAYUNO")){
     		
     		drawable= getResources().getDrawable(R.drawable.ic_food_croissant_black_24dp);
-    	}else if(nombre.contains("INFUSI")){
+    	}else if(nombre.equalsIgnoreCase("INFUSI")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_cafes);
     	}
@@ -520,6 +646,14 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		
+		try {
+			unregisterReceiver(finalizarActivity);
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, e.toString());
+		}
+		
 	}
 
 

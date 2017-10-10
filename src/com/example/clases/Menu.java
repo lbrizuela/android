@@ -6,10 +6,12 @@ public class Menu {
 	
 	private String nombre;
 	private String idEntidad;
+	private ArrayList<Oferta> ofertas;
 	private ArrayList<Seccion> secciones;
 	
 	public Menu (){
 		secciones= new ArrayList<Seccion>();
+		ofertas= new ArrayList<Oferta>();
 	}
 
 	public String getNombre() {
@@ -34,6 +36,14 @@ public class Menu {
 
 	public void setSecciones(ArrayList<Seccion> secciones) {
 		this.secciones.addAll(secciones);
+	}
+
+	public ArrayList<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(ArrayList<Oferta> ofertas) {
+		this.ofertas.addAll(ofertas);
 	}
 	
 }

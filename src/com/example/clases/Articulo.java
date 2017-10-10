@@ -14,10 +14,12 @@ public class Articulo {
 	private String urlImagen ;
 	private String idEntidad;
 	private ArrayList<Calificacion> calificaciones;
+	private ArrayList<Restriccion> restricciones;
 	
 	public Articulo(){
 		
 		calificaciones= new ArrayList<Calificacion>();
+		restricciones = new ArrayList<Restriccion>();
 	}
 	
 	public String getNombre() {
@@ -79,6 +81,14 @@ public class Articulo {
 	}
 	public void setCalificaciones(ArrayList<Calificacion> calificaciones) {
 		this.calificaciones.addAll(calificaciones);
+	}
+
+	public ArrayList<Restriccion> getRestricciones() {
+		return restricciones;
+	}
+
+	public void setRestricciones(ArrayList<Restriccion> restricciones) {
+		this.restricciones.addAll(restricciones);
 	}
 	
 	

@@ -163,12 +163,13 @@ public class MozoLogin extends Activity {
 					Views views = Views.getInstance(mContext);
 					views.removerViewStatusBar();
 					views.removerViewNavegationBar();
+					
+					sendBroadcast(new Intent(Util.FINALIZAR_MAIN));
 
 					finish();
 
 				} else {
-					Toast.makeText(mContext, "CODIGO INCORRECTO",
-							Toast.LENGTH_LONG).show();
+					Util.toastCustom(mContext, "El codigo ingresado es incorrecto", Util.TOAST_MENSAJE_ALERTA);
 				}
 
 			}
