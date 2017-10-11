@@ -31,15 +31,21 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
     private ArrayList<ItemPedido> datos;
     private Context context;
     private int resource;
-    private SparseBooleanArray seleccionados;
+    private AdapterCallback mAdapterCallback;
  
     public AdaptadorItemPedido(Context context, ArrayList<ItemPedido> datos) {
         this.context = context;
         this.datos = datos;
-        seleccionados = new SparseBooleanArray();
+        try {
+            this.mAdapterCallback = ((AdapterCallback) context);
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement AdapterCallback.");
+        }
     }
  
-   
+    public static interface AdapterCallback {
+        void onMethodCallback();
+    }
  
  
     @Override
@@ -70,9 +76,15 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
             img_borrar_item = (ImageButton) item.findViewById(R.id.borrar_item);
             progress_borrar =(ProgressBar) item.findViewById(R.id.progress_borrar_item);
             
-            tv_texto.setText(String.valueOf(os.getArticulo().getNombre()));
-            tv_cantidad.setText(tv_cantidad.getText() +" " + String.valueOf(os.getCantidad()));
-            tv_precio.setText(tv_precio.getText() +" "+ String.valueOf(os.getPrecioUnitario()));
+            
+            if(os.getArticulo() !=null){
+                tv_texto.setText(String.valueOf(os.getArticulo().getNombre()));
+             }else{
+             	 tv_texto.setText(String.valueOf(os.getOferta().getNombre()));
+             }
+            
+            tv_cantidad.setText("Cantidad: " +" " + String.valueOf(os.getCantidad()));
+            tv_precio.setText("Precio: $ " + String.valueOf(os.getPrecioUnitario()));
  
             
  
@@ -89,13 +101,6 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
         }
     }
  
-    public boolean haySeleccionados() {
-        for (int i = 0; i <= datos.size(); i++) {
-            if (seleccionados.get(i))
-                return true;
-        }
-        return false;
-    }
  
     /**Devuelve aquellos objetos marcados.*/
     public void borrarItem(int posicion){
@@ -104,7 +109,14 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
        datos.remove(itemPedidoBorrado);
        notifyItemRemoved(posicion);
        notifyItemRangeChanged(posicion, getItemCount() - posicion);
+       try {
+           mAdapterCallback.onMethodCallback();
+       } catch (ClassCastException exception) {
+          // do something
+       }
     }
+    
+    
 
 	@Override
 	public int getItemCount() {

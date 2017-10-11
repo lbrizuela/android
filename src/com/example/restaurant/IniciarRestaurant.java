@@ -160,8 +160,9 @@ public class IniciarRestaurant extends Activity {
 					Views views = Views.getInstance(mContext);
 					views.removerViewStatusBar();
 					views.removerViewNavegationBar();
+					MainActivity.getInstance().finish();
 
-					finish();
+					this.finish();
 
 				} else {
 					Toast.makeText(mContext, "CODIGO INCORRECTO",

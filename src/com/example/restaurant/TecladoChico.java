@@ -66,6 +66,9 @@ public class TecladoChico extends Activity {
 		case Util.CANTIDAD_ARTICULO:
 			titulo.setText(getResources().getString(R.string.cantidad));			
 			break;
+		case Util.CANTIDAD_OFERTA:
+			titulo.setText(getResources().getString(R.string.cantidad));			
+			break;
 			
 		}
 		
@@ -84,12 +87,12 @@ public class TecladoChico extends Activity {
 						if(Integer.parseInt(cantidad) < 30){
 							if(!cantidad.substring(0,1).equals("0")){
 								Intent i = new Intent();
-								i.putExtra("clave", Util.CANTIDAD_COMENSALES);
-								i.putExtra("resultado", cantidad);
+								i.putExtra("respuesta", Util.CANTIDAD_COMENSALES);
+								i.putExtra("cantidad", cantidad);
 								setResult(Teclado.RESULT_OK, i);
 								finish();
 							}else {
-								Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+								Util.toastCustom(mContext, " Por favor, ingresé un cantidad valida" , Util.TOAST_MENSAJE_ALERTA_MENOR);
 							} 
 						}else {
 							Intent i = new Intent(mContext, PopUp.class);
@@ -99,7 +102,7 @@ public class TecladoChico extends Activity {
 							
 						}
 					}else {
-						Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
+						Util.toastCustom(mContext, " Ingrese un valor, por favor" , Util.TOAST_MENSAJE_ALERTA_MENOR);
 					}
 					break;
 				case Util.CANTIDAD_ARTICULO:
@@ -109,12 +112,12 @@ public class TecladoChico extends Activity {
 						if(Integer.parseInt(cantidad) < 10){
 							if(!cantidad.substring(0,1).equals("0")){
 								Intent i = new Intent();
-								i.putExtra("clave", Util.CANTIDAD_ARTICULO);
-								i.putExtra("resultado", cantidad);
+								i.putExtra("respuesta", Util.CANTIDAD_ARTICULO);
+								i.putExtra("cantidad", cantidad);
 								setResult(Teclado.RESULT_OK, i);
 								finish();
 							}else {
-								Toast.makeText(mContext, "Por favor ingrese un cantidad valida", Toast.LENGTH_LONG).show();
+								Util.toastCustom(mContext, " Por favor, ingresé un cantidad valida" , Util.TOAST_MENSAJE_ALERTA_MENOR);
 							} 
 						}else {
 							Intent i = new Intent(mContext, PopUp.class);
@@ -124,10 +127,36 @@ public class TecladoChico extends Activity {
 							
 						}
 					}else {
-						Toast.makeText(mContext, "Debera ingresar un valor o salir", Toast.LENGTH_LONG).show();
+						Util.toastCustom(mContext, " Ingrese un valor, por favor" , Util.TOAST_MENSAJE_ALERTA_MENOR);
 					}		
 					break;
+					case Util.CANTIDAD_OFERTA:
 					
+					cantidad = edCantConmensales.getText().toString();
+					if(!cantidad.equals("")){
+						if(Integer.parseInt(cantidad) < 10){
+							if(!cantidad.substring(0,1).equals("0")){
+								Intent i = new Intent();
+								i.putExtra("respuesta", Util.CANTIDAD_OFERTA);
+								i.putExtra("cantidad", cantidad);
+								setResult(Teclado.RESULT_OK, i);
+								finish();
+							}else {
+								Util.toastCustom(mContext, " Por favor, ingresé un cantidad valida" , Util.TOAST_MENSAJE_ALERTA_MENOR);
+								
+							} 
+						}else {
+							Intent i = new Intent(mContext, PopUp.class);
+							i.putExtra("envia", Util.CANTIDAD_OFERTA);
+							i.putExtra("comensales", Integer.parseInt(cantidad));
+							startActivityForResult(i, Util.CANTIDAD_OFERTA);
+							
+						}
+					}else {
+						Util.toastCustom(mContext, " Ingrese un valor, por favor" , Util.TOAST_MENSAJE_ALERTA_MENOR);
+						
+					}		
+					break;
 				}
 				
 				
@@ -160,7 +189,18 @@ public class TecladoChico extends Activity {
 		if(resultCode== RESULT_OK){
 			
 			Intent i = new Intent();
-			i.putExtra("resultado", cantidad);
+			
+			switch (modo) {
+			case Util.CANTIDAD_ARTICULO:
+				i.putExtra("respuesta", Util.CANTIDAD_ARTICULO);
+				break;
+			case Util.CANTIDAD_OFERTA:
+				i.putExtra("respuesta", Util.CANTIDAD_OFERTA);
+				break;
+			}
+			
+			
+			i.putExtra("cantidad", cantidad);
 			setResult(Teclado.RESULT_OK, i);
 			finish();
 			

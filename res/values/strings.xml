@@ -43,6 +43,7 @@
     <string name="aceptar">&#10003; </string>
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cantidad">Ingrese Cantidad </string>
+    <string name="cantidad_ingresada">Cantidad: </string>
     <string name="cargando_espera">Cargando...</string>
     <string name="tiempo_inicio">Inicial: </string>
     <string name="tiempo_fin">Fin: </string>

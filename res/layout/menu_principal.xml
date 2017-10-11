@@ -405,7 +405,7 @@
                                     android:id="@+id/rv_mp_cardOferta"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/color_header_cabecera2"
+                                    android:background="@color/color_selector"
                                     android:scrollbars="vertical" />
                             </LinearLayout>
 

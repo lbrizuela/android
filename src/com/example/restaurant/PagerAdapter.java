@@ -38,7 +38,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     			
     		}else {
     			
-    			ItemFragment tab = ItemFragment.newInstance(secciones.get(position));
+    			ItemFragment tab = ItemFragment.newInstance(secciones.get(position - 1));
     	         return tab;
     		}
     		

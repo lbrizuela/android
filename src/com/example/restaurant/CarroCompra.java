@@ -11,6 +11,7 @@ import com.example.clases.Util;
 import com.example.sharedpreferences.SharedPreference;
 
 import complementos.AdaptadorItemPedido;
+import complementos.AdaptadorItemPedido.AdapterCallback;
 import complementos.AdaptadorItemPedidoRealizados;
 import complementos.AdaptadorMesasVincular;
 import complementos.AdapterListaSimple;
@@ -36,7 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CarroCompra extends Activity {
+public class CarroCompra extends Activity implements AdapterCallback{
 
 	public ArrayList<ItemPedido> misListaItemPedidoRealizados;
 	public ArrayList<ItemPedido> misListaItemPedidoActuales;
@@ -210,6 +211,7 @@ public class CarroCompra extends Activity {
 				llActuales.setVisibility(View.VISIBLE);
 				setupRecyclerActuales();
 				for (int i = 0; i < misListaItemPedidoActuales.size(); i++) {
+					
 
 					subTotalA = subTotalA
 							+ Float.valueOf((misListaItemPedidoActuales.get(i).getPrecioUnitario() * misListaItemPedidoActuales.get(i).getCantidad()));
@@ -244,8 +246,7 @@ public class CarroCompra extends Activity {
 
 		} else {
 
-			Toast.makeText(mContext, " No existe pedido ", Toast.LENGTH_LONG)
-					.show();
+			Util.toastCustom(mContext, "No item ingresado", Util.TOAST_MENSAJE_INFO);
 			finish();
 
 		}
@@ -283,8 +284,7 @@ public class CarroCompra extends Activity {
 
 	private void setupRecyclerRealizados() {
 		mRecyclerViewRealizados.setVisibility(View.VISIBLE);
-		mAdapterRealizados = new AdaptadorItemPedidoRealizados(mContext,
-				misListaItemPedidoRealizados);
+		mAdapterRealizados = new AdaptadorItemPedidoRealizados(mContext, misListaItemPedidoRealizados);
 		LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerViewRealizados.setLayoutManager(layoutManager);
 		mRecyclerViewRealizados.setAdapter(mAdapterRealizados);
@@ -293,8 +293,7 @@ public class CarroCompra extends Activity {
 	private void setupRecyclerActuales() {
 
 		mRecyclerViewAcuales.setVisibility(View.VISIBLE);
-		mAdapterAcuales = new AdaptadorItemPedido(mContext,
-				misListaItemPedidoActuales);
+		mAdapterAcuales = new AdaptadorItemPedido(mContext, misListaItemPedidoActuales);
 		LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerViewAcuales.setLayoutManager(layoutManager);
 		mRecyclerViewAcuales.setAdapter(mAdapterAcuales);
@@ -323,6 +322,43 @@ public class CarroCompra extends Activity {
 		}
 		
 		
+	}
+	
+	@Override
+	public void onMethodCallback() {
+		// do something
+		if (isPedido()) {
+			if (misListaItemPedidoActuales != null
+					&& misListaItemPedidoActuales.size() > 0) {
+
+				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_okey));
+				llActuales.setVisibility(View.VISIBLE);
+				subTotalA=0;
+				for (int i = 0; i < misListaItemPedidoActuales.size(); i++) {
+
+					subTotalA = subTotalA
+							+ Float.valueOf((misListaItemPedidoActuales.get(i)
+									.getPrecioUnitario() * misListaItemPedidoActuales
+									.get(i).getCantidad()));
+				}
+			
+
+				subTotalActuales.setText(getResources().getString(
+						R.string.subtotal_actual)
+						+ " " + String.valueOf(subTotalA));
+				
+				recalcularTotal();
+
+			} else {
+				aceptarPedido.setImageDrawable(getResources().getDrawable(
+						R.drawable.icono_finalizar_pedido_negre));
+				llActuales.setVisibility(View.GONE);
+			}
+
+		} else {
+			finish();
+		}
+
 	}
 
 	

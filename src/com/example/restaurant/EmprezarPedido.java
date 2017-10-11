@@ -322,9 +322,9 @@ public class EmprezarPedido extends Activity {
 				listarMesas();
 				
 			} else {
-
-				Toast.makeText(mContext, "Error: " + respuesta,
-						Toast.LENGTH_LONG).show();
+				
+				Util.toastCustom(mContext, "Error "+respuesta, Util.TOAST_MENSAJE_ALERTA_MENOR);
+				
 				instanciaShare.limpiarLoginMozo();
 				Intent i = new Intent(mContext, MainActivity.class);
 				startActivity(i);
@@ -385,15 +385,14 @@ public class EmprezarPedido extends Activity {
 			super.onPostExecute(result);
 			
 			if (respuesta.equals(ApiPedido.OK)) {
-				
+				Util.toastCustom(mContext, "Iniciando Pedido", Util.TOAST_MENSAJE_EXITOSO);
 				Intent i = new Intent(mContext, MainActivity.class);
 				startActivity(i);
 				finish();
 				
 			} else {
+				Util.toastCustom(mContext, "Error: " + respuesta, Util.TOAST_MENSAJE_ALERTA_MENOR);
 
-				Toast.makeText(mContext, "Error: " + respuesta,
-						Toast.LENGTH_LONG).show();
 				flEmpezarPedido.setVisibility(View.VISIBLE);
 				flCargando.setVisibility(View.GONE);
 			}
@@ -411,7 +410,7 @@ public class EmprezarPedido extends Activity {
 		
 		if (resultCode == RESULT_OK) {
 
-			cantidadComensales = intent.getStringExtra("resultado");
+			cantidadComensales = intent.getStringExtra("cantidad");
 			new IniciarPedido().execute();
 
 		}

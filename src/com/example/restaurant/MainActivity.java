@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     private PagerAdapter adapter;
     private LinearLayout ll_detalle_articulo, ll_detalle_oferta , ll_tiempo_articulo, ll_tiempo_oferta  ,ll_restricion_articulo ;
     private Articulo articuloPedido;
+    private Oferta ofertaPedido;
     private RecyclerView listaOfertas;
+    private static MainActivity instance;
     
     
     public static  ArrayList<ItemPedido> misListaItemPedidoActuales;
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         super.onCreate(savedInstanceState);
         
     
-        
+        instance = this;
         mContext= getApplicationContext();
         instanciaShare= new SharedPreference(mContext);
         
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			        	views = Views.getInstance(mContext);
 			        	manager = getSupportFragmentManager();
 			        	menuActivo = new Menu();
+			        	
 			        	fecha_hora = (TextView) findViewById(R.id.main_tv_fecha_hora);
 			        	nombre_menu = (TextView) findViewById(R.id.main_tv_nombre_menu);
 			        	
@@ -284,7 +287,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								startActivityForResult(i,  Util.CANTIDAD_ARTICULO);
 							}
 						});
-			        	
+			        	agregar_carro_oferta.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								Intent i = new Intent(MainActivity.this, TecladoChico.class);
+								i.putExtra("enviar", Util.CANTIDAD_OFERTA);
+								startActivityForResult(i,  Util.CANTIDAD_OFERTA);
+							}
+						});
 			        	
 			        	
 			        	
@@ -321,12 +333,6 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			respuesta = ApiMenus.getMenu();
 			if(respuesta.equals(ApiMenus.OK)){
 				ApiOfertas.getOferta();
@@ -429,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         
     }
     
-    
+   
     @Override
     public void OnListFragmentInteractionListenerOferta(Oferta oferta) {
     	
@@ -437,6 +443,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         // the user clicked on this item over the list
     	ll_detalle_articulo.setVisibility(View.GONE);
     	ll_detalle_oferta.setVisibility(View.VISIBLE);
+    	ofertaPedido =oferta;
     	nombre_oferta.setText(oferta.getNombre().toString());
     	descripcion_oferta.setText(oferta.getDescripcion().toString());
     	precio_oferta.setText(getResources().getString(R.string.precio)+" "+String.valueOf(oferta.getPrecio()));
@@ -468,8 +475,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	private void setupRecyclerOferta(Oferta oferta) {
 
 		listaOfertas.setVisibility(View.VISIBLE);
-		mAdapterOferta = new AdaptadorItemOferta(mContext,
-				oferta.getItem());
+		mAdapterOferta = new AdaptadorItemOferta(mContext, oferta.getItem());
 		LayoutManager layoutManager = new LinearLayoutManager(this);
 		listaOfertas.setLayoutManager(layoutManager);
 		listaOfertas.setAdapter(mAdapterOferta);
@@ -498,12 +504,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		if (menuActivo.getSecciones() != null
 				&& menuActivo.getSecciones().size() > 0) {
 
-			for (int i=j; i < menuActivo.getSecciones().size(); i++) {
+			for (int i=0; i < menuActivo.getSecciones().size(); i++) {
 				tab = tabLayout.newTab();
 				tab.setText(menuActivo.getSecciones().get(i).getNombre());
-				tab.setIcon(setTabImagen(menuActivo.getSecciones().get(i)
-						.getNombre()));
-				tabLayout.addTab(tab, i);
+				tab.setIcon(setTabImagen(menuActivo.getSecciones().get(i).getNombre()));
+				tabLayout.addTab(tab, j);
+				j++;
 			}
 		}
 		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -518,15 +524,30 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		super.onActivityResult(requestCode, resultCode, intent);
 		
 		if (resultCode == RESULT_OK) {
+			int respuesta = intent.getIntExtra("respuesta", 0);
 			
+			if (respuesta == Util.CANTIDAD_ARTICULO) {
 
-			ll_detalle_articulo.setVisibility(View.GONE);
-			int cantidad = intent.getIntExtra("resultado", 0);
-			ItemPedido item = new ItemPedido();
-			item.setArticulo(articuloPedido);
-			item.setCantidad(cantidad);
-			item.setPrecioUnitario(articuloPedido.getPrecio());
-			misListaItemPedidoActuales.add(item);
+				ll_detalle_articulo.setVisibility(View.GONE);
+				int cantidad = Integer.valueOf(intent.getStringExtra("cantidad"));
+				ItemPedido item = new ItemPedido();
+				item.setArticulo(articuloPedido);
+				item.setCantidad(cantidad);
+				item.setPrecioUnitario(articuloPedido.getPrecio());
+				misListaItemPedidoActuales.add(item);
+				
+			}else if(respuesta == Util.CANTIDAD_OFERTA){
+				
+				ll_detalle_oferta.setVisibility(View.GONE);
+				int cantidad = Integer.valueOf(intent.getStringExtra("cantidad"));
+				ItemPedido item = new ItemPedido();
+				item.setOferta(ofertaPedido);
+				item.setCantidad(cantidad);
+				item.setPrecioUnitario(ofertaPedido.getPrecio());
+				misListaItemPedidoActuales.add(item);
+			}
+			
+			Util.toastCustom(mContext, "Item Agregado ", Util.TOAST_MENSAJE_EXITOSO);
 
 		}
 		
@@ -535,7 +556,9 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 
 
-
+    public static MainActivity getInstance() {
+        return instance;
+    }
 
 
 

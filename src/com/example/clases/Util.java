@@ -26,6 +26,7 @@ public class Util {
 	public static final int  LLAMAR_MOZO= 7;
 	public static final int  FINALIZAR= 8;
 	public static final int  CANTIDAD_ARTICULO = 9;
+	public static final int  CANTIDAD_OFERTA = 10;
 	
 	public static final String FINALIZAR_MAIN = "finalizar_main";
 	

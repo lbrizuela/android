@@ -1294,7 +1294,7 @@ int string abc_shareactionprovider_share_with 0x7f0b0010
 int string abc_shareactionprovider_share_with_application 0x7f0b000f
 int string abc_toolbar_collapse_description 0x7f0b0004
 int string aceptar 0x7f0b0036
-int string agregar 0x7f0b003d
+int string agregar 0x7f0b003e
 int string app_name 0x7f0b0013
 int string appbar_scrolling_view_behavior 0x7f0b0012
 int string bienvenido 0x7f0b0014
@@ -1303,12 +1303,13 @@ int string calificacion_atencion 0x7f0b002c
 int string calificacion_pedido 0x7f0b002d
 int string cantidad 0x7f0b0038
 int string cantidad_comensales 0x7f0b0037
+int string cantidad_ingresada 0x7f0b0039
 int string cantidad_item 0x7f0b001d
-int string cargando_espera 0x7f0b0039
+int string cargando_espera 0x7f0b003a
 int string configuracion 0x7f0b0019
 int string descripcion 0x7f0b001f
 int string empezar_pedido 0x7f0b0017
-int string identificador_mozo 0x7f0b003e
+int string identificador_mozo 0x7f0b003f
 int string ingrese_mozo 0x7f0b0015
 int string llamar_mozo 0x7f0b0032
 int string mesa_padre 0x7f0b0018
@@ -1321,7 +1322,7 @@ int string pedido 0x7f0b0027
 int string pedido_actual 0x7f0b002f
 int string pedido_realizado 0x7f0b002b
 int string pedir 0x7f0b0026
-int string precio 0x7f0b003c
+int string precio 0x7f0b003d
 int string precio_item 0x7f0b001e
 int string pregunta_alerta 0x7f0b0020
 int string pregunta_comensales 0x7f0b0021
@@ -1335,8 +1336,8 @@ int string si 0x7f0b0033
 int string status_bar_notification_info_overflow 0x7f0b0011
 int string subtotal_actual 0x7f0b0030
 int string subtotal_realizado 0x7f0b002e
-int string tiempo_fin 0x7f0b003b
-int string tiempo_inicio 0x7f0b003a
+int string tiempo_fin 0x7f0b003c
+int string tiempo_inicio 0x7f0b003b
 int string total_pedido 0x7f0b0031
 int string vincular_mesas 0x7f0b001a
 int style AlertDialog_AppCompat 0x7f0c0040

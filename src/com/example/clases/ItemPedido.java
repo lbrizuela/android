@@ -4,9 +4,15 @@ public class ItemPedido {
 	
 	private String idEntidad;
 	private Articulo articulo;
+	private Oferta oferta;
 	private float precioUnitario;
 	private int cantidad;
 	
+	public ItemPedido(){
+		
+		oferta=null;
+		articulo=null;
+	}
 	public String getIdEntidad() {
 		return idEntidad;
 	}
@@ -30,6 +36,12 @@ public class ItemPedido {
 	}
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+	public Oferta getOferta() {
+		return oferta;
+	}
+	public void setOferta(Oferta oferta) {
+		this.oferta = oferta;
 	}
 	
 

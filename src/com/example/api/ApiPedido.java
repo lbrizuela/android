@@ -98,7 +98,7 @@ public class ApiPedido {
 							itemPedido.setPrecioUnitario(Float.parseFloat(precio));
 							itemsPedido.add(itemPedido);
 						}
-						
+						MainActivity.misListaItemPedidoRealizados.clear();
 						MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 					}else {
 						respuesta= NO_HAY_ITEM;

@@ -163,10 +163,8 @@ public class MozoLogin extends Activity {
 					Views views = Views.getInstance(mContext);
 					views.removerViewStatusBar();
 					views.removerViewNavegationBar();
-					
-					sendBroadcast(new Intent(Util.FINALIZAR_MAIN));
-
-					finish();
+					MainActivity.getInstance().finish();
+					this.finish();
 
 				} else {
 					Util.toastCustom(mContext, "El codigo ingresado es incorrecto", Util.TOAST_MENSAJE_ALERTA);
@@ -227,12 +225,13 @@ public class MozoLogin extends Activity {
 			super.onPostExecute(result);
 			
 			if(respuesta.equals(ApiMozo.OK)){
-				
+				Util.toastCustom(mContext, "Login Correcto", Util.TOAST_MENSAJE_EXITOSO);
 				Intent intent = new Intent(mContext, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}else {
-				Toast.makeText(mContext, "OCURRIO UN ERROR: " + respuesta, Toast.LENGTH_LONG).show();;
+				Util.toastCustom(mContext, "Error: " + respuesta, Util.TOAST_MENSAJE_ALERTA_MENOR);
+				
 				bloquearPantalla(false);
 			}
 		}
