@@ -10,6 +10,7 @@ import com.example.clases.ListaSimple;
 import com.example.clases.Mesa;
 import com.example.restaurant.R;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -33,11 +34,11 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
     private int resource;
     private AdapterCallback mAdapterCallback;
  
-    public AdaptadorItemPedido(Context context, ArrayList<ItemPedido> datos) {
+    public AdaptadorItemPedido(Context context, ArrayList<ItemPedido> datos, Activity activity) {
         this.context = context;
         this.datos = datos;
         try {
-            this.mAdapterCallback = ((AdapterCallback) context);
+            this.mAdapterCallback = ((AdapterCallback) activity);
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement AdapterCallback.");
         }

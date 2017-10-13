@@ -421,18 +421,45 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		}
         restricciones.setText(restriccion);
         
-        loadedImage = Util.downloadFile(model.getUrlImagen());
+       
+        new RecuperarImagen().execute();
         
-        if(loadedImage!=null){
-        	progresoImagen.setVisibility(View.GONE);
-        	imagen_plato.setImageBitmap(loadedImage);
-        	imagen_plato.setVisibility(View.VISIBLE);
-        }else{
-        	progresoImagen.setVisibility(View.GONE);
-        	imagen_plato.setVisibility(View.VISIBLE);
-        	 
-        }
         
+    }
+    
+    
+    private class RecuperarImagen extends AsyncTask<Void, Void, Void> {
+    	
+    	
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			 loadedImage = ManagerApi.downloadFile(articuloPedido.getUrlImagen());
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			if(loadedImage!=null){
+	        	progresoImagen.setVisibility(View.GONE);
+	        	imagen_plato.setImageBitmap(loadedImage);
+	        	imagen_plato.setVisibility(View.VISIBLE);
+	        }else{
+	        	progresoImagen.setVisibility(View.GONE);
+	        	imagen_plato.setVisibility(View.VISIBLE);
+	        	 
+	        }
+		}
+    	
     }
     
    
@@ -529,22 +556,34 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			if (respuesta == Util.CANTIDAD_ARTICULO) {
 
 				ll_detalle_articulo.setVisibility(View.GONE);
+				
+				
 				int cantidad = Integer.valueOf(intent.getStringExtra("cantidad"));
-				ItemPedido item = new ItemPedido();
-				item.setArticulo(articuloPedido);
-				item.setCantidad(cantidad);
-				item.setPrecioUnitario(articuloPedido.getPrecio());
-				misListaItemPedidoActuales.add(item);
+				boolean respuestaBusqueda = buscarArticulo(cantidad);
+				if(!respuestaBusqueda){
+					ItemPedido item = new ItemPedido();
+					item.setArticulo(articuloPedido);
+					item.setCantidad(cantidad);
+					item.setPrecioUnitario(articuloPedido.getPrecio());
+					misListaItemPedidoActuales.add(item);
+				}
 				
 			}else if(respuesta == Util.CANTIDAD_OFERTA){
 				
 				ll_detalle_oferta.setVisibility(View.GONE);
 				int cantidad = Integer.valueOf(intent.getStringExtra("cantidad"));
-				ItemPedido item = new ItemPedido();
-				item.setOferta(ofertaPedido);
-				item.setCantidad(cantidad);
-				item.setPrecioUnitario(ofertaPedido.getPrecio());
-				misListaItemPedidoActuales.add(item);
+				boolean respuestaBusqueda = buscarOferta(cantidad);
+				
+				if(!respuestaBusqueda){
+					
+					ItemPedido item = new ItemPedido();
+					item.setOferta(ofertaPedido);
+					item.setCantidad(cantidad);
+					item.setPrecioUnitario(ofertaPedido.getPrecio());
+					misListaItemPedidoActuales.add(item);
+				}
+
+				
 			}
 			
 			Util.toastCustom(mContext, "Item Agregado ", Util.TOAST_MENSAJE_EXITOSO);
@@ -555,7 +594,43 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 
 
-
+    public boolean buscarArticulo(int cantidadPedido){
+    	
+    	boolean encontrado = false;
+        for (int i = 0; i <misListaItemPedidoActuales.size(); i++) {
+		   if(misListaItemPedidoActuales.get(i).getArticulo()!=null){
+			   if(misListaItemPedidoActuales.get(i).getArticulo().getIdEntidad().equals(articuloPedido.getIdEntidad())){
+				   
+				   int cantidad = misListaItemPedidoActuales.get(i).getCantidad() + cantidadPedido;
+				   misListaItemPedidoActuales.get(i).setCantidad(cantidad);
+				   encontrado=true;
+			   }
+		   }
+		
+	   }
+       return encontrado;
+    }
+    
+    
+ public boolean buscarOferta(int cantidadPedido){
+    	
+    	boolean encontrado = false;
+        for (int i = 0; i <misListaItemPedidoActuales.size(); i++) {
+        	
+		   if(misListaItemPedidoActuales.get(i).getOferta()!=null){
+			   
+			   if(misListaItemPedidoActuales.get(i).getOferta().getIdEntidad().equals(ofertaPedido.getIdEntidad())){
+				   
+				   int cantidad = misListaItemPedidoActuales.get(i).getCantidad() + cantidadPedido;
+				   misListaItemPedidoActuales.get(i).setCantidad(cantidad);
+				   encontrado=true;
+			   }
+		   }
+		
+	   }
+       return encontrado;
+    }
+    
     public static MainActivity getInstance() {
         return instance;
     }

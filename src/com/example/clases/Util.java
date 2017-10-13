@@ -70,21 +70,7 @@ public class Util {
     }
     
     
-    public static Bitmap downloadFile(String imageHttpAddress) {
-        URL imageUrl = null;
-        Bitmap loadedImage = null;
-        try {
-            imageUrl = new URL(imageHttpAddress);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.connect();
-            loadedImage = BitmapFactory.decodeStream(conn.getInputStream());
-            
-           
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return loadedImage;
-    }
+  
 
 
 	

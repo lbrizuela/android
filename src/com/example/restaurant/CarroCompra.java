@@ -7,6 +7,7 @@ import com.example.api.ApiPedido;
 import com.example.clases.Calificacion;
 import com.example.clases.ItemPedido;
 import com.example.clases.ListaSimple;
+import com.example.clases.Pedido;
 import com.example.clases.Util;
 import com.example.sharedpreferences.SharedPreference;
 
@@ -22,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -37,7 +39,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CarroCompra extends Activity implements AdapterCallback{
+public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 
 	public ArrayList<ItemPedido> misListaItemPedidoRealizados;
 	public ArrayList<ItemPedido> misListaItemPedidoActuales;
@@ -155,8 +157,8 @@ public class CarroCompra extends Activity implements AdapterCallback{
 	private class BuscarItemPedido extends AsyncTask<Void, Void, Void> {
 
 		String respuesta = "";
-		String idPedido = "2";
-		String idMozo = "1";
+		String idPedido = "";
+		String idMozo = "";
 
 		@Override
 		protected void onPreExecute() {
@@ -164,8 +166,8 @@ public class CarroCompra extends Activity implements AdapterCallback{
 			super.onPreExecute();
 			items.setVisibility(View.GONE);
 			cargando.setVisibility(View.VISIBLE);
-			// idPedido= instanciaShare.recuperarIdPedido();
-			// idMozo= instanciaShare.recuperarIdMozoPedido();
+			idPedido= instanciaShare.recuperarIdPedido();
+			idMozo= instanciaShare.recuperarIdMozo();
 
 		}
 
@@ -195,6 +197,57 @@ public class CarroCompra extends Activity implements AdapterCallback{
 			setarValoresPantalla();
 		}
 
+	}
+	
+	
+	private class RealizarItemPedido extends AsyncTask<Void, Void, Void> {
+
+		String respuesta = "";
+		String idPedido = "";
+		String idMozo = "";
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			items.setVisibility(View.GONE);
+			cargando.setVisibility(View.VISIBLE);
+			idPedido= instanciaShare.recuperarIdPedido();
+			idMozo= instanciaShare.recuperarIdMozo();
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			
+			respuesta = ApiPedido.realizarPedido(misListaItemPedidoActuales, idMozo, idPedido);
+			
+			return null;
+		}
+
+		
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			cargando.setVisibility(View.GONE);
+			items.setVisibility(View.VISIBLE);
+			if (!respuesta.equals(ApiPedido.OK)) {
+
+				Util.toastCustom(mContext, "Error: " + respuesta, Util.TOAST_MENSAJE_ALERTA_MENOR);
+				
+
+			}else{
+				Util.toastCustom(mContext, "El pedido fue realizado con exito!!", Util.TOAST_MENSAJE_EXITOSO);
+				MainActivity.misListaItemPedidoActuales.clear();
+				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_finalizar_pedido_negre));
+				llActuales.setVisibility(View.GONE);
+			}
+			
+		}
+		
+		
+		
 	}
 
 	public void setarValoresPantalla() {
@@ -256,14 +309,14 @@ public class CarroCompra extends Activity implements AdapterCallback{
 
 		boolean respuesta = true;
 
-		if (misListaItemPedidoActuales == null
-				|| misListaItemPedidoActuales.size() == 0
-				&& misListaItemPedidoRealizados == null
-				|| misListaItemPedidoRealizados.size() == 0) {
+		if (misListaItemPedidoActuales == null ||  misListaItemPedidoActuales.size() == 0)
+			if(misListaItemPedidoRealizados == null || misListaItemPedidoRealizados.size() == 0) 
+                 
+				   respuesta = false;
 
-			respuesta = false;
-
-		}
+		if(misListaItemPedidoRealizados == null || misListaItemPedidoRealizados.size() == 0) 
+			if (misListaItemPedidoActuales == null ||  misListaItemPedidoActuales.size() == 0)
+				respuesta = false;
 
 		return respuesta;
 	}
@@ -293,7 +346,7 @@ public class CarroCompra extends Activity implements AdapterCallback{
 	private void setupRecyclerActuales() {
 
 		mRecyclerViewAcuales.setVisibility(View.VISIBLE);
-		mAdapterAcuales = new AdaptadorItemPedido(mContext, misListaItemPedidoActuales);
+		mAdapterAcuales = new AdaptadorItemPedido(mContext, misListaItemPedidoActuales ,this);
 		LayoutManager layoutManager = new LinearLayoutManager(this);
 		mRecyclerViewAcuales.setLayoutManager(layoutManager);
 		mRecyclerViewAcuales.setAdapter(mAdapterAcuales);
@@ -316,7 +369,8 @@ public class CarroCompra extends Activity implements AdapterCallback{
 				
 			}else if(resultado==Util.PEDIR){
 				
-				finish();
+				
+				new RealizarItemPedido().execute();
 				
 			}
 		}
