@@ -64,78 +64,287 @@ public class ApiPedido {
 		
 	}
 	
-	public static String buscarItemsPedido( String idPedido, String idMozo){
-		
+	public static String buscarItemsPedido(String idPedido, String idMozo) {
+
 		ArrayList<ItemPedido> itemsPedido = new ArrayList<ItemPedido>();
-		String respuesta=OK;
-	
-		String respuestaApi = ManagerApi.getApi(DIRECCION_API + ManagerApi.GET_PARAMETROS + ManagerApi.getParametros(ID_PEDIDO) + idPedido + ManagerApi.UNIR_PARAMETROS + ManagerApi.getParametros(ID_USUARIO) + idMozo);
+		String respuesta = OK;
+
+		String respuestaApi = ManagerApi.getApi(DIRECCION_API
+				+ ManagerApi.GET_PARAMETROS
+				+ ManagerApi.getParametros(ID_PEDIDO) + idPedido
+				+ ManagerApi.UNIR_PARAMETROS
+				+ ManagerApi.getParametros(ID_USUARIO) + idMozo);
 
 		if (!respuestaApi.equals("")) {
-			
-			
+
 			try {
 				JSONObject jsonResponse = new JSONObject(respuestaApi);
-				
-				if (respuestaApi.contains(ManagerApi.ERROR_RESPUESTA_API)) {
-					
-					
-					respuesta = jsonResponse.getString(ManagerApi.ERROR_RESPUESTA_API);
-					
-				} else {
-					
-					JSONArray jsonArray = new JSONArray(jsonResponse.getString(ITEMS_ARTICULO));
 
-					if (jsonArray != null && jsonArray.length() > 0) {
-						ItemPedido itemPedido;
-						Articulo articulo;
-						for (int i = 0; i < jsonArray.length(); i++) {
-							JSONObject item = jsonArray.getJSONObject(i);
-							itemPedido = new ItemPedido();
-							articulo = new Articulo();
-							 
-							
-							String idEntidadItem = item.getString(ID_ENTIDAD);
-							itemPedido.setIdEntidad(idEntidadItem);
-							String cantidad = item.getString(ITEM_CANTIDAD);
-							itemPedido.setCantidad(Integer.parseInt(cantidad));
-							JSONObject art = item.getJSONObject(ITEM_ARTICULO);
-							String idArticulo = art.getString(ITEM_ARTICULO_ID_ARTICULO);
-							articulo.setIdEntidad(idArticulo);
-							String nombreArticulo = art.getString(ITEM_ARTICULO_NOMBRE);
-							articulo.setNombre(nombreArticulo);
-							itemPedido.setArticulo(articulo);
-							String precio = item.getString(ITEM_PRECIO);
-							itemPedido.setPrecioUnitario(Float.parseFloat(precio));
-							itemsPedido.add(itemPedido);
+				if (respuestaApi.contains(ManagerApi.ERROR_RESPUESTA_API)) {
+
+					respuesta = jsonResponse
+							.getString(ManagerApi.ERROR_RESPUESTA_API);
+
+				} else {
+					if (respuestaApi.contains(ITEMS_ARTICULO)) {
+						JSONArray jsonArray = new JSONArray(
+								jsonResponse.getString(ITEMS_ARTICULO));
+
+						if (jsonArray != null && jsonArray.length() > 0) {
+							ItemPedido itemPedido;
+							Articulo articulo;
+							for (int i = 0; i < jsonArray.length(); i++) {
+								JSONObject item = jsonArray.getJSONObject(i);
+								itemPedido = new ItemPedido();
+								articulo = new Articulo();
+
+								String idEntidadItem = item
+										.getString(ID_ENTIDAD);
+								itemPedido.setIdEntidad(idEntidadItem);
+								String cantidad = item.getString(ITEM_CANTIDAD);
+								itemPedido.setCantidad(Integer
+										.parseInt(cantidad));
+								JSONObject art = item
+										.getJSONObject(ITEM_ARTICULO);
+								String idArticulo = art
+										.getString(ITEM_ARTICULO_ID_ARTICULO);
+								articulo.setIdEntidad(idArticulo);
+								String nombreArticulo = art
+										.getString(ITEM_ARTICULO_NOMBRE);
+								articulo.setNombre(nombreArticulo);
+								itemPedido.setArticulo(articulo);
+								String precio = item.getString(ITEM_PRECIO);
+								itemPedido.setPrecioUnitario(Float
+										.parseFloat(precio));
+								itemsPedido.add(itemPedido);
+							}
+							// MainActivity.misListaItemPedidoRealizados.clear();
+							// MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
+						} else {
+							respuesta = NO_HAY_ITEM;
 						}
-						MainActivity.misListaItemPedidoRealizados.clear();
-						MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
-					}else {
-						respuesta= NO_HAY_ITEM;
 					}
-					
+					if (respuestaApi.contains(ITEMS_OFERTA)) {
+
+						JSONArray jsonOfertas = new JSONArray(
+								jsonResponse.getString(ITEMS_OFERTA));
+						if (jsonOfertas != null && jsonOfertas.length() > 0) {
+							for (int i = 0; i < jsonOfertas.length(); i++) {
+								JSONObject jsonItemOferta = jsonOfertas
+										.getJSONObject(i);
+								Oferta oferta;
+								ItemPedido itemOferta = new ItemPedido();
+								itemOferta.setIdEntidad(jsonItemOferta
+										.getString(ID_ENTIDAD));
+								itemOferta.setCantidad(Integer
+										.parseInt(jsonItemOferta
+												.getString(ITEM_CANTIDAD)));
+								itemOferta.setPrecioUnitario(Float
+										.parseFloat(jsonItemOferta
+												.getString(ITEM_PRECIO)));
+								oferta = new Oferta();
+								JSONObject jsonOferta = new JSONObject(
+										jsonItemOferta.getString(OFERTA));
+								oferta.setIdEntidad(jsonOferta
+										.getString(ApiOfertas.IDENTIDAD));
+								oferta.setDescripcion(jsonOferta
+										.getString(ApiOfertas.DESCRIPCION));
+								oferta.setPrecio(Float.valueOf(jsonOferta
+										.getString(ApiOfertas.PRECIO)));
+								JSONObject fechasInicio = new JSONObject(
+										jsonOferta
+												.getString(ApiOfertas.FECHA_INICIO));
+								String fechaI = fechasInicio
+										.getString(ApiOfertas.DAY)
+										+ "/"
+										+ fechasInicio
+												.getString(ApiOfertas.MONTH)
+										+ "/"
+										+ fechasInicio
+												.getString(ApiOfertas.YEAR);
+								oferta.setFechaInicio(fechaI);
+								JSONObject fechasFin = new JSONObject(
+										jsonOferta
+												.getString(ApiOfertas.FECHA_FIN));
+								String fechaF = fechasFin
+										.getString(ApiOfertas.DAY)
+										+ "/"
+										+ fechasFin.getString(ApiOfertas.MONTH)
+										+ "/"
+										+ fechasFin.getString(ApiOfertas.YEAR);
+								oferta.setFechaFin(fechaF);
+								// //
+								// oferta.setCantVecesPedido(Integer.valueOf(jsonOferta.getString(CANTIDAD_VECES_PEDIDO)));
+
+								oferta.setNombre(jsonOferta
+										.getString(ApiOfertas.NOMBRE));
+								JSONArray jsonItemsOferta = new JSONArray(
+										jsonOferta.getString(ITEMS_OFERTA));
+
+								if (jsonItemsOferta != null
+										&& jsonItemsOferta.length() > 0) {
+									ArrayList<ItemOferta> items = new ArrayList<ItemOferta>();
+
+									for (int j = 0; j < jsonItemsOferta
+											.length(); j++) {
+
+										JSONObject jsonItem = jsonItemsOferta
+												.getJSONObject(j);
+										if (jsonItem != null) {
+
+											ItemOferta item = new ItemOferta();
+											item.setCantidad(Integer.parseInt(jsonItem
+													.getString(CANTIDAD)));
+											JSONObject jsonArticulo = new JSONObject(
+													jsonItem.getString(ApiOfertas.ARTICULO));
+
+											if (jsonArticulo != null) {
+
+												Articulo articulo = new Articulo();
+												articulo.setIdEntidad(jsonArticulo
+														.getString(ApiOfertas.IDENTIDAD));
+												articulo.setNombre(jsonArticulo
+														.getString(ApiOfertas.NOMBRE));
+												articulo.setDescripcion(jsonArticulo
+														.getString(ApiOfertas.DESCRIPCION));
+												articulo.setTipoArticulo(jsonArticulo
+														.getString(ApiOfertas.TIPO_ARTICULO));
+												articulo.setUrlImagen(jsonArticulo
+														.getString(ApiOfertas.URL_IMAGEN));
+												articulo.setPrecio(Float.valueOf(jsonArticulo
+														.getString(ApiOfertas.PRECIO)));
+												articulo.setTiempoPreparacion(Integer.parseInt(jsonArticulo
+														.getString(ApiOfertas.TIEMPO_PREPARACION)));
+												articulo.setCalorias(Float.valueOf(jsonArticulo
+														.getString(ApiOfertas.CALORIAS)));
+												articulo.setCantVecesPedido(Integer.parseInt(jsonArticulo
+														.getString(ApiOfertas.CANTIDAD_VECES_PEDIDO)));
+												if (jsonArticulo
+														.toString()
+														.contains(
+																ApiOfertas.CALIFICACIONES)) {
+													JSONArray jsonCalificaciones = new JSONArray(
+															jsonArticulo
+																	.getString(ApiOfertas.CALIFICACIONES));
+
+													if (jsonCalificaciones != null
+															&& jsonCalificaciones
+																	.length() > 0) {
+
+														ArrayList<Calificacion> calificaciones = new ArrayList<Calificacion>();
+														for (int z = 0; z < jsonCalificaciones
+																.length(); z++) {
+
+															Calificacion calificacion = new Calificacion();
+															JSONObject jsonCalificacion = jsonCalificaciones
+																	.getJSONObject(z);
+															calificacion
+																	.setIdEntidad(jsonCalificacion
+																			.getString(ApiOfertas.IDENTIDAD));
+															calificacion
+																	.setCalificacionArticulo(jsonCalificacion
+																			.getString(ApiOfertas.CALIFICACIONARTICULO));
+															if (jsonCalificacion
+																	.toString()
+																	.contains(
+																			ApiOfertas.COMENTARIO)) {
+
+																calificacion
+																		.setComentario(jsonCalificacion
+																				.getString(ApiOfertas.COMENTARIO));
+
+															} else {
+
+																calificacion
+																		.setComentario("");
+															}
+															calificaciones
+																	.add(calificacion);
+
+														}
+														articulo.setCalificaciones(calificaciones);
+													}
+												}
+
+												if (jsonArticulo
+														.toString()
+														.contains(
+																ApiOfertas.RESTRINCCIONES)) {
+
+													JSONArray jsonRetricciones = new JSONArray(
+															jsonArticulo
+																	.getString(ApiOfertas.RESTRINCCIONES));
+
+													if (jsonRetricciones != null
+															&& jsonRetricciones
+																	.length() > 0) {
+
+														ArrayList<Restriccion> restricciones = new ArrayList<Restriccion>();
+														for (int y = 0; y < jsonRetricciones
+																.length(); y++) {
+
+															Restriccion restriccion = new Restriccion();
+															JSONObject jsonRetriccion = jsonRetricciones
+																	.getJSONObject(y);
+															restriccion
+																	.setIdEntidad(jsonRetriccion
+																			.getString(ApiOfertas.IDENTIDAD));
+															restriccion
+																	.setNombre(jsonRetriccion
+																			.getString(ApiOfertas.NOMBRE));
+															restriccion
+																	.setDescripcion(jsonRetriccion
+																			.getString(ApiOfertas.DESCRIPCION));
+
+															restricciones
+																	.add(restriccion);
+
+														}
+														articulo.setRestricciones(restricciones);
+													}
+
+												}
+
+												item.setArticulo(articulo);
+											}
+											items.add(item);
+										}
+
+									}
+									oferta.setItem(items);
+									itemOferta.setOferta(oferta);
+									itemsPedido.add(itemOferta);
+								}
+								MainActivity.misListaItemPedidoRealizados
+										.clear();
+								MainActivity.misListaItemPedidoRealizados
+										.addAll(itemsPedido);
+
+							}
+						}
+
+					}
+
 				}
 
-			}catch (JSONException e) {
+			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				
-				respuesta=e.toString();
+
+				respuesta = e.toString();
 				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				
-				respuesta=e.toString();
+
+				respuesta = e.toString();
 				e.printStackTrace();
 			}
-		}else {
-			
+		} else {
+
 			respuesta = NO_OK;
 		}
 
 		return respuesta;
-	
-		
+
 	}
 	
 	

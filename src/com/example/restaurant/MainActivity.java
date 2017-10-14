@@ -18,6 +18,7 @@ import com.example.clases.Oferta;
 import com.example.clases.Util;
 import com.example.clases.ViewUtilities;
 import com.example.sharedpreferences.SharedPreference;
+import com.squareup.picasso.Picasso;
 
 import complementos.AdaptadorItemOferta;
 import complementos.AdaptadorItemPedido;
@@ -420,9 +421,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			ll_restricion_articulo.setVisibility(View.GONE);
 		}
         restricciones.setText(restriccion);
-        
+        progresoImagen.setVisibility(View.GONE);
+    	imagen_plato.setVisibility(View.VISIBLE);
+        Picasso.with(mContext).load("http://192.168.0.10:8080/RestaurantServer/images/2017-09-20%2012_09_39Milanesa%20Napolitana.jpg").placeholder(R.drawable.hamburguesa).error(R.drawable.hamburguesa).noFade().into(imagen_plato);
        
-        new RecuperarImagen().execute();
+         
+        ////new RecuperarImagen().execute();
         
         
     }

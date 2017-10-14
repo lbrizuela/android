@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="D:/WP_Proyecto/ksoap2-android-assembly-3.0.0-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="D:/android-rest-1.3.1-sources.jar/android-rest-1.3.1-sources.jar"/>
 	<classpathentry kind="lib" path="D:/spring-android-rest-template-1.0.1.RELEASE.jar/spring-android-rest-template-1.0.1.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/picasso.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
