@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.example.api.ApiMenus;
 import com.example.api.ApiOfertas;
+import com.example.api.ApiPedido;
 import com.example.api.ManagerApi;
 import com.example.clases.Articulo;
 import com.example.clases.ItemPedido;
@@ -104,15 +105,12 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     private android.app.ActionBar actionBar;
     public static Menu menuActivo ;
     
-    public BroadcastReceiver finalizarActivity = new BroadcastReceiver() {
+    public BroadcastReceiver finalizarPedido = new BroadcastReceiver() {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-			menuActivo= new Menu();
-			misListaItemPedidoActuales= new ArrayList<ItemPedido>();
-			misListaItemPedidoRealizados= new ArrayList<ItemPedido>();
-			finish();
+			new FinalizarPedido().execute();
 		}
 	};
 
@@ -356,13 +354,8 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 				
 				
 			}else{
-				
-				Toast.makeText(mContext, respuesta, Toast.LENGTH_LONG).show();
-				instanciaShare.limpiarLoginMozo();
-				instanciaShare.limpiarPedido();
-				Intent i = new Intent(mContext, MozoLogin.class);
-	        	startActivity(i);
-	        	finish();
+				Util.toastCustom(mContext, "Ocurrio un Error: " + respuesta, Util.TOAST_MENSAJE_ALERTA_MENOR);
+				new FinalizarPedido().execute();
 			}
 		}
     	
@@ -423,45 +416,51 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         restricciones.setText(restriccion);
         progresoImagen.setVisibility(View.GONE);
     	imagen_plato.setVisibility(View.VISIBLE);
-        Picasso.with(mContext).load("http://192.168.0.10:8080/RestaurantServer/images/2017-09-20%2012_09_39Milanesa%20Napolitana.jpg").placeholder(R.drawable.hamburguesa).error(R.drawable.hamburguesa).noFade().into(imagen_plato);
+    	String url = ManagerApi.ACCESO_IMAGEN + model.getUrlImagen().replace(" ", "%20");
+        Picasso.with(mContext).load(url).placeholder(R.drawable.cargando).error(R.drawable.error).noFade().resize(200, 200).into(imagen_plato);
        
          
-        ////new RecuperarImagen().execute();
+       
         
         
     }
     
     
-    private class RecuperarImagen extends AsyncTask<Void, Void, Void> {
+    private class FinalizarPedido extends AsyncTask<Void, Void, Void> {
     	
     	
 
+    	String respuesta="";
+    	String idPedido, idMozo="";
+    	
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-			
+			ll_cargando.setVisibility(View.VISIBLE);
+			ll_contenido.setVisibility(View.GONE);
+			idPedido= instanciaShare.recuperarIdPedido();
+			idMozo = instanciaShare.recuperarIdMozo();
 		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
-			 loadedImage = ManagerApi.downloadFile(articuloPedido.getUrlImagen());
+			respuesta= ApiPedido.FinalizarPedido.finalizarPedido(idPedido, idMozo);
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
-			if(loadedImage!=null){
-	        	progresoImagen.setVisibility(View.GONE);
-	        	imagen_plato.setImageBitmap(loadedImage);
-	        	imagen_plato.setVisibility(View.VISIBLE);
-	        }else{
-	        	progresoImagen.setVisibility(View.GONE);
-	        	imagen_plato.setVisibility(View.VISIBLE);
-	        	 
-	        }
+			
+			Util.toastCustom(mContext, "Se finalizo el pedido", Util.TOAST_MENSAJE_INFO);
+			
+			instanciaShare.limpiarLoginMozo();
+			instanciaShare.limpiarPedido();
+			Intent i = new Intent(mContext, MozoLogin.class);
+        	startActivity(i);
+        	finish();
 		}
     	
     }
@@ -681,8 +680,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 		fullScreen();
 		try {
-			registerReceiver(finalizarActivity, new IntentFilter(
-					Util.FINALIZAR_MAIN));
+			registerReceiver(finalizarPedido, new IntentFilter(Util.FINALIZAR_PEDIDO_MAIN));
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, e.toString());
@@ -750,7 +748,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 		super.onDestroy();
 		
 		try {
-			unregisterReceiver(finalizarActivity);
+			unregisterReceiver(finalizarPedido);
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, e.toString());

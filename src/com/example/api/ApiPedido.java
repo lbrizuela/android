@@ -577,6 +577,55 @@ public class ApiPedido {
 	}
 	
 	
+	public static class FinalizarPedido{
+		
+		private static final String TAG="IniciarPedido";
+		private static final String DIRECCION_API= ApiPedido.DIRECCION_API + "/finalizar";
+		
+		public static String finalizarPedido(String idPedido,  String idMozo){
+			String respuesta = OK;
+			String respuestaApi = "";
+			
+			try {
+				JSONObject objetoJson = new JSONObject();
+				objetoJson.accumulate(ID_USUARIO, idMozo);
+				objetoJson.accumulate(ID_PEDIDO, idPedido);
+				
+				respuestaApi = ManagerApi.postApi(DIRECCION_API, objetoJson);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (!respuestaApi.equals("")) {
+				JSONObject jsonResponse;
+				try {
+
+					jsonResponse = new JSONObject(respuestaApi);
+					if (respuestaApi.contains(ManagerApi.ERROR_RESPUESTA_API)) {
+						respuesta = jsonResponse.getString(ManagerApi.ERROR_RESPUESTA_API);
+						
+						
+					} else {
+						
+						
+
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+
+					respuesta=e.toString();
+					Log.e(TAG, "ERROR JSONException" + e);
+				}
+			}else {
+				respuesta = NO_OK;
+			}
+			
+			
+			return respuesta; 
+		}
+		
+	}
+	
 	
 	
 	public static class IniciarPedido{

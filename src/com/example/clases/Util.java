@@ -28,7 +28,7 @@ public class Util {
 	public static final int  CANTIDAD_ARTICULO = 9;
 	public static final int  CANTIDAD_OFERTA = 10;
 	
-	public static final String FINALIZAR_MAIN = "finalizar_main";
+	public static final String FINALIZAR_PEDIDO_MAIN = "finalizar_pedido_main";
 	
 	public static final String OFERTA ="Oferta";
 	public static final String ARTICULO ="Articulo";
