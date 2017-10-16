@@ -40,6 +40,10 @@ public class Util {
     public static final String TOAST_MENSAJE_EXITOSO = "exitoso";
     public static final String TOAST_MENSAJE_INFO = "info";
     public static final String TOAST_MENSAJE_PREDETERMINADO = "MSJpredeterminado";
+    
+    public static final String CALIFICACION_BUENO = "Bueno";
+    public static final String CALIFICACION_MALO = "Malo";
+    public static final String CALIFICACION_REGULAR = "Regular";
 	
 	
     public static void toastCustom(Context contex, String mensaje, String tipo) {
@@ -70,8 +74,45 @@ public class Util {
     }
     
     
+    public static String recuperarCalificacion (int valor){
+    	
+    	switch(valor){
+    	
+	    	case 0:
+	    	case 1: 
+	    	  return CALIFICACION_MALO;
+	    	  
+	    	case 2:
+	    	case 3: 
+	    	  return CALIFICACION_REGULAR;
+	    	  
+	    	case 4:
+	    	case 5: 
+	    	  return CALIFICACION_BUENO;
+    	  
+    	}
+    	
+    	return CALIFICACION_REGULAR;
+    	
+    }
   
-
+   public static Float recuperarCalificacion (String valor){
+    	
+	   Float start = Float.parseFloat("1.0");
+	   
+	   if(valor.trim().equals(CALIFICACION_MALO)){
+		   start = Float.parseFloat("1.0");
+	   }else if(valor.trim().equals(CALIFICACION_REGULAR)){
+		   start = Float.parseFloat("3.0");
+		   
+	   }else if(valor.trim().equals(CALIFICACION_BUENO)){
+		   start =Float.parseFloat("5.0");
+	   }
+	   
+    	return start;
+    	
+    }
+  
 
 	
 

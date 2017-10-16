@@ -137,17 +137,25 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 	        	startActivity(i);
 	        	finish();
 			   
-	            }else{ if(!instanciaShare.recuperarInicioPedido()){
+	            }else{ 
+	            	
+	            	if(!instanciaShare.recuperarInicioPedido()){
 	        		
 	        		Intent i = new Intent(mContext, EmprezarPedido.class);
 	            	startActivity(i);
 	            	finish();
 	        		
-			         }else {
-			        	
-			        	
+			         }else
 			        	 
-			        	setContentView(R.layout.menu_principal);
+			        	 if(!instanciaShare.recuperarIsCalificacion()){
+			        		
+			        	  Intent i = new Intent(this, PopUp.class);
+			 			  i.putExtra("envia", Util.FINALIZAR);
+			 			  startActivity(i);
+			 			  
+			        		
+				         }      	
+	            	    setContentView(R.layout.menu_principal);
 			        	views = Views.getInstance(mContext);
 			        	manager = getSupportFragmentManager();
 			        	menuActivo = new Menu();
@@ -296,11 +304,11 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								startActivityForResult(i,  Util.CANTIDAD_OFERTA);
 							}
 						});
-			        	
-			        	
-			        	
-			      }
-	        }
+						        	
+							        	
+							        	
+							      
+						        }
 	        	
 	      
         
@@ -385,9 +393,10 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	articuloPedido = model;
     	progresoImagen.setVisibility(View.VISIBLE);
         imagen_plato.setVisibility(View.GONE);
-        Toast.makeText(mContext, Articulo.class.getSimpleName() + ":" + model.getNombre(), Toast.LENGTH_LONG).show();
+     ///   Toast.makeText(mContext, Articulo.class.getSimpleName() + ":" + model.getNombre(), Toast.LENGTH_LONG).show();
         ll_detalle_articulo.setVisibility(View.VISIBLE);
         nombre_plato.setText(model.getNombre().toString());
+        
         if(model.getTiempoPreparacion()!=0){
         	ll_tiempo_articulo.setVisibility(View.VISIBLE);
         	tiempo.setText(String.valueOf(model.getTiempoPreparacion())+" minutos");
@@ -396,11 +405,18 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         }
         calorias.setText(String.valueOf(model.getCalorias()));
         ingredientes.setText(model.getDescripcion().toString());
-        precio.setText(getResources().getString(R.string.precio)+" "+String.valueOf(model.getPrecio()));
+        
+        String preciototal= String.format("%.2f", model.getPrecio());
+        precio.setText(getResources().getString(R.string.precio)+" "+ preciototal);
         calificacion_plato.setEnabled(false);
-        Float rating = Float.valueOf(3);
-        calificacion_plato.setRating(rating);
+        
+        
+        
+        calificacion_plato.setRating(recuperarCalificacion(model));
+        calificacion_plato.setIsIndicator(true);
+        
         String restriccion="";
+        
         if(model.getRestricciones() !=null && model.getRestricciones().size() > 0) {
         	ll_restricion_articulo.setVisibility(View.VISIBLE);
 			for (int i = 0; i < model.getRestricciones().size(); i++) {
@@ -414,7 +430,9 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			ll_restricion_articulo.setVisibility(View.GONE);
 		}
         restricciones.setText(restriccion);
+        
         progresoImagen.setVisibility(View.GONE);
+        
     	imagen_plato.setVisibility(View.VISIBLE);
     	String url = ManagerApi.ACCESO_IMAGEN + model.getUrlImagen().replace(" ", "%20");
         Picasso.with(mContext).load(url).placeholder(R.drawable.cargando).error(R.drawable.error).noFade().resize(200, 200).into(imagen_plato);
@@ -425,6 +443,19 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
         
     }
     
+    
+    public float recuperarCalificacion(Articulo model){
+    	float respuesta = Float.parseFloat("0.0");
+    	if(model.getCalificaciones() != null && model.getCalificaciones().size() >0){
+	    	for (int i = 0; i < model.getCalificaciones().size(); i++) {
+	    		
+	    		respuesta = respuesta +  Util.recuperarCalificacion(model.getCalificaciones().get(i).getCalificacionArticulo());
+			}
+	    	respuesta = respuesta / model.getCalificaciones().size();
+    	}
+    	
+    	return respuesta;
+    }
     
     private class FinalizarPedido extends AsyncTask<Void, Void, Void> {
     	
@@ -476,15 +507,16 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	ofertaPedido =oferta;
     	nombre_oferta.setText(oferta.getNombre().toString());
     	descripcion_oferta.setText(oferta.getDescripcion().toString());
-    	precio_oferta.setText(getResources().getString(R.string.precio)+" "+String.valueOf(oferta.getPrecio()));
+    	String preciototal= String.format("%.2f", oferta.getPrecio());
+    	precio_oferta.setText(getResources().getString(R.string.precio)+" "+ preciototal);
     	tiempo_inicio.setText(oferta.getFechaInicio().toString());
     	tiempo_fin.setText(oferta.getFechaFin().toString());
+    	
 		if (oferta.getItem() != null && oferta.getItem().size() > 0) {
 			ll_tiempo_oferta.setVisibility(View.VISIBLE);
 			int tiempo = 0;
 			for (int i = 0; i < oferta.getItem().size(); i++) {
-				tiempo = tiempo
-						+ oferta.getItem().get(i).getArticulo().getTiempoPreparacion();
+				tiempo = tiempo + oferta.getItem().get(i).getArticulo().getTiempoPreparacion();
 
 			}
 			if(tiempo!=0){
@@ -521,8 +553,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 		TabLayout.Tab tab;
 		int j = 0;
-		if (menuActivo.getOfertas() != null
-				&& menuActivo.getOfertas().size() > 0) {
+		if (menuActivo.getOfertas() != null && menuActivo.getOfertas().size() > 0) {
 			
 			tab = tabLayout.newTab();
 			tab.setText("Oferta");
@@ -531,8 +562,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			j++;
 
 		}
-		if (menuActivo.getSecciones() != null
-				&& menuActivo.getSecciones().size() > 0) {
+		if (menuActivo.getSecciones() != null && menuActivo.getSecciones().size() > 0) {
 
 			for (int i=0; i < menuActivo.getSecciones().size(); i++) {
 				tab = tabLayout.newTab();

@@ -34,6 +34,7 @@ public class SharedPreference {
 	private static final String PEDIDO_INICIADO= "pedido_iniciado";
 	private static final String ID_PEDIDO= "id_pedido";
 	private static final String CANTIDAD_COMENSALES= "cantidad_comensales";
+	private static final String CALIFICACION_REALIZADA= "calificacion_realizada";
 	////private static final String ID_MOZO_PEDIDO= "id_mozo_pedido";
 	private static final String ID_MEZA_PADRE_PEDIDO= "id_mesa_padre_pedido";
 	
@@ -145,8 +146,22 @@ public class SharedPreference {
 		////editor.putString(ID_MOZO_PEDIDO,idMozo);
 		editor.putString(ID_MEZA_PADRE_PEDIDO,idMezaPadre);
 		editor.putBoolean(PEDIDO_INICIADO, true);
+		editor.putBoolean(CALIFICACION_REALIZADA, true);
 		editor.commit();
 		
+	}
+	
+	public boolean recuperarIsCalificacion(){
+		
+		
+		return getSettingsPedido().getBoolean(CALIFICACION_REALIZADA, true);
+		
+	}
+     public void insertarIsCalificacion(){
+		
+    	 SharedPreferences.Editor editor = getSettingsPedido().edit();
+    	 editor.putBoolean(CALIFICACION_REALIZADA, false);
+    	 editor.commit();
 	}
 	
 	public String recuperarIdPedido(){

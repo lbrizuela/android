@@ -1,5 +1,6 @@
 package com.example.restaurant;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.example.api.ApiMesas;
@@ -189,8 +190,7 @@ public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 			
 			if (!respuesta.equals(ApiPedido.OK)) {
 
-				Toast.makeText(mContext, "Error: " + respuesta,
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, "Error: " + respuesta,Toast.LENGTH_LONG).show();
 
 			}
 
@@ -253,42 +253,44 @@ public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 	public void setarValoresPantalla() {
 
 		if (isPedido()) {
+			
 			cargando.setVisibility(View.GONE);
 			items.setVisibility(View.VISIBLE);
-		//	misListaItemPedidoActuales.addAll(misListaItemPedidoRealizados);
-		//	misListaItemPedidoActuales.addAll(misListaItemPedidoRealizados);
-			if (misListaItemPedidoActuales != null
-					&& misListaItemPedidoActuales.size() > 0) {
+		
+			if (misListaItemPedidoActuales != null && misListaItemPedidoActuales.size() > 0) {
 
 				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_okey));
 				llActuales.setVisibility(View.VISIBLE);
 				setupRecyclerActuales();
+				
 				for (int i = 0; i < misListaItemPedidoActuales.size(); i++) {
-					
 
-					subTotalA = subTotalA
-							+ Float.valueOf((misListaItemPedidoActuales.get(i).getPrecioUnitario() * misListaItemPedidoActuales.get(i).getCantidad()));
-				}
+					subTotalA = subTotalA + Float.valueOf((misListaItemPedidoActuales.get(i).getPrecioUnitario() * misListaItemPedidoActuales.get(i).getCantidad()));
+				} 
+				
+				String preciototal = String.format("%.2f", subTotalA);
 
-				subTotalActuales.setText(getResources().getString(R.string.subtotal_actual)+" "  +String.valueOf(subTotalA));
+				subTotalActuales.setText(getResources().getString(R.string.subtotal_actual)+" "  + preciototal);
 
 			} else {
+				
 				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_finalizar_pedido_negre));
 				llActuales.setVisibility(View.GONE);
 			}
 
-			if (misListaItemPedidoRealizados != null
-					&& misListaItemPedidoRealizados.size() > 0) {
+			if (misListaItemPedidoRealizados != null && misListaItemPedidoRealizados.size() > 0) {
 
 				llRealizados.setVisibility(View.VISIBLE);
 				setupRecyclerRealizados();
+				
 				for (int i = 0; i < misListaItemPedidoRealizados.size(); i++) {
 
-					subTotalR = subTotalR
-							+ Float.valueOf((misListaItemPedidoRealizados.get(i).getPrecioUnitario() * misListaItemPedidoRealizados.get(i).getCantidad()));
+					subTotalR = subTotalR+ Float.valueOf((misListaItemPedidoRealizados.get(i).getPrecioUnitario() * misListaItemPedidoRealizados.get(i).getCantidad()));
 				}
+				
+				String preciototalR = String.format("%.2f", subTotalR);
 
-				subTotalRealizados.setText(getResources().getString(R.string.subtotal_realizado)+" "  +String.valueOf(subTotalR));
+				subTotalRealizados.setText(getResources().getString(R.string.subtotal_realizado)+" "  + preciototalR);
 
 			} else {
 				llRealizados.setVisibility(View.GONE);
@@ -324,7 +326,9 @@ public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 	private void recalcularTotal() {
 
 		total = subTotalR + subTotalA;
-		totalPedido.setText(getResources().getString(R.string.total_pedido)+" "+String.valueOf(total));
+		
+		String preciototal = String.format("%.2f", total);
+		totalPedido.setText(getResources().getString(R.string.total_pedido)+" "+ preciototal);
 	}
 
 	/*

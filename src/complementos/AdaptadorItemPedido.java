@@ -85,7 +85,8 @@ public class AdaptadorItemPedido extends Adapter<AdaptadorItemPedido.ViewHolder>
              }
             
             tv_cantidad.setText("Cantidad: " +" " + String.valueOf(os.getCantidad()));
-            tv_precio.setText("Precio: $ " + String.valueOf(os.getPrecioUnitario()));
+            String preciototal = String.format("%.2f", os.getPrecioUnitario());
+            tv_precio.setText("Precio: $ " +" "+ preciototal);
  
             
  

@@ -22,6 +22,11 @@
       <item name="colorControlActivated">@color/duskYellow</item>
       <item name="colorControlNormal">@color/lightGrey</item>
     </style>
+    
+    <style name="RatingBar2" parent="Theme.AppCompat">
+      <item name="colorControlActivated">@color/duskYellow</item>
+      <item name="colorControlNormal">@color/yellow</item>
+    </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">

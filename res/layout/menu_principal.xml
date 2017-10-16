@@ -228,9 +228,8 @@
                                             android:elevation="10dp"
                                             android:numStars="5"
                                            
-                                           
                                             android:stepSize="0.05"
-                                            android:theme="@style/RatingBar" />
+                                            android:theme="@style/RatingBar2" />
                                     </LinearLayout>
 
                                     <LinearLayout
