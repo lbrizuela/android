@@ -53,6 +53,9 @@
     <color name="color_select_tipo_boleto">#0097A7</color>
     <color name="color_select_origen_destino">#4B597C</color>
     <color name="color_btn_menu">#EC2E4A</color>
+    
+    <color name="color_reborde_notificacion">#C62828</color>
+    <color name="color_fondo_notificacion">#FF5722</color>
     <color name="color_btn_multiplicar">#FFA726</color>
     <color name="color_btn_ingresar">#4CAF50</color>
     <color name="color_btn_cencelar">#FFA726</color>

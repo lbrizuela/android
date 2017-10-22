@@ -44,7 +44,7 @@
     <string name="cantidad_comensales">Cantidad de Comensales </string>
     <string name="cantidad">Ingrese Cantidad </string>
     <string name="cantidad_ingresada">Cantidad: </string>
-    <string name="cargando_espera">Cargando...</string>
+    <string name="cargando_espera">Aguarde...</string>
     <string name="tiempo_inicio">Inicial: </string>
     <string name="tiempo_fin">Fin: </string>
     <string name="precio">Precio: &#36; </string>

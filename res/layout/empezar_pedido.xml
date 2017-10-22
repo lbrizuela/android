@@ -169,24 +169,20 @@
                                 android:paddingLeft="50dp"
                                 android:src="@drawable/ic_delete_black_48dp" />
 
-                            <ImageButton
+                            <Button
                                 android:id="@+id/btn_ep_vincular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
                                 android:paddingLeft="20dp"
-                                android:src="@drawable/ic_link_variant_black_24dp" />
-
-                            <TextView
-                                android:id="@+id/tv_vincular_mesas"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
+                                android:paddingRight="20dp"
                                 android:text="@string/vincular_mesas"
                                 android:textColor="@color/black"
                                 android:textSize="24sp"
-                                android:textStyle="italic" />
+                                android:textStyle="italic"
+                                android:drawableLeft="@drawable/ic_link_variant_black_24dp" />
+
+                            
                         </LinearLayout>
 
                         <LinearLayout
@@ -261,6 +257,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
+                android:indeterminateTint="@color/color_header_cabecera2"
                 android:layout_alignParentTop="true" />
 
             <TextView
@@ -270,7 +267,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="@string/cargando_espera"
-                android:textColor="@color/white"
+                
+                android:textColor="@color/color_header_cabecera"
                 android:textSize="60dp"
                 android:textStyle="bold" />
         </RelativeLayout>

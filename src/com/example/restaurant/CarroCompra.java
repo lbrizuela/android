@@ -243,7 +243,7 @@ public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_finalizar_pedido_negre));
 				llActuales.setVisibility(View.GONE);
 			}
-			
+			finish();
 		}
 		
 		

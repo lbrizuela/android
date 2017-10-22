@@ -55,14 +55,36 @@
                 android:orientation="horizontal"
                 android:paddingBottom="5dp" >
 
-                <ImageButton
-                    android:id="@+id/img_carro_compra"
-                    android:layout_width="wrap_content"
-                    android:layout_height="63dp"
-                    android:background="@color/transparent"
-                    android:paddingRight="30dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/iconos_carro_compra_blanco" />
+                <RelativeLayout
+                    android:layout_width="63dp"
+                    android:layout_height="63dp" >
+
+                    <ImageButton
+                        android:id="@+id/img_carro_compra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="63dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/transparent"
+                        android:paddingRight="30dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/iconos_carro_compra_blanco" />
+
+                    <TextView
+                        android:id="@+id/tv_carro_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/format_notification"
+                        android:gravity="center"
+                        android:maxLines="3"
+                        android:padding="5dp"
+                        android:text="111"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </RelativeLayout>
 
                 <ImageButton
                     android:id="@+id/img_llamar_mozo"
@@ -86,19 +108,32 @@
                     android:layout_weight="0.50"
                     android:orientation="vertical" >
 
-                    <android.support.design.widget.TabLayout
-                        android:id="@+id/simpleTabLayout"
-                        style="@style/MyCustomTabLayout"
+                    <android.support.design.widget.CoordinatorLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/lightGrey"
-                        app:tabTextColor="@color/black" />
+                        android:layout_height="match_parent" >
 
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <android.support.design.widget.AppBarLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/main_color_fondo" >
+
+                            <android.support.design.widget.TabLayout
+                                android:id="@+id/simpleTabLayout"
+                                style="@style/MyCustomTabLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:tabGravity="fill"
+                                app:tabMode="fixed"
+                                app:tabSelectedTextColor="@color/color_header_cabecera2"
+                                app:tabTextColor="@color/black" />
+
+                            <android.support.v4.view.ViewPager
+                                android:id="@+id/pager"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" >
+                            </android.support.v4.view.ViewPager>
+                        </android.support.design.widget.AppBarLayout>
+                    </android.support.design.widget.CoordinatorLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -162,7 +197,6 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
                                     android:layout_marginTop="10dp"
-                                    
                                     android:scaleType="centerCrop"
                                     android:visibility="gone" />
 
@@ -227,7 +261,6 @@
                                             android:layout_gravity="center"
                                             android:elevation="10dp"
                                             android:numStars="5"
-                                           
                                             android:stepSize="0.05"
                                             android:theme="@style/RatingBar2" />
                                     </LinearLayout>
@@ -316,7 +349,6 @@
                                             android:id="@+id/precio"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            
                                             android:text="@string/precio"
                                             android:textColor="@color/black"
                                             android:textSize="20dp"
@@ -374,8 +406,8 @@
                                 android:id="@+id/nombre_oferta"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:layout_marginBottom="5dp"
+                                android:gravity="center"
                                 android:text="Hamburgesa"
                                 android:textColor="@color/color_header_cabecera2"
                                 android:textSize="25dp"
@@ -386,7 +418,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
-                                 android:gravity="center"
+                                android:gravity="center"
                                 android:text="descripcion"
                                 android:textColor="@color/black"
                                 android:textSize="20dp"
@@ -557,7 +589,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" />
+                android:layout_alignParentTop="true"
+                android:indeterminateTint="@color/color_header_cabecera2" />
 
             <TextView
                 android:id="@+id/tv_mp_textoCargando"

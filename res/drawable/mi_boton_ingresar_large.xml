@@ -2,7 +2,7 @@
 <selector
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape android:shape="rectangle">
+        <shape android:shape="oval">
             <padding android:left="10.0dip" android:top="40.0dip" android:right="10.0dip" android:bottom="40.0dip" />
             <solid android:color="@color/color_btn_ingresar" />
             <stroke android:color="@color/color_btn_ingresar" />

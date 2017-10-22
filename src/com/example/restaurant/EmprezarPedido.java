@@ -57,11 +57,12 @@ public class EmprezarPedido extends Activity {
 	private List<ListaSimple> misLista;
 	private ArrayList<Mesa> misListaSinSeleccionado;
 	private int totFilas, totFilasDesocupado;
-	private ImageButton botonVincular;
+	private Button botonVincular;
 
 	private ImageButton volver, borrarMesaPadre, btnAceptar;
+	
 	private LinearLayout llPadre , ll_rv;
-	private TextView tvMesaPadre , vincular_mesas;
+	private TextView tvMesaPadre;
 	//private EditText edCantConmensales;
 	private Mesa seleccionada;
 	//private CustomKeyboard mCustomKeyboard;
@@ -97,7 +98,7 @@ public class EmprezarPedido extends Activity {
 		new RestMesas().execute();
 
 		lvListadoDesocupadas = (ListView) findViewById(R.id.lv_ep_mesas_desocupadas);
-		botonVincular = (ImageButton) findViewById(R.id.btn_ep_vincular);
+		botonVincular = (Button) findViewById(R.id.btn_ep_vincular);
 		mRecyclerView = (RecyclerView) findViewById(R.id.rv_ep_cardList);
 		btnAceptar = (ImageButton) findViewById(R.id.imgbtn_ep_aceptar);
 		volver = (ImageButton) findViewById(R.id.imgbtn_ep_salir);
@@ -105,7 +106,7 @@ public class EmprezarPedido extends Activity {
 		llPadre = (LinearLayout) findViewById(R.id.ll_ep_mostrar_padre);
 		tvMesaPadre = (TextView) findViewById(R.id.tv_ep_mesa_padre_seccionada);
 		progressAceptar =(ProgressBar) findViewById(R.id.progres_ep_aceptar);
-		vincular_mesas = (TextView) findViewById(R.id.tv_vincular_mesas);
+		///vincular_mesas = (TextView) findViewById(R.id.tv_vincular_mesas);
 		ll_rv =(LinearLayout) findViewById(R.id.ll_rv_ep);
 		// /buscarListaDescupados();
 		seleccionada = null;
@@ -140,12 +141,14 @@ public class EmprezarPedido extends Activity {
 
 				if (ll_rv.getVisibility() == View.GONE) {
 					ll_rv.setVisibility(View.VISIBLE);
-					vincular_mesas.setTextColor(getResources().getColor(R.color.color_fondo_text));
+					botonVincular.setTextColor(getResources().getColor(R.color.color_fondo_text));
+				///vincular_mesas.setTextColor(getResources().getColor(R.color.color_fondo_text));
 					listarMesasRestantes();
 				} else if (ll_rv.getVisibility() == View.VISIBLE) {
 					ll_rv.setVisibility(View.GONE);
 					mRecyclerView.setVisibility(View.GONE);
-					vincular_mesas.setTextColor(getResources().getColor(R.color.black));
+				    botonVincular.setTextColor(getResources().getColor(R.color.black));
+				///	vincular_mesas.setTextColor(getResources().getColor(R.color.black));
 					
 
 				}

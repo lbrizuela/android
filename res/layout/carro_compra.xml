@@ -326,6 +326,7 @@
                     style="?android:attr/progressBarStyleLarge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:indeterminateTint="@color/color_header_cabecera2"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true" />
 
@@ -336,7 +337,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="@string/cargando_espera"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_header_cabecera"
                     android:textSize="60dp"
                     android:textStyle="bold" />
             </RelativeLayout>

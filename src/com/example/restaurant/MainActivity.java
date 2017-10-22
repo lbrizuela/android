@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     private Bitmap loadedImage;
 	private Views views;
     boolean vistas = true;
-    private TextView fecha_hora , nombre_menu , tiempo , ingredientes , precio , calorias, nombre_plato , restricciones;
+    private TextView fecha_hora , nombre_menu , tiempo , ingredientes , precio , calorias, nombre_plato , restricciones, notificacion;
     private TextView nombre_oferta , tiempo_oferta, descripcion_oferta , precio_oferta , tiempo_inicio , tiempo_fin;
 	private ImageView imagen_plato;
 	private RatingBar calificacion_plato;
@@ -171,9 +171,10 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			        	ll_tiempo_articulo = (LinearLayout) findViewById(R.id.ll_tiempo_articulo);
 			        	ll_tiempo_oferta = (LinearLayout) findViewById(R.id.ll_tiempo_espera);
 			        	ll_restricion_articulo = (LinearLayout) findViewById(R.id.restriccion_articulo);
-			        	
+			        	notificacion =(TextView) findViewById(R.id.tv_carro_notification);
 			        	ll_cargando = (FrameLayout) findViewById(R.id.ll_mp_cargando);
 			        	tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
+			        	
 			        	nombre_plato = (TextView) findViewById(R.id.nombre_articulo);
 			        	ingredientes = (TextView) findViewById(R.id.ingredientes);
 			        	tiempo = (TextView) findViewById(R.id.tiempo);
@@ -264,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								Intent i= new Intent(mContext, CarroCompra.class);
 								startActivity(i);
 								ll_detalle_articulo.setVisibility(View.GONE);
+								notificacion.setVisibility(View.GONE);
 								
 								
 							}
@@ -375,13 +377,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	viewPager.setAdapter(adapter);
     	viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        
-        ViewUtilities.waitForLayout(viewPager, new Runnable() {
-            @Override
-            public void run() {
-            	viewPager.setCurrentItem(0 , false);
-            }
-        });
+       
       
 
     }
@@ -601,6 +597,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 					misListaItemPedidoActuales.add(item);
 				}
 				
+				
 			}else if(respuesta == Util.CANTIDAD_OFERTA){
 				
 				ll_detalle_oferta.setVisibility(View.GONE);
@@ -618,6 +615,9 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 				
 			}
+			
+			notificacion.setVisibility(View.VISIBLE);
+			notificacion.setText(String.valueOf(misListaItemPedidoActuales.size()));
 			
 			Util.toastCustom(mContext, "Item Agregado ", Util.TOAST_MENSAJE_EXITOSO);
 

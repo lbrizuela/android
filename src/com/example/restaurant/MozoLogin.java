@@ -164,7 +164,7 @@ public class MozoLogin extends Activity {
 					views.removerViewStatusBar();
 					views.removerViewNavegationBar();
 					MainActivity.getInstance().finish();
-					this.finish();
+					finish();
 
 				} else {
 					Util.toastCustom(mContext, "El codigo ingresado es incorrecto", Util.TOAST_MENSAJE_ALERTA);
