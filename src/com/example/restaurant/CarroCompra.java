@@ -239,7 +239,7 @@ public class CarroCompra extends AppCompatActivity implements AdapterCallback{
 
 			}else{
 				Util.toastCustom(mContext, "El pedido fue realizado con exito!!", Util.TOAST_MENSAJE_EXITOSO);
-				MainActivity.misListaItemPedidoActuales.clear();
+				MainActivity.misListaItemPedidoActuales =  new ArrayList<ItemPedido>();
 				aceptarPedido.setImageDrawable(getResources().getDrawable(R.drawable.icono_finalizar_pedido_negre));
 				llActuales.setVisibility(View.GONE);
 			}

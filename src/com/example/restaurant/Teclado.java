@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import com.example.clases.CustomKeyboard;
 import com.example.clases.Util;
+import com.example.sharedpreferences.SharedPreference;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,6 +39,7 @@ public class Teclado extends Activity {
 	private Context mContext;
 
 	private CustomKeyboard mCustomKeyboard;
+	private SharedPreference instaSharedPreference;
 	
 	private int  modo = 0;
 
@@ -49,6 +51,7 @@ public class Teclado extends Activity {
 		
 		setContentView(R.layout.teclado);
 		mContext = getApplicationContext();
+		instaSharedPreference = SharedPreference.getInstance();
 
 		btnVolver = (ImageButton) findViewById(R.id.keyboard_btn_atras);
 		btnAceptar = (ImageButton) findViewById(R.id.keyboard_btn_listo);
@@ -284,6 +287,20 @@ public class Teclado extends Activity {
 		String clave = mes+dia;
 		
 		if(clave.equals(textoIngresado)){
+			return true;
+		}else {
+			return false;
+		}
+		
+		
+		
+		
+	}
+	
+	public boolean verificarClaveFinalizar(String textoIngresado){
+		
+		
+		if(instaSharedPreference.recuperarIdMozo().equals(textoIngresado)){
 			return true;
 		}else {
 			return false;

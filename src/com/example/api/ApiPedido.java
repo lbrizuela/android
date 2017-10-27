@@ -86,7 +86,7 @@ public class ApiPedido {
 							.getString(ManagerApi.ERROR_RESPUESTA_API);
 
 				} else {
-					MainActivity.misListaItemPedidoRealizados.clear();
+					MainActivity.misListaItemPedidoRealizados = new ArrayList<ItemPedido>();
 			
 					if (respuestaApi.contains(ITEMS_ARTICULO)) {
 						JSONArray jsonArray = new JSONArray(jsonResponse.getString(ITEMS_ARTICULO));
@@ -114,7 +114,7 @@ public class ApiPedido {
 								itemPedido.setPrecioUnitario(Float.parseFloat(precio));
 								itemsPedido.add(itemPedido);
 							}
-							MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
+							///MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 						} 
 					}
 					if (respuestaApi.contains(ITEMS_OFERTA)) {
@@ -236,8 +236,9 @@ public class ApiPedido {
 								itemsPedido.add(itemOferta);
 							}
 						}
-						MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
+						
 					}
+					MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 
 				}
 
@@ -316,7 +317,7 @@ public class ApiPedido {
 					
 					////Toast.makeText(ctx, "ERROR " + error , Toast.LENGTH_LONG).show();
 				} else {
-					MainActivity.misListaItemPedidoRealizados.clear();;
+					MainActivity.misListaItemPedidoRealizados = new ArrayList<ItemPedido>();
 					if(respuestaApi.contains(ITEMS_ARTICULO)){
 						
 							JSONArray jsonArray = new JSONArray(jsonResponse.getString(ITEMS_ARTICULO));
@@ -348,7 +349,7 @@ public class ApiPedido {
 								
 							}
 							
-							MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
+						///	MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 				  }
 					if(respuestaApi.contains(ITEMS_OFERTA)){
 						
@@ -474,9 +475,9 @@ public class ApiPedido {
 							}
 						}
 						
-						MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
+						
 					}
-					
+					MainActivity.misListaItemPedidoRealizados.addAll(itemsPedido);
 					
 				}
 			} catch (JSONException e) {

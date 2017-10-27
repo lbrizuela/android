@@ -159,6 +159,9 @@ public class MozoLogin extends Activity {
 				if (salir) {
 					
 					instanciaShare.limpiarIPv6();
+					Intent i = new Intent("android.settings.SETTINGS");
+		            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		            startActivityForResult(i, 0);
 
 					Views views = Views.getInstance(mContext);
 					views.removerViewStatusBar();

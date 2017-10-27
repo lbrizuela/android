@@ -52,20 +52,21 @@
                 android:layout_gravity="top"
                 android:background="@color/color_header_cabecera2"
                 android:gravity="right"
+                
                 android:orientation="horizontal"
                 android:paddingBottom="5dp" >
 
                 <RelativeLayout
-                    android:layout_width="63dp"
-                    android:layout_height="63dp" >
+                     android:layout_marginRight="30dp"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content" >
 
                     <ImageButton
                         android:id="@+id/img_carro_compra"
-                        android:layout_width="wrap_content"
+                        android:layout_width="70dp"
                         android:layout_height="63dp"
                         android:layout_centerInParent="true"
                         android:background="@color/transparent"
-                        android:paddingRight="30dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/iconos_carro_compra_blanco" />
 
@@ -73,8 +74,8 @@
                         android:id="@+id/tv_carro_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
                         android:background="@drawable/format_notification"
                         android:gravity="center"
                         android:maxLines="3"
@@ -259,6 +260,11 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
+                                             android:progressTint="@color/duskYellow2"
+       										 android:progressTintMode="src_atop"
+                                            android:secondaryProgressTint="@color/duskYellow2"
+                                            android:secondaryProgressTintMode="src_in" 
+        								    android:progressBackgroundTint="@color/lightGrey"
                                             android:elevation="10dp"
                                             android:numStars="5"
                                             android:stepSize="0.05"
@@ -303,7 +309,7 @@
                                             android:layout_height="36dp"
                                             android:background="@color/transparent"
                                             android:scaleType="centerCrop"
-                                            android:src="@drawable/icono_tiempo_entrega_negro" />
+                                            android:src="@drawable/icono_reloj" />
 
                                         <TextView
                                             android:id="@+id/tiempo"
@@ -499,10 +505,10 @@
                                         <ImageButton
                                             android:layout_width="36dp"
                                             android:layout_height="36dp"
-                                            android:layout_marginLeft="20dp"
+                                            android:layout_marginLeft="10dp"
                                             android:background="@color/transparent"
-                                            android:scaleType="centerCrop"
-                                            android:src="@drawable/icono_tiempo_entrega_negro" />
+                                            android:scaleType="centerInside"
+                                            android:src="@drawable/icono_reloj" />
 
                                         <TextView
                                             android:id="@+id/tiempo_espera_oferta"

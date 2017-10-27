@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			            			            
 			            new RecuperarMenu().execute();
 
-			           
+			            llamarMozo.setVisibility(View.GONE);
 
 			        	 tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
 							
@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								
 								
 				               
+								
 								/*
 								Fragment fragment = null;
 								
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								Intent i= new Intent(mContext, CarroCompra.class);
 								startActivity(i);
 								ll_detalle_articulo.setVisibility(View.GONE);
-								notificacion.setVisibility(View.GONE);
+								///notificacion.setVisibility(View.GONE);
 								
 								
 							}
@@ -724,6 +725,13 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 			Log.e(TAG, e.toString());
 		}
 		this.wakelock.acquire();
+		
+		if(misListaItemPedidoActuales!=null && misListaItemPedidoActuales.size()>0){
+			notificacion.setVisibility(View.VISIBLE);
+			notificacion.setText(String.valueOf(misListaItemPedidoActuales.size()));
+		}else{
+			notificacion.setVisibility(View.GONE);
+		}
 
 	}
     
@@ -751,13 +759,13 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	}else if(nombre.equalsIgnoreCase("CERVEZA")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_cerbeza);
-    	}else if(nombre.equalsIgnoreCase("POSTRE")){
+    	}else if(nombre.equalsIgnoreCase("POSTRES")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_postres);
     	}else if(nombre.equalsIgnoreCase("ENSALADAS")){
     		
     		drawable= getResources().getDrawable(R.drawable.icono_ensaladas);
-    	}else if(nombre.equalsIgnoreCase("DESAYUNO")){
+    	}else if(nombre.equalsIgnoreCase("CAFETERÍA")){
     		
     		drawable= getResources().getDrawable(R.drawable.ic_food_croissant_black_24dp);
     	}else if(nombre.equalsIgnoreCase("INFUSI")){

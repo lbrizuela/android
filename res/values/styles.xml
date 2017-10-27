@@ -23,9 +23,13 @@
       <item name="colorControlNormal">@color/lightGrey</item>
     </style>
     
-    <style name="RatingBar2" parent="Theme.AppCompat">
-      <item name="colorControlActivated">@color/duskYellow</item>
-      <item name="colorControlNormal">@color/yellow</item>
+    <style name="RatingBar2" parent="Theme.AppCompat.Light.DarkActionBar">
+      <item name="colorPrimary">@color/duskYellow2</item>
+      <item name="colorPrimaryDark">@color/duskYellow2</item>
+     <item name="colorAccent">@color/duskYellow2</item>
+      <item name="colorControlActivated">@color/duskYellow2</item>
+      <item name="colorControlNormal">@color/duskYellow2</item>
+      
     </style>
 
     <!-- Application theme. -->
