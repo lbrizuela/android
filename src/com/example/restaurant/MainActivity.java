@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
 			            llamarMozo.setVisibility(View.GONE);
 
-			        	 tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
+			        	 /*tabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
 							
 							@Override
 							public void onTabUnselected(TabLayout.Tab tab) {
@@ -233,14 +233,14 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								
 				               
 								
-								/*
+								
 								Fragment fragment = null;
 								
 								FragmentManager fm = manager;
 								FragmentTransaction ft = fm.beginTransaction();
 								//ft.replace(R.id.simpleFrameLayout, fragment);
 								ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-								ft.commit();*/
+								ft.commit();
 							}
 							
 							@Override
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 								///viewPager.setCurrentItem(tab.getPosition() );
 							}
 						});
-			        	
+			        	*/
 			        	
 			        	carroCompra.setOnClickListener(new View.OnClickListener() {
 							
@@ -378,9 +378,34 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     	viewPager.setAdapter(adapter);
     	viewPager.setCurrentItem(0);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-       
+        ///tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(onTabSelectedListener(viewPager));
       
 
+    }
+    
+    
+    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager viewPager) {
+
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+            	Log.e(TAG, "onTabSelected: "+tab.getPosition());
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            	Log.e(TAG, "onTabUnselected: "+tab.getPosition());
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            	Log.e(TAG, "onTabReselected: "+tab.getPosition());
+            }
+        };
     }
     
     @Override
